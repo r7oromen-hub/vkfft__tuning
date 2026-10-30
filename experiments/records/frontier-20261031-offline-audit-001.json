@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-offline-audit-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-30T16:30:30.919744+00:00",
   "parent_code_commit": "56b5e8040fd16633b04d6b203239d1d477a40578",
   "protocol": {
@@ -14,6 +14,46 @@
     "tools/frontier_verify_admission.py"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "b95c193ac3511371227356eee2d2c956cc47127f",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-30T16:30:31.186238+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-30T16:30:36.567013+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-offline-audit-001/admission_gate.json",
+      "bytes": 1992,
+      "sha256": "54eadb95afc50188edb38de9b5888205bd63173bd986da9467b7af8dc1079ef5"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-offline-audit-001/execution.json",
+      "bytes": 827,
+      "sha256": "168acb44479a2a153a8beb043ad6eba281eb94ba277d40485d63609606c3f254"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-offline-audit-001/frontier_execution.json",
+      "bytes": 1832,
+      "sha256": "45539f10c34af9a508693f8524ced000fa453cdfeca37da6c65145154b379204"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-offline-audit-001/frontier_knobs.json",
+      "bytes": 1253,
+      "sha256": "6da4a06d2ccefa5bf3e2bb533d09af1f5cab7e62e9215de36bed874d97e31707"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-offline-audit-001/frontier_search.json",
+      "bytes": 1336,
+      "sha256": "0b8ab3a4de43ecadb10fae881f46750ff469a93b5e554422d14bf391bdbe3b6e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-offline-audit-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-offline-audit-001/stdout.log",
+      "bytes": 1875,
+      "sha256": "88ff7f6cd8e6abe2495aa90c19961a55ee0ed7f2e5dc99d0de7f78088650db56"
+    }
+  ]
 }
