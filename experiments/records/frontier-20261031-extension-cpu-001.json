@@ -1,0 +1,19 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-extension-cpu-001",
+  "status": "declared",
+  "declared_at": "2026-10-30T16:42:46.909767+00:00",
+  "parent_code_commit": "ad4b83bd6be8744eb58755abaee888ca3aab14cb",
+  "protocol": {
+    "path": "experiments/frontier_extensions_cpu.json",
+    "bytes": 377,
+    "sha256": "e549e65c85349067efcd1989a64104c88aaa2155ac4c1129c63f5b57319fb1b9"
+  },
+  "command": [
+    "F:\\anaconda\\python.exe",
+    "tools/frontier_test_extensions.py"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
