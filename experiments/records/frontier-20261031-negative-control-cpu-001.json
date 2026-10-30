@@ -1,0 +1,26 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-negative-control-cpu-001",
+  "status": "declared",
+  "declared_at": "2026-10-30T17:01:24.916532+00:00",
+  "parent_code_commit": "4715c28a6f2ae1c922a478474de8526ce2b916cb",
+  "protocol": {
+    "path": "experiments/frontier_coverage_cpu.json",
+    "bytes": 257,
+    "sha256": "e3eaef6f7aa7f383b224b7b5f3a32654d62f2600ba4e5ead3860d55cbc3a2a4a"
+  },
+  "command": [
+    "F:\\anaconda\\python.exe",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "test/plan_selection_study/frontier_confirmation",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
