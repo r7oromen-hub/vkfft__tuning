@@ -1,0 +1,28 @@
+{
+  "binary_hashes_rechecked": true,
+  "candidates": 7,
+  "evidence_sha256": {
+    "/home/ygb/vkfft_frontier_20261031_migrated/repo/experiments/artifacts/frontier-20261031-migrated-admission-001/admission.jsonl": "f3d4e913404adf174bfecdd5fc9a2b1cc7b4f833fe5bba15be2e704226a21eaf",
+    "/home/ygb/vkfft_frontier_20261031_migrated/repo/experiments/artifacts/frontier-20261031-migrated-admission-001/budget.jsonl": "ccd3170d17a798fc049bff171d0c0d89a62dfe149daa57933b117ebb29e9f0a9",
+    "/home/ygb/vkfft_frontier_20261031_migrated/repo/experiments/artifacts/frontier-20261031-migrated-admission-001/guard.jsonl": "de04b3787fbf309d5eee1cb85262ae5bb07510dcc85856fe444fb8515b329334",
+    "/home/ygb/vkfft_frontier_20261031_migrated/repo/experiments/artifacts/frontier-20261031-migrated-admission-001/incidents.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/home/ygb/vkfft_frontier_20261031_migrated/repo/experiments/artifacts/frontier-20261031-migrated-admission-001/n1024_b256.manifest.jsonl": "5514f0c5307bf888511701146dcee9356a294a62624c9983132778ebb626ba85",
+    "/home/ygb/vkfft_frontier_20261031_migrated/repo/experiments/artifacts/frontier-20261031-migrated-admission-001/n128_b16.manifest.jsonl": "14cdf6f7a915b831025f922f37a92b2d14aa57c90f5c8e0bc1848b4aa9a9db6d",
+    "/home/ygb/vkfft_frontier_20261031_migrated/repo/experiments/artifacts/frontier-20261031-migrated-admission-001/n256_b4096.manifest.jsonl": "b1d79312a0bff541c753a753509b69c71261d782dd1ab4349e9e69bbf718976c",
+    "/home/ygb/vkfft_frontier_20261031_migrated/repo/experiments/artifacts/frontier-20261031-migrated-admission-001/n8192_b1.manifest.jsonl": "e2fb3a4e1797bf6bdd19d7be6934ac58c5b0536d82f263505b1260df44fed136"
+  },
+  "execution_commit": "ef21a989a798a4fd7213d4f937724bc522ad9517",
+  "gpu": "GPU-fb86b36f-0a9f-6cbd-a36b-03b9073f4786",
+  "guard_audit": {
+    "counts": {
+      "executions": 185
+    },
+    "errors": [],
+    "scope": "guard/event linkage only; periodic sampling cannot rule out between-sample interference",
+    "status": "pass"
+  },
+  "schema": "frontier-admission-gate/v1",
+  "scope": "one guarded session; all selected candidates validated and screened; no general device or performance guarantee",
+  "status": "pass",
+  "workloads": 4
+}
