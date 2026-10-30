@@ -1,0 +1,5 @@
+{
+  "schema": "frontier-screen-analysis-validation/v1",
+  "gpu_execution": false,
+  "purpose": "Validate raw-pair binding, explicit outcome denominators, register-subdomain coverage, matched-plan comparisons and offline replay; not independent performance confirmation"
+}
