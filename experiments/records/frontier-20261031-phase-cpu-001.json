@@ -1,0 +1,26 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-phase-cpu-001",
+  "status": "declared",
+  "declared_at": "2026-10-30T17:13:48.618413+00:00",
+  "parent_code_commit": "62f7ca0045b46550d7da416b8963023958f149cd",
+  "protocol": {
+    "path": "experiments/frontier_search_phase_cpu.json",
+    "bytes": 213,
+    "sha256": "ce22e6de5a3029e6773428d53cdd7a871bbd9b563ea7d0f37c594b142c207c6a"
+  },
+  "command": [
+    "F:\\anaconda\\python.exe",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "test/plan_selection_study/frontier_search",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
