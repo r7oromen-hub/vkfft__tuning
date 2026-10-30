@@ -1,0 +1,40 @@
+{
+  "schema": "historical-experiment-index/v1",
+  "id": "20261030-rotation-v1",
+  "execution_commit": null,
+  "archive_basis_commit": "b68cde195137e57158d3e1fa8cdb8a7122f07b04",
+  "provenance_status": "retrospective_evidence_index_not_execution_commit",
+  "status_description": "Build failed before GPU experiment",
+  "evidence": [
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/rotation_build_v1_0.json",
+      "bytes": 894,
+      "sha256": "00d37bbcac603ad5b8de0b6782eafe1127a7e03b895e2750b124c3b437af4b6f"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/rotation_build_v1_1.json",
+      "bytes": 1722,
+      "sha256": "ce75c34796c13b3805702fa39b1006cbc7dc0fee0e8406264bdbd532eaae1b6e"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/rotation_build_v1_2.json",
+      "bytes": 8987,
+      "sha256": "d275af279c9c90f2773ca7e7883bf3f56a74320bdf9cc2196c7d5fa70fac1d5e"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/expanded_provenance_v2.json",
+      "bytes": 2644,
+      "sha256": "e33afb4140d217ec05881ddf52d0d5aa05a805f949bcbf1b900ea5e84bbe7947"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/study_protocol.json",
+      "bytes": 1618,
+      "sha256": "72e1dd2eddf4d530c0b79c90c0ed681ce09e79b941b8e82efca75e2032df9589"
+    }
+  ],
+  "limitations": [
+    "Original run predates this experiment Git repository.",
+    "Current imported source is not asserted identical to historical executed source.",
+    "Local evidence paths and hashes do not imply raw data has been uploaded."
+  ]
+}
