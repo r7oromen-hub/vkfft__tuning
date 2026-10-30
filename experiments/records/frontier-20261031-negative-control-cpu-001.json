@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-negative-control-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-30T17:01:24.916532+00:00",
   "parent_code_commit": "4715c28a6f2ae1c922a478474de8526ce2b916cb",
   "protocol": {
@@ -21,6 +21,26 @@
     "-v"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "b9dc28518d6ef1d79fbf25d465131de6669bab1a",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-30T17:01:25.173490+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-30T17:01:25.926413+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-negative-control-cpu-001/execution.json",
+      "bytes": 937,
+      "sha256": "e45c597a70c6747e2e0615fb49ff88f83c1f58712cc7007f72c8098c80bf5058"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-negative-control-cpu-001/stderr.log",
+      "bytes": 3515,
+      "sha256": "a6ad7b41856d69ac298d28a4689143ff4cbac50e85ffc801cab803e5b9bf8e6e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-negative-control-cpu-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
