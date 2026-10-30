@@ -1,0 +1,28 @@
+{
+  "schema_version": "plan-selection-study-addendum/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A3_preS1_deterministic_selection_interpretation",
+  "created_utc": "2026-10-28T00:19:33Z",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "original_freeze_file": "research_freeze.json",
+  "data_state": "Before any S1 primary measurements. Root accepted these deterministic interpretations before performance selection; no observed S1/S2 effect informed them.",
+  "purpose": "Resolve implementation ambiguities in the existing headline-selection prose without enlarging candidate, workload, round or inference budgets.",
+  "interpretations": {
+    "slot_2_family_preference": "Among remaining workloads at a different N from slot 1 whose frozen screen winner changes core structure relative to default, prefer a different odd-part family (1, 3 or 5). Rank within that preferred set by descending S2 frozen-winner speedup; if it is empty, rank all otherwise eligible cases. Ties use numeric N, numeric batch, then candidate ID.",
+    "slot_3_4_complete_confirmed_contrasts": "A crossover requires exactly the same two predeclared candidate IDs at both same-N single/large-batch endpoints. Both candidates must already belong to the frozen S2 union and have all three valid confirmation pairs at each endpoint. Require opposing point ratios of at least 1.05 in both screening and confirmation. Missing S2 contrast coverage is ineligible, never imputed and never repaired by adding confirmation candidates or processes.",
+    "slot_3_4_contrast_domain": "Respect each frozen predeclared contrast's N domain: NP0 versus NP1 only at non-power-of-two N, forced-two-stage contrasts only at N>=8192, forced-three-stage contrasts only at N>=65536. Headline crossover endpoints remain the declared single and large batches; middle batches remain descriptive H2 evidence.",
+    "slot_3_4_ranking": "First consider qualifying boost/NP1/LUT1-versus-default crossovers. If none qualifies, consider the other predeclared contrast families together. Within the applicable group maximize the weaker opposing S2 effect; ties use numeric N, numeric endpoint batches, candidate IDs, then the frozen contrast index. Empty crossover slots are not filled with more winners.",
+    "slot_6_lower_median": "For workloads whose S1 winner is default, form the sorted distinct eligible N values and choose index floor((count-1)/2), then choose the lowest eligible batch at that N. This is the lower median of N groups, so extra B=16 cases do not duplicate a length's weight. If no default-screen-best case exists, choose the fully estimable S2 selected effect closest to one by absolute log ratio, with the original deterministic ties.",
+    "headline_candidate_union": "Every selected headline workload includes default, default_replica and its frozen S1 winner. Add any required crossover pair members, deduplicate by exact candidate ID and retain the original at-most-five-candidates per workload and 300-process cap. Include the frozen winner/default benefit direction when winner differs from default, plus any distinct crossover direction, in the one frozen Holm family. A default winner has effect one by definition and produces no fabricated self-comparison test.",
+    "missing_confirmation": "Preserve all failed attempts and label a frozen-winner effect unestimable if any required independent paired round is missing or invalid. Do not substitute another confirmed candidate, fewer rounds, screen timing or pilot timing. Such a case cannot win an effect-ranked headline slot; publish its coverage/validity failure explicitly. No extra headline winner fills an unavailable or duplicate slot."
+  },
+  "unchanged": [
+    "All 36 workloads and 26 requests, S1 selection eligibility and winner/alternative/global rules",
+    "S2 candidate union and exactly three confirmation rounds",
+    "No more than six headline workloads and ten new paired rounds",
+    "Original numerical, guard, negative-control, drift and resource thresholds",
+    "Original paired-log null, quantization rule, Holm correction and clear-gain threshold",
+    "S3 fixed cost matrix and H4 auxiliary-only status"
+  ],
+  "implementation_requirement": "Write and hash the actual selected workload/candidate/direction manifest before any headline data; its family membership cannot be changed after observing headline results."
+}

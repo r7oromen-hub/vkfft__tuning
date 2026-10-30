@@ -1,0 +1,69 @@
+{
+  "schema_version": "plan-selection-study-addendum/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A2_bounded_resource_resume_20261028",
+  "created_utc": "2026-10-28T00:15:33Z",
+  "status": "pre_primary_data_resource_recovery",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "original_freeze_file": "research_freeze.json",
+  "authorization": "The user explicitly requested continuation on 2026-10-28 after the previous resource stop. This dated addendum makes that resumed attempt finite; it does not silently reinterpret the original two-gate budget.",
+  "data_state": {
+    "new_primary_screen_rows_at_resume": 0,
+    "basis": "Root's preserved run history reports no S1 measurements. Verify the remote stage ledgers before launching this resumed attempt; stop for review if primary data exist outside this stated history.",
+    "previous_health_1": "Interrupted by a foreign compute process; retained rows are engineering/calibration evidence only.",
+    "previous_health_2": "Reported complete with 30 fresh processes and a passing gate; preserve its original result and verify its archived guard/measurement evidence before reuse of provenance.",
+    "previous_semantics_start": "Guard rejected the quiet-start window with active_run=null; zero semantic-probe child processes were launched. This is a resource admission refusal, not a numerical or semantic failure.",
+    "primary_effect_policy": "No old pilot, health, calibration, semantic, instrumentation-equivalence or cost-smoke timing becomes H1/H2 primary effect evidence."
+  },
+  "preserved_history": {
+    "original_health_gates_max": 2,
+    "original_health_gates_used": 2,
+    "original_recovery_file": "recovery_health_attempt2.json",
+    "original_recovery_sha256": "a890f69c9f166cbf49a3367bf6549679bdb81c2273c804293cb3b668d855f1bf",
+    "prior_addendum_file": "research_addendum_A1.json",
+    "prior_addendum_sha256": "5dff71c2af76b25ebe6a8fbf2923491d98dbc8f803840e472fea2df4a2ba349a",
+    "policy": "Retain all previous records, result directories, launch/status files and incident logs. Do not overwrite an old gate, relabel the old second/final gate, or combine health prefixes from different attempts."
+  },
+  "resource_resume": {
+    "session_id": "resume_20261028",
+    "required_before_research": "Reacquire 30 uninterrupted quiet seconds on the frozen UUID, then pass one complete fresh health gate before any new S0 GPU validation or S1 measurement.",
+    "gpu_uuid": "GPU-fb86b36f-0a9f-6cbd-a36b-03b9073f4786",
+    "device_migration": "No substitution of another GPU within this addendum. A different physical GPU would require a separately documented device amendment before collecting primary data.",
+    "new_health_gates_started_max": 2,
+    "new_health_processes_max": 60,
+    "quiet_start_seconds": 30,
+    "stage_start_resource_refusals_max": 3,
+    "stage_start_resource_refusal_definition": "An admission guard identifies foreign compute before any child process for that stage or health attempt starts. Preserve the incident and zero-launch count, increment the resumed session's resource-refusal counter, and do not count it as a started health gate, candidate numerical failure or screen attempt.",
+    "refusal_exhaustion": "The third such refusal ends this resumed session as resource-unavailable; no indefinite admission polling or repeated stage launches.",
+    "health_started_definition": "A new health gate consumes one gate from the new budget as soon as its first benchmark child launches. A partial gate consumes that slot; never splice its rows into a later gate.",
+    "health_protocol": {
+      "workloads": ["n1024_b1", "n81920_b409", "n1048576_b32"],
+      "candidates": ["default", "default_replica"],
+      "paired_rounds": 5,
+      "processes_per_complete_gate": 30,
+      "graph_repeats": {"n1024_b1": 426, "n81920_b409": 1, "n1048576_b32": 1},
+      "r_provenance": "Reuse only the exact guard-audited calibration rows and hashes in recovery_health_attempt2.json, on the same device and measurement binary. Preserve raw-interval adequacy flags; do not recalibrate from health ratios or candidate performance.",
+      "criteria": "Unchanged frozen health criteria: every numerical and guard check passes; each workload geometric-mean default/replica ratio is within 2% of one; every individual paired ratio is within 5%; no greater-than-5% early/late drift; default/replica source and compiler-input fingerprints agree.",
+      "outputs": "Use new append-only resume_20261028 gate/result directories with launch counters, binary/source hashes, frozen R hashes, before/during/after guard records and explicit stage admission versus child-launch state."
+    },
+    "retry_eligibility": "Only an externally caused foreign-compute interruption may consume the remaining new health gate after another clean 30-second admission. A health numerical, fingerprint, ratio, drift or instrumentation-quality failure ends the resumed session immediately, even if a gate remains.",
+    "later_competition": "Preserve and stop the affected stage. Resume only after a fresh complete health gate using a remaining slot in this same two-gate budget. No remaining slot means report resource-interrupted/incomplete; the user continuation request is not an unlimited renewal.",
+    "noninterference": "Do not terminate, signal, reprioritize or change another user's GPU process. Root alone schedules this study's remote GPU jobs."
+  },
+  "source_and_measurement_integrity": {
+    "expected_measurement_binary_sha256": "0efb158af512078094b23cb015e30ea5f7b800067003c03da0c2aeda21dbf17a",
+    "required": "Verify upstream source and generated-header provenance and both original/instrumented executable hashes before reuse. Runner-only fixes may implement the frozen protocol if separately recorded and tested; a changed measurement binary requires an explicit provenance review and the relevant S0/A1 checks before primary collection.",
+    "upstream_library": "Unchanged."
+  },
+  "research_protocol_unchanged": [
+    "36 frozen workloads and 26 frozen requests; 936 nominal S1 attempts",
+    "At most two repeated whole screening blocks in total, retaining original and replacement IDs; no partial-block prefix splicing",
+    "Frozen correctness thresholds, resource cap, graph timing definition, calibration rules and process-level sampling",
+    "S1 winner/alternative/global selection; three independent S2 confirmation rounds",
+    "Eight fixed S3 cost workloads, three paired rounds, actual zero-compile describe/full equivalence",
+    "At most six S4 headline workloads, frozen pairs/directions, ten fresh paired rounds and original Holm family rules",
+    "H1/H2/H3 are primary; H4 remains auxiliary under its existing coverage and leakage rules",
+    "No extra workloads, candidates, models, performance rounds or significance-driven continuation"
+  ],
+  "reporting": "Report the original two health attempts and the separately authorized resumed-session gates/admission refusals with their own status. The changed budget concerns resource recovery only and cannot erase negative quality evidence or enlarge the research effect dataset."
+}

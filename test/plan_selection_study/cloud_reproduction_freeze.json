@@ -1,0 +1,13 @@
+{
+  "schema_version": "plan-selection-cloud-reproduction-freeze/v1",
+  "study_id": "plan_selection_cloud_reproduction_20261028_r1",
+  "frozen_at_utc": "2026-10-28T03:27:26Z",
+  "design_file": "cloud_reproduction_design.json",
+  "design_sha256": "6394ca299dfe5c6af8a9c703669c28716bc59afc22571f24c3badc988b17ede7",
+  "data_state": "Root has performed only a no-kernel CUDA-context/PID compatibility check on the new host. No new-cohort FFT process, calibration, performance or cost result has been measured.",
+  "authorization": "Root approved this precise346-process maximum targeted independent cohort under the user request to move to the new cloud host and complete the research questions.",
+  "selection_status": "Old-data-informed choices locked before new-cohort data. No claim of original-study preregistration or outcome-blind selection across the old cohort.",
+  "total_GPU_processes_max": 346,
+  "automatic_retries": 0,
+  "amendment_policy": "Keep these bytes and hash. Any engineering correction requires a separate dated record describing data state; no silent change or effect-driven workload/candidate/direction/round substitution."
+}

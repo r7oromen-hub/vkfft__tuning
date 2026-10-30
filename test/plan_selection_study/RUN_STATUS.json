@@ -1,0 +1,143 @@
+{
+  "status": "cloud_monitor_interruption_recovery_preparing",
+  "objective": "Establish empirical evidence for workload-aware VkFFT plan selection: heuristic headroom, structure-dependent tradeoffs, and planning/codegen/compilation/search costs.",
+  "local_directory": "F:/vkfft_demo/test/plan_selection_study",
+  "remote_directory": "/home/ygb/vkfft_plan_study_20261027_r2",
+  "remote_host": "222.199.197.22",
+  "remote_user": "ygb",
+  "selected_physical_gpu": 1,
+  "selected_gpu_uuid": "GPU-fb86b36f-0a9f-6cbd-a36b-03b9073f4786",
+  "upstream_commit": "066a17c17068c0f11c9298d848c2976c71fad1c1",
+  "original_library_modified": false,
+  "previous_study_role": "Pilot and design evidence only; previous performance records are not reused as the new primary measurements.",
+  "decision_agent": "gpt-6-astra ultra",
+  "implementation_agents": "gpt-6.1-terra ultra",
+  "remote_runner_pid": null,
+  "pending": [
+    "Complete frozen A6 whole-pair cost recovery on GPU1",
+    "Run original frozen 110-process headline confirmation",
+    "Run separate frozen H2 followup after primary completion",
+    "Complete grouped learning check and research report"
+  ],
+  "updated_utc": "2026-10-28T04:13:52.336225+00:00",
+  "design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "new_gpu_performance_rows": 877,
+  "completed_checks": [
+    "Research questions, matrix and stopping rules frozen before new GPU measurements",
+    "Initial isolated CUDA build passed",
+    "CPU DFT and nested trace/hash tests passed",
+    "CPU reference cross-checked against FFTW at N=256,49152,81920,1048576",
+    "Original VkFFT checkout remains unmodified",
+    "Both instrumented and original-header control executables compiled",
+    "20 local guard/protocol/trace checks passed"
+  ],
+  "remote_result_directory": "/home/ygb/vkfft_plan_study_20261027_r2/results/resume_20261028_attempt2",
+  "health_attempt1": {
+    "accepted_engineering_rows": 20,
+    "main_effect_rows": 0,
+    "complete": false,
+    "reason": "Foreign GPU compute PID1399934 ./verify_codecs detected at2026-10-27T10:56:06.830029Z; active record quarantined and own test stopped",
+    "evidence": "results/health_attempt1/main/"
+  },
+  "previous_health2": {
+    "complete": true,
+    "processes": 30,
+    "passed": true,
+    "remote_result_directory": "/home/ygb/vkfft_plan_study_20261027_r2/results/main_attempt2",
+    "semantics_started": false,
+    "semantics_admission_rejected": "foreign_compute_process"
+  },
+  "current_resource_resume": {
+    "addendum": "research_addendum_A2.json",
+    "started_health_gates": 2,
+    "stage_admission_refusals": 0,
+    "source_headers_verified": true,
+    "guard_sha256": "7c8b798ac89cf13269c324981b40f554f37c1069272a2e584dba59e661e691c0",
+    "engineering_correction": [
+      "research_addendum_A4.json",
+      "research_addendum_A5.json",
+      "research_addendum_A6.json"
+    ],
+    "prior_attempt_primary_rows": 0,
+    "health_passed": true,
+    "health_processes": 30,
+    "semantic_completed_processes": 64,
+    "semantic_passes": 60,
+    "semantic_candidate_faults": 4,
+    "diagnostic_processes": 4,
+    "equivalence_passed": true,
+    "equivalence_processes": 8,
+    "candidate_diagnostic_passed_matching_failure": true,
+    "fault_decision": "candidate_execution_fault_decision.json",
+    "semantic_protocol_valid": true,
+    "semantic_all_candidates_passed": false,
+    "semantic_exact_invalid_cells": 1,
+    "cost_smoke_passed": true,
+    "cost_smoke_pipeline_processes": 4,
+    "guard_sha256_pending_deployment": "c97e9b72e150e0869f34eb956d5919d1105c3ff5f67a6a3d49a6146cd7179c9b"
+  },
+  "new_gpu_screen_attempts": 936,
+  "complete_screen_workload_blocks": 36,
+  "screen_matrix_requests": 936,
+  "screen_calibration_processes": 71,
+  "screen_candidate_failures": 59,
+  "screen_complete": true,
+  "confirmation_complete": true,
+  "confirmation_processes": 396,
+  "confirmation_round_blocks": 108,
+  "cost_progress": {
+    "raw_rows": 21,
+    "complete_clean_pairs": 10,
+    "orphan_engineering_rows": 1,
+    "quarantined_processes": 1,
+    "running": false,
+    "recovery_addendum": "research_addendum_A6.json",
+    "accepted_scientific_target": 48,
+    "new_process_cap": 28
+  },
+  "host_switch": {
+    "requested_host": "cpod-1x0ejy2ui8vj.podtcp.compshare.cn",
+    "port": 24983,
+    "username": "root",
+    "old_host_new_gpu_launches": false,
+    "new_data_must_be_separate": true,
+    "new_environment": "RTX4090 24GiB, driver610.57.04, CUDA12.8, Ubuntu22.04",
+    "gpu_uuid": "GPU-8e235702-e0a9-1aed-0bea-13addf71e86a",
+    "gpu_index": 0,
+    "remote_root": "/root/vkfft_plan_study_cloud_20261028",
+    "build_pid": 777
+  },
+  "new_cohort": {
+    "design": "cloud_reproduction_design.json",
+    "scientific_gpu_process_cap": 346,
+    "phase": "execution_monitor_stop",
+    "gpu_measurement_rows": 89,
+    "remote_pid": null,
+    "build_complete": true,
+    "build_provenance_sha256": "be8b7066e6bddf282edc63abb6bf4b60098f8e00c6f030e7cae317b45587111d",
+    "controller_sha256": "ab04aa124f40bb94fd3bc1db1e94a81c6de214a0cc2899733231e3b1bb44feab",
+    "guard_sha256": "da46d3d67836307214917c2a8d50b373f5f651df4f76c7c29ba1722c342555dd",
+    "equivalence": {
+      "complete": true,
+      "passed": 8
+    },
+    "semantics": {
+      "complete": true,
+      "passed": 28
+    },
+    "calibration": {
+      "complete": true,
+      "passed": 23
+    },
+    "health": {
+      "complete": true,
+      "passed": 30
+    },
+    "execution_target": 199,
+    "cost_pipeline_target": 48,
+    "execution_raw_rows": 101,
+    "quarantined_processes": 1,
+    "recovery_pending": true,
+    "interruption_reason": "nvidia-smi query-gpu timed out at the 2-second limit; monitoring gap, not proven foreign compute or numerical fault"
+  }
+}

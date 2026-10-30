@@ -1,0 +1,15 @@
+{
+  "purpose": "device acceptance; all runs independently guarded, same flags and inputs for paired comparisons",
+  "scope": "1D CUDA FP32 C2C forward out-of-place; single upload; lengths powers of two; no Rader or Bluestein",
+  "cases": [
+    {"id":"n16384_b1_reorder", "n":16384, "batch":1, "aim_threads":128, "register_boost":4, "use_lut":1, "register_boost_nonpow2":1, "historical_baseline_radix":[32,32,8,2], "candidate_radix":[32,8,32,2]},
+    {"id":"n32768_b1_reorder", "n":32768, "batch":1, "aim_threads":128, "register_boost":4, "use_lut":1, "register_boost_nonpow2":1, "historical_baseline_radix":[32,32,8,4], "candidate_radix":[32,8,32,4]},
+    {"id":"n1024_b16_groups", "n":1024, "batch":16, "requested_group_sizes":[1,2,4], "candidate_radix":"baseline sequence"},
+    {"id":"n256_b16_groups", "n":256, "batch":16, "requested_group_sizes":[1,2,4], "candidate_radix":"baseline sequence"}
+  ],
+  "patterns": ["zero", "impulse", "constant", "quarter-tone", "random"],
+  "seed":42,
+  "historical_baseline_is_not_a_device_guarantee":true,
+  "block_dimensions":"derive exact raw localSize for each group via separately guarded discovery/rejection; never substitute total threads for 3D shape",
+  "acceptance":"status ok, exact desired stageRadix and localSize, descriptor_validation all_match, compiler_options_match, input_unchanged, correctness.passed, no nonfinite, resource validation within limits, clean guard; identity requires baseline-equivalent canonical descriptors, source hashes and compiler options"
+}

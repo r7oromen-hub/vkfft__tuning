@@ -1,0 +1,12 @@
+{
+  "schema_version": "plan-selection-old-screen-h4-admission-freeze/v1",
+  "analysis_id": "plan_selection_old_screen_h4_analysis_20261028_r1",
+  "frozen_at_utc": "2026-10-28T03:53:30Z",
+  "admission_file": "old_screen_h4_admission.json",
+  "admission_sha256": "65b8bae1b7b21fd42af172c2b89c1a87510171cf08ba3f57be02d84a8438e921",
+  "data_state": "Old S1 and S2 are complete and their effects are known. Old cost is interrupted and old headline is not run. Cloud equivalence is complete and semantics is in progress; no cloud execution or cost outcome is used to choose whether to run H4. No real-data H4 fit has been performed; prior synthetic smoke tests are not study outcomes.",
+  "fits_max": 24,
+  "real_data_fitting_attempts_max": 1,
+  "gpu_processes": 0,
+  "amendment_policy": "Preserve these bytes and hash. Any exact engineering correction must be separately dated and disclose data/model-result state; no outcome-driven feature, model, fold, candidate or target change."
+}

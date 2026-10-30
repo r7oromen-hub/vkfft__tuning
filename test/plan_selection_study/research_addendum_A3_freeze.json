@@ -1,0 +1,11 @@
+{
+  "schema_version": "plan-selection-study-addendum-freeze/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A3_preS1_deterministic_selection_interpretation",
+  "frozen_at_utc": "2026-10-28T00:20:15Z",
+  "addendum_file": "research_addendum_A3.json",
+  "addendum_sha256": "429b5e7e591f0458166f13fa1486d6da3d1a5449dd8f35aae78e439413ea8ba4",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "phase_at_freeze": "Before S1 primary measurements and before headline selection; root accepted the interpretation explicitly during this resumed session.",
+  "amendment_policy": "Retain this file and hash. Do not change these choices or family membership after seeing corresponding data; record a new dated amendment if a correction becomes necessary."
+}

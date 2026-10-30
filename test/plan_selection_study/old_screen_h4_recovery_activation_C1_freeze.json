@@ -1,0 +1,12 @@
+{
+  "schema_version": "old-screen-h4-activation-freeze/v1",
+  "attachment_id": "old_screen_h4_recovery_activation_C1",
+  "analysis_id": "plan_selection_old_screen_h4_analysis_20261028_r1",
+  "frozen_at_utc": "2026-10-28T04:18:50.987072+00:00",
+  "attachment_file": "old_screen_h4_recovery_activation_C1.json",
+  "attachment_sha256": "19ef29dc9348f78bf92d996c611be6cef6579bc1fc46186895cb2e556d3e8210",
+  "base_admission_sha256": "65b8bae1b7b21fd42af172c2b89c1a87510171cf08ba3f57be02d84a8438e921",
+  "recovery_admission_sha256": "aaddd405f782709de09c85048719db98aba4d198737aadce315d45163dca64ae",
+  "model_or_data_changes": false,
+  "additional_fits": 0
+}

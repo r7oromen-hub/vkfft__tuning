@@ -1,0 +1,16 @@
+{
+  "upstream_commit": "066a17c17068c0f11c9298d848c2976c71fad1c1",
+  "files": {
+    "vkfft_motivation.cpp": "0de1b1bda92a79a79e6645f9f7db0946112e561ad4403845c58c9df11be26953",
+    "cpu_reference.hpp": "9680ac4918ad1885e3be3a4aa6e01cf946037a39015242f307464177b11ddc65",
+    "CMakeLists.txt": "ec15f955770c2f8a0985f12cf9174b763e10e3c2971c020ae23e84a66924dd39",
+    "run_suite.py": "18764b8073e8fe2f70544f664cbfd169e070bca43495ca3a59a3ae706ad02a5e",
+    "controlled_recheck.py": "c9b974f47597f86c7880507dbb1ced5bfea39410d0d63f0ecaf16e49d124fff6",
+    "analyze.py": "6bd80a3d3d1587b34fd284445ffce324cc2d637adf51dc504d125b3649b346c3",
+    "run_probes.py": "1e805fda826a5ac44b16f178637dfbe8e18758ee4df71dc826cc91be7cf1a721",
+    "test_python.py": "a83844ec43ac3fc14a8724dff49173bd9cd5639429d878ef5157ccc324092538",
+    "test_reference.cpp": "d6084024d491b45444c1c46646a54140c61a28b67c83a8d96fc386a547cf3b71",
+    "test_reference_fftw.cpp": "d8fb3ba5f812b3ee0927a3f6f3abf12936697d264bee4bcc26ad7d0b1a541e84",
+    "harness_notes.md": "2439b4e229acdfd11283dc747861e98aca5be97f0b7d929d7bfc200b824c169f"
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "plan-selection-study-addendum/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A4_registered_child_exit_guard_fix",
+  "created_utc": "2026-10-28T00:23:31Z",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "amends": "A2_bounded_resource_resume_20261028 retry eligibility for this one identified guard implementation defect only; no budget increase",
+  "data_state": "The first resumed health gate stopped after 11 child launches. Ten completed rows and one quarantined row are engineering evidence only. No S1 primary measurements exist at this decision.",
+  "incident": {
+    "guard_id": "ea60e75fb169480db8f4d47bbb0c8184",
+    "guard_run_id": "ea60e75fb169480db8f4d47bbb0c8184:60f970edd06f48a5a0293f1b71f58095",
+    "workload_id": "n1048576_b32",
+    "candidate_id": "default_replica",
+    "round": 1,
+    "registered_pid": 2015682,
+    "registered_ppid": 2014611,
+    "registered_start_ticks": 17091106,
+    "registered_executable": "/home/ygb/vkfft_plan_study_20261027_r2/build_instrumented/vkfft_instrumented_benchmark",
+    "registered_utc": "2026-10-28T00:19:37.961738+00:00",
+    "last_verified_live_sample_utc": "2026-10-28T00:19:44.765702+00:00",
+    "incident_sample_utc": "2026-10-28T00:19:45.778716+00:00",
+    "incident_identity": "nvidia-smi retained this same PID with process_name='[No data]' and 386 MiB, while the existing executable-based /proc identity function returned no identity; total selected-GPU memory was 529 MiB.",
+    "child_return_utc": "2026-10-28T00:19:45.840793+00:00",
+    "child_returncode": 0,
+    "quarantined_row_status": "ok",
+    "quarantined_row_validation_errors": [],
+    "independent_review": "Reviewed the complete local guard and incident JSONL: 11 registrations and launches, 10 clean run-end events, one incident naming only the just-registered child, followed by its successful return. This supports an exit/driver-listing race in ownership resolution. The old missing-identity observation is not retroactively relabeled clean and does not prove a general absence of interference between polls.",
+    "guard_log": "results/resume_health_01_guard.jsonl",
+    "guard_log_sha256": "a54d97bc3b9e57e4e14ab0317c0545759edf23c22c9718af43a9255c5c177b08",
+    "incident_log": "results/resume_health_01_incidents.jsonl",
+    "incident_log_sha256": "89edafc721da4759fea1e144372d7cd3a78c2ea094aff1ed46d59536227c1714"
+  },
+  "allowed_fix": {
+    "scope": "Python GPU guard ownership resolution for an already registered direct benchmark child at process exit; no CUDA harness, kernel, numerical threshold or measurement-binary change.",
+    "identity_requirement": "Bind any exit exception to the registered Popen object, PID, PPID and process start_ticks. A live process with a mismatching identity is foreign. A known child with no executable may be recognized only by independently observed terminal /proc state Z/X with matching PPID/start_ticks, or by a bounded recheck proving that the registered Popen child has exited without a conflicting live identity.",
+    "bounded_recheck": "Any exit-resolution grace must have an explicit short hard deadline and be logged. Absence of identity by itself, an old PID, a process name, or an elapsed timeout never establishes ownership. Failure to prove exit by the deadline remains fail-closed.",
+    "unchanged_guards": "Unknown or unregistered compute PIDs, PID reuse, mismatching executable/parent/start time, monitoring errors and the 2048-MiB budget remain enforced. Do not touch another user's process.",
+    "verification": "Record changed controller/guard hashes and run CPU-only tests covering terminal registered children, bounded return-code recheck, unknown PID rejection, live/mismatched identity rejection and unchanged memory-cap enforcement before the next GPU gate."
+  },
+  "remaining_attempt": {
+    "authorization": "Root approved correction of this observed implementation defect within the user's explicit continuation request and the remaining finite A2 budget.",
+    "resumed_gates_already_started": 1,
+    "resumed_gates_remaining": 1,
+    "new_complete_gate_processes": 30,
+    "new_output": "results/resume_20261028_attempt2",
+    "quiet_start_seconds": 30,
+    "graph_repeats": {"n1024_b1": 426, "n81920_b409": 1, "n1048576_b32": 1},
+    "measurement_binary_sha256": "0efb158af512078094b23cb015e30ea5f7b800067003c03da0c2aeda21dbf17a",
+    "row_policy": "Preserve all original records and quarantine labels; do not splice or promote any of these 11 processes into the next health gate or primary estimates. Run all 30 new processes under the fixed health protocol.",
+    "exhaustion": "This consumes the only remaining A2 gate once its first child launches. A further health-quality, unresolved monitoring or competition stop ends this resumed attempt; this addendum grants no third new gate."
+  },
+  "unchanged": "A2's total two-started-gate limit and three zero-launch resource-refusal limit, the original 36x26 research matrix, S1/S2/S3/S4 budgets, A3 selection rules, all numerical and inferential thresholds, and H4 auxiliary-only status."
+}

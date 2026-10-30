@@ -1,0 +1,12 @@
+{
+  "schema_version": "plan-selection-study-addendum-freeze/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A4_registered_child_exit_guard_fix",
+  "frozen_at_utc": "2026-10-28T00:24:36Z",
+  "addendum_file": "research_addendum_A4.json",
+  "addendum_sha256": "93eee82004e0330959f81d6a7239e8f427b0dd60fc45135bdf53ae4412ac3032",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "phase_at_freeze": "After independently reviewing the first resumed health gate's exit-race evidence; before its replacement gate and before S1 primary measurement.",
+  "budget": "One A2 gate already consumed, one remains; no additional health budget granted.",
+  "amendment_policy": "Preserve the original rejected attempt and all freezes. Any later exception requires a new explicit record; never silently reclassify the old rows as accepted."
+}

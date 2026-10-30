@@ -1,0 +1,435 @@
+{
+  "schema_version": 1,
+  "declared_utc": "2026-10-27T10:04:01.522078+00:00",
+  "authority": "Astra objective repair_decision_v1; root explicitly authorized one repair attempt",
+  "evidence_reference": "results/anomaly_review/repair_decision_v1.json",
+  "evidence_sha256": "52208f655b2408a657b7a94a66139f8d7fb8b50b383a0a5870d49bbac4d69a52",
+  "frozen_source_measurements_sha256": "49cdd9727d75a26ba9c3d849e74a3b227f650e8cc19dd90ce91e268d1befe69d",
+  "frozen_source_record_count": 1003,
+  "gpu_uuid": "GPU-fb86b36f-0a9f-6cbd-a36b-03b9073f4786",
+  "historical_contamination_window_utc": [
+    "2026-10-27T09:42:39.471000+00:00",
+    "2026-10-27T09:47:04.505000+00:00"
+  ],
+  "historical_startup_free_memory_threshold_bytes": 22548578304,
+  "mask_rule": "Entire process interval intersects closed frozen UTC window OR startup GPU free memory below frozen historical threshold. Never read execution timings to decide masking or replacement acceptance.",
+  "masked_screen_count": 61,
+  "retained_screen_count": 851,
+  "masked_workload_count": 37,
+  "masked_screen_keys": [
+    [
+      "screen",
+      "n12288_b2730",
+      "default",
+      0
+    ],
+    [
+      "screen",
+      "n327680_b1",
+      "a128_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n49152_b1",
+      "a64_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n1280_b1",
+      "a64_r1_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n5120_b1",
+      "a128_r1_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n768_b1",
+      "a128_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n4096_b1",
+      "a128_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n2048_b1",
+      "a64_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n81920_b409",
+      "a256_r1_l1",
+      0
+    ],
+    [
+      "screen",
+      "n49152_b682",
+      "a64_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n131072_b1",
+      "a256_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n65536_b1",
+      "a128_r1_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n5120_b1",
+      "a128_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n4096_b1",
+      "a64_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n2048_b16384",
+      "a128_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n131072_b256",
+      "a128_r1_l1",
+      0
+    ],
+    [
+      "screen",
+      "n1024_b1",
+      "a64_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n655360_b51",
+      "a64_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n786432_b42",
+      "a64_r1_l1",
+      0
+    ],
+    [
+      "screen",
+      "n256_b1",
+      "a128_r4_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n768_b1",
+      "a256_r1_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n5120_b6553",
+      "a64_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n8192_b4096",
+      "a256_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n3072_b10922",
+      "a256_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n1048576_b32",
+      "a256_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n12288_b2730",
+      "a256_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n5120_b6553",
+      "a128_r4_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n655360_b1",
+      "default",
+      0
+    ],
+    [
+      "screen",
+      "n32768_b1",
+      "a64_r1_l1",
+      0
+    ],
+    [
+      "screen",
+      "n2048_b1",
+      "a256_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n1280_b26214",
+      "a64_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n655360_b51",
+      "a256_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n12288_b1",
+      "a256_r1_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n3072_b10922",
+      "a256_r1_l1",
+      0
+    ],
+    [
+      "screen",
+      "n2048_b16384",
+      "a64_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n262144_b1",
+      "default",
+      0
+    ],
+    [
+      "screen",
+      "n327680_b1",
+      "a64_r1_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n32768_b1",
+      "a128_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n327680_b102",
+      "a256_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n3072_b1",
+      "a128_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n16384_b2048",
+      "a64_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n262144_b128",
+      "a64_r4_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n768_b1",
+      "a64_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n512_b1",
+      "a64_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n786432_b1",
+      "a64_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n49152_b682",
+      "a256_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n16384_b1",
+      "a128_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n16384_b1",
+      "a256_r1_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n32768_b1",
+      "a128_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n256_b131072",
+      "a128_r2_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n256_b131072",
+      "a128_r1_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n3072_b1",
+      "a64_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n768_b43690",
+      "a128_r1_l1",
+      0
+    ],
+    [
+      "screen",
+      "n16384_b1",
+      "default",
+      0
+    ],
+    [
+      "screen",
+      "n2048_b1",
+      "a64_r1_l1",
+      0
+    ],
+    [
+      "screen",
+      "n81920_b1",
+      "a64_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n2048_b1",
+      "a64_r4_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n1024_b1",
+      "a256_r4_l1",
+      0
+    ],
+    [
+      "screen",
+      "n655360_b51",
+      "a128_r2_l1",
+      0
+    ],
+    [
+      "screen",
+      "n512_b1",
+      "a256_r1_l-1",
+      0
+    ],
+    [
+      "screen",
+      "n1280_b1",
+      "a64_r2_l1",
+      0
+    ]
+  ],
+  "repair_policy": "Preserve all original data. Create a new dataset containing only the 851 unmasked original screen lines, byte-for-byte. Copy unchanged manifest, frozen R and calibration files. Exclude all original confirm rows and do not copy selected/negative_controls. Re-run exactly the 61 missing screen keys once, then reselect and run all three confirmations anew.",
+  "replacement_acceptance": "Numerical/protocol validity plus objective GPU guard only; never faster-than-original, minimum-of-repeats, timing-ranked acceptance, or retries until passing.",
+  "frozen_protocol": "Same executable SHA256 and all original runner settings; copied calibration prevents recalibration. Preserve actual remeasurement UTC/order and link each replaced key to original line/canonical hashes in provenance.",
+  "health_checks": {
+    "workloads": [
+      {
+        "n": 16384,
+        "batch": 1
+      },
+      {
+        "n": 65536,
+        "batch": 1
+      },
+      {
+        "n": 256,
+        "batch": 131072
+      }
+    ],
+    "candidates": [
+      "default",
+      "a128_r1_l-1"
+    ],
+    "rounds": 5,
+    "warmup": 5,
+    "warmup_ms": 1000,
+    "repeats": 101,
+    "timing_mode": "graph",
+    "placement": "outofplace",
+    "graph_repeats": "Each case uses the frozen main graph_repeats.json value; never recalibrate.",
+    "seed_base": 2026103100,
+    "case_seed": "seed_base + case index starting at 1",
+    "pair_ratio_inclusive_bounds": [
+      0.97,
+      1.03
+    ],
+    "process_late_over_early_inclusive_bounds": [
+      0.95,
+      1.05
+    ],
+    "drift_definition": "Median final floor(samples/3) samples / median initial floor(samples/3) samples, after warmup.",
+    "numerical_gate": "Both single-forward and final criterion_v2 checks pass, finite positive timings, immutable input.",
+    "competition_gate": "One complete successful gpu_guard run per case; no incidents, foreign compute, monitor errors, or GPU total memory use above future guard cap.",
+    "future_guard_total_memory_used_cap_mib": 2048,
+    "idle_seconds": 30,
+    "failure_policy": "Fail closed; no automatic retry or extra rounds. Health failure does not authorize rewriting original data or choosing a new repair mask."
+  },
+  "analysis_policy": "Preserve original contaminated screen/model outputs with warning. Keep predeclared model and headline rules unchanged; final analysis uses repaired dataset only after complete screening and fresh confirmation.",
+  "gpu_work_started_by_preparation": false
+}

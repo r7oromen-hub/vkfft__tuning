@@ -1,0 +1,16 @@
+{
+  "schema_version": "plan-selection-study-freeze/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "frozen_at_utc": "2026-10-27T10:48:38.9637372Z",
+  "design_file": "research_design.json",
+  "design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "questions_file": "research_questions.md",
+  "questions_sha256": "fca7e050f39b788be5a5e683c7c0fe1a862149aeb1e83388abbe0f0a2997004b",
+  "phase_at_freeze": "Before any new-study GPU data; root reported independent binary built, CPU/reference tests passed, original library git clean.",
+  "workloads": 36,
+  "candidates": 26,
+  "screen_processes": 936,
+  "upstream_commit": "066a17c17068c0f11c9298d848c2976c71fad1c1",
+  "amendment_policy": "Do not edit the frozen design silently. Any correction is a dated amendment retaining this hash and stating whether it occurred before or after new GPU results. Implementation fixes to satisfy the frozen protocol retain source/binary provenance.",
+  "profiler_status": "Planned bounded optional cases; not yet implemented because safe profiler-descendant guard is not ready. No profiler evidence claimed."
+}

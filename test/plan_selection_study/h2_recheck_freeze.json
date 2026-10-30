@@ -1,0 +1,13 @@
+{
+  "schema_version": "plan-selection-independent-h2-freeze/v1",
+  "study_id": "plan_selection_h2_followup_20261028_r1",
+  "frozen_at_utc": "2026-10-28T02:13:28Z",
+  "design_file": "h2_recheck_design.json",
+  "design_sha256": "0382c528887a215d9b0dc2507b8956845c0a0bf1403e5804a26ff88eeb572d52",
+  "primary_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "selection_origin": "Completed primary S1 only; primary S2 is running. The decision agent has not read S2 effects. Candidate, endpoints and directions are fixed now and cannot be changed using S2/S4 results.",
+  "classification": "Separate posthoc S1-selected independent confirmation, prospectively specified before its own data; not an original preregistered headline test.",
+  "authorization": "Root explicitly approved this bounded independent followup under the user's comprehensive research instruction; run only after the original fixed sequence completes.",
+  "budget": {"health_processes_max": 30, "recheck_processes": 60, "total_processes_max": 90, "retries": 0},
+  "amendment_policy": "Retain this design and hash. No silent changes or result-driven pair/endpoint/round substitution. Any correction requires a separate dated record with the data state; do not modify the original study or pool its effects/families with this followup."
+}

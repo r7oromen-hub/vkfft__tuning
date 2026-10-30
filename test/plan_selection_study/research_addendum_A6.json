@@ -1,0 +1,252 @@
+{
+  "schema_version": "plan-selection-engineering-recovery-addendum/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A6_cost_owned_exit_engineering_repair",
+  "created_utc": "2026-10-28T02:40:56Z",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "enabled": true,
+  "decision": "Permit one explicit engineering repair and whole-pair replacement, preserving the original scientific matrix and all raw attempts.",
+  "data_state": "S1 and S2 complete; cost has 21 accepted process rows and one quarantined process, comprising ten complete clean pairs and one interrupted pair. S4 and the separate H2 followup have not started. Recovery is selected solely by the guard identity defect, not cost effect sizes.",
+  "affected_pair": {
+    "workload_id": "n16384_b2048",
+    "round": 1,
+    "original_attempt": 0,
+    "recovery_attempt": 1,
+    "input_seed": 2698601450,
+    "candidate_ids": [
+      "describe-select-cost",
+      "full-search-cost"
+    ],
+    "candidate_order_sha256": "49f9bab0a6343759ffb9d74c449f04d7e5d59717ff62ae46e9c50dbf903ce1bc"
+  },
+  "source_cost_measurements_sha256": "3b78c7c62353f18b41f883e52ff568adca67715621108f7fd925909215b58162",
+  "source_cost_measurements_records": 21,
+  "source_pair_audits_sha256": "390020ce332728ffc0f8978daae4542c33790f46c506a4ff03b9b2a7c223cd90",
+  "source_status_sha256": "80fbc26d5c25ff4ce6ec539e48b1d724a2a31c6e1628089a39836a59b35f44d4",
+  "orphan_record_sha256": "730865a20b6f808755a86f566b4caf796c3a7be63ca07d7bbd522f8f8c92c199",
+  "quarantined_row_sha256": "fb9a8d0fa9f5153619110118531a1fe724e5af0c10700fc1476220693e44637d",
+  "quarantined_guard_run_id": "65fb86d7befa46b8829730cb819ff9d5:8d1736ca0edb410e8be84f61a2c7994d",
+  "original_guard_id": "65fb86d7befa46b8829730cb819ff9d5",
+  "original_guard_log": "guards/cost_01.jsonl",
+  "original_guard_log_sha256": "8b024a5ea0c37aec4248594fa13c3676e9aaf0dc4a33daf32ffcb760eac9be64",
+  "original_guard_incidents_sha256": "4592a63498abe5f1346d477f23ef947df72fce59fe8754baf21dfdf098d31865",
+  "preserved_pair_record_hashes": [
+    {
+      "workload_id": "n1024_b1",
+      "round": 0,
+      "block_attempt": 0,
+      "candidate_ids": [
+        "full-search-cost",
+        "describe-select-cost"
+      ],
+      "record_hashes": [
+        "4085db22f5f39aea7aa0252c119e60fd62bd25adadc9073064944b95fc7aaa62",
+        "1d5e4872230ce463dc64dad651f4ea9cdc59bedf0c057358fe5d99ecec775ddd"
+      ]
+    },
+    {
+      "workload_id": "n16384_b1",
+      "round": 0,
+      "block_attempt": 0,
+      "candidate_ids": [
+        "full-search-cost",
+        "describe-select-cost"
+      ],
+      "record_hashes": [
+        "28200a33074ffe964d0de06ca35ac60182f93d2bad5ea7fc894a5cd6d3b6798d",
+        "9f71bd8fa881e8070f6b48e13327118f0ead94f1e9e6d4eb27771493d27fed85"
+      ]
+    },
+    {
+      "workload_id": "n16384_b2048",
+      "round": 0,
+      "block_attempt": 0,
+      "candidate_ids": [
+        "full-search-cost",
+        "describe-select-cost"
+      ],
+      "record_hashes": [
+        "3366a17c9750cf6dfc8849e882f624fcfbab582e2928e1646106cbcc39d01ffa",
+        "85627efc9e9b324a974ee87f8ad83f77189a544a7d2a4270743a890608c60dc8"
+      ]
+    },
+    {
+      "workload_id": "n49152_b1",
+      "round": 0,
+      "block_attempt": 0,
+      "candidate_ids": [
+        "full-search-cost",
+        "describe-select-cost"
+      ],
+      "record_hashes": [
+        "f8b8dbf243ea69fe2ab2963f15a2efcf146bdc6e16bf7cab7e8f3d73a177b2e2",
+        "f6bd090354c4c6c67c963428d60bac8154424b2b73e6e61758dcee7b8cdc2334"
+      ]
+    },
+    {
+      "workload_id": "n49152_b682",
+      "round": 0,
+      "block_attempt": 0,
+      "candidate_ids": [
+        "full-search-cost",
+        "describe-select-cost"
+      ],
+      "record_hashes": [
+        "a75dd623426467c288144a66d3a71905ae39097596ff003dd9afc687e80fa9b3",
+        "2e5cbb28c84a29a8c0623edb2ecf8a6ef21f345aa50853fc39e0694bfe26e019"
+      ]
+    },
+    {
+      "workload_id": "n655360_b1",
+      "round": 0,
+      "block_attempt": 0,
+      "candidate_ids": [
+        "full-search-cost",
+        "describe-select-cost"
+      ],
+      "record_hashes": [
+        "dd55aa87f3bbfd8055441bb9969c8d9c7b462e0c9eefd18f0ae22d9b9f257f81",
+        "b6c4c4545b9408583cab5d0b720eb8216b791f310c6e4aaebcafc165038419e2"
+      ]
+    },
+    {
+      "workload_id": "n655360_b51",
+      "round": 0,
+      "block_attempt": 0,
+      "candidate_ids": [
+        "full-search-cost",
+        "describe-select-cost"
+      ],
+      "record_hashes": [
+        "ddddfa8b4f73b174b698c5db2b2e7068e9d9d595680d8fcef1d863bf4097ed3f",
+        "446842fdf6a388a9501cb05317314a324c3104a25abd3b1768c757dbe4aed240"
+      ]
+    },
+    {
+      "workload_id": "n1048576_b32",
+      "round": 0,
+      "block_attempt": 0,
+      "candidate_ids": [
+        "full-search-cost",
+        "describe-select-cost"
+      ],
+      "record_hashes": [
+        "9ff67defadb9c4804720f94db83bfe6e7d04a5c2f95f07242ebbf6e5dafd82aa",
+        "239a71b60d57e65d2d1b0499f995d9bc44492e0bef8468ff5b7218d859f53ddd"
+      ]
+    },
+    {
+      "workload_id": "n1024_b1",
+      "round": 1,
+      "block_attempt": 0,
+      "candidate_ids": [
+        "describe-select-cost",
+        "full-search-cost"
+      ],
+      "record_hashes": [
+        "9aedf933f12d4dd99be6aa54d57573d0180c84b94e9c61fa683ada740d5f0570",
+        "65e397351f84367c116c6c3ff5457012270287389f74b1bb86c4fa6734214815"
+      ]
+    },
+    {
+      "workload_id": "n16384_b1",
+      "round": 1,
+      "block_attempt": 0,
+      "candidate_ids": [
+        "describe-select-cost",
+        "full-search-cost"
+      ],
+      "record_hashes": [
+        "c3ced6bd40baf005d73e8086290b87181e9301135a4e2ae28feddb74f76e9100",
+        "98afeab4a72862d533885123a6f777a161721030e45cfedd3cb44e191e9c2a63"
+      ]
+    }
+  ],
+  "evidence": {
+    "registered_identity": {
+      "pid": 2185917,
+      "ppid": 2180499,
+      "start_ticks": 17884438,
+      "exe": "/home/ygb/vkfft_plan_study_20261027_r2/build_instrumented/vkfft_instrumented_benchmark",
+      "registered_utc": "2026-10-28T02:31:51.281888+00:00"
+    },
+    "last_live_exact_owned_utc": "2026-10-28T02:32:06.515041+00:00",
+    "only_bad_sample_utc": "2026-10-28T02:32:07.616300+00:00",
+    "bad_sample": {
+      "pid": 2185917,
+      "process_name": "[No data]",
+      "used_memory_mib": 386,
+      "total_gpu_memory_mib": 1043,
+      "reasons": [
+        "foreign_compute_process"
+      ],
+      "query_wall_seconds": 0.18599174701375887
+    },
+    "quarantined_process_end_utc": "2026-10-28T02:32:07.776631+00:00",
+    "quarantined_status": "ok",
+    "quarantined_returncode": 0,
+    "quarantined_validation_errors": [],
+    "next_clean_no_compute_utc": "2026-10-28T02:32:07.851862+00:00",
+    "guard_samples": 315,
+    "bad_samples": 1,
+    "last_preserved_pair_end_utc": "2026-10-28T02:31:49.388759+00:00",
+    "independent_audit": "All 21 original accepted row hashes and closed per-run guard intervals passed. All ten complete original cost pairs passed audit_pair. The sole bad sample belongs to the interrupted registered child, after all retained complete pairs.",
+    "inference": "Evidence supports an owned-child exit/teardown identity race, with no observed distinct foreign PID. The old log does not contain the basic-stat/poll state at each retry; it does not prove the exact kernel transition and does not justify admitting the quarantined process."
+  },
+  "guard_repair": {
+    "policy": "Retain a kernel pidfd at spawn, revalidate exact PPID/executable/start_ticks, and limit fallback to the current active registered child. Reject any readable identity conflict before consulting an old pidfd. Wait at most one second for positive terminal proof: pidfd readiness with matching or absent proc identity, exact terminal Z/X identity, or reaped child with proc absent. An unresolved or unknown PID is still rejected.",
+    "unchanged": [
+      "2048 MiB total-memory cap",
+      "two-second maximum monitoring query",
+      "exact GPU UUID",
+      "foreign-process rejection",
+      "all numerical/trace/protocol criteria"
+    ],
+    "observability": "Record every bounded identity fallback, its basic stat, pidfd state, elapsed time and final proof; close retained handles. Bind the independently reviewed deployed guard/controller hashes in the recovery admission artifact.",
+    "no_retroactive_admission": true
+  },
+  "ledger": {
+    "original_raw": "cost/measurements.jsonl",
+    "rule": "Append only; preserve the exact original 21-row byte prefix and both original guard logs. Never mutate original row hashes or silently remove the orphan. Preserve the original pair audits/status/controller evidence before derived artifacts are updated.",
+    "accepted_pairs_file": "cost/accepted_pairs.json",
+    "accepted_pair_schema": "24 entries, each containing workload_id, round, block_attempt, candidate_ids in original paired mode order, record_hashes in that same order, and recomputed quality. The unique 48 selected rows form the cost-analysis matrix.",
+    "accepted_pair_policy": "The ten enumerated original complete pairs retain attempt 0 and the exact two hashes above. The affected n16384_b2048 round 1 uses only two new attempt-1 rows. All thirteen other unstarted original pairs use attempt 0. No pair mixes attempts; all original per-round candidate schedules, seeds, modes and selected IDs remain fixed.",
+    "excluded": "The original accepted describe orphan is retained as engineering-only evidence. The quarantined full process remains quarantined. Neither contributes cost estimates, primary effects, or an accepted pair.",
+    "attempt_history": "Keep an explicit immutable admission record, original snapshots and pair-attempt history. Offline reports distinguish raw accepted attempts, quarantine, selected scientific rows, engineering exclusions and physical process count."
+  },
+  "max_new_processes": 28,
+  "physical_cap": 50,
+  "accepted48": 48,
+  "raw49": 49,
+  "no_new_health": true,
+  "budgets": {
+    "original_scientific_pairs": 24,
+    "original_scientific_pipeline_rows": 48,
+    "previously_launched_processes": 22,
+    "new_processes_max": 28,
+    "physical_pipeline_processes_max": 50,
+    "final_raw_accepted_rows": 49,
+    "final_quarantined_rows": 1,
+    "replaced_engineering_processes": 2,
+    "plan_constructions_or_descriptions_max": 1325,
+    "recovery_sessions_max": 1,
+    "additional_health_processes": 0
+  },
+  "resumption": {
+    "require_explicit_cli_admission": true,
+    "new_guard_quiet_start_seconds": 30,
+    "same_verified_binary": true,
+    "same_fixed_UUID": true,
+    "no_new_calibration": true,
+    "resource_health_budget": "This is one identified engineering repair. It neither spends nor extends A2 health-gate recovery; no additional health process is authorized.",
+    "stop": "Any repeated engineering defect, resource/monitoring incident, protocol failure or other defined stop ends this recovery. No automatic second replacement, second recovery session or extra health gate is authorized."
+  },
+  "prior_guard_exception": "Only the twenty explicitly enumerated clean completed row hashes may survive the later exact A6 guard abort. Reaudit their closed intervals and the exact original immutable log/hash. This does not mark the old guard session complete, waive its incident, admit the orphan or quarantine, or allow arbitrary aborted sessions. All new selected rows require a clean completed new guard session.",
+  "scientific_scope_unchanged": [
+    "Original workloads, 26 candidate requests and all selection rules",
+    "Original S2/S4 directions, families, effects and statistical thresholds",
+    "Original H3 eight workloads, three paired rounds and candidate ordering",
+    "Independent H2 pair, endpoints, family, 90-process budget and zero retries"
+  ],
+  "authorization": "Root explicitly approved this precise append-ledger and accepted-pair repair under the existing user authorization. No new scientific experiment is introduced."
+}

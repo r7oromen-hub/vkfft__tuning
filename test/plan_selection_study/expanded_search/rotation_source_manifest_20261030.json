@@ -1,0 +1,18 @@
+{
+  "schema": "rotation-source-freeze/v1",
+  "scope": "local source only; CUDA build and GPU tests pending",
+  "sha256": {
+    "CMakeLists_rotation.txt": "c18822e5eb7c7da66dc4f768d9d32f97262510495f23d23186a2e2762191c4ca",
+    "ROTATION.md": "8c53000ad437addc1b229405ef982cccac4c832fe5e943e8ef6a4e5c96c03b17",
+    "prepare_rotation.py": "b32c619ea8f8da51080a677b9ef3f1db94d83ad6da3fe609c6c1fc34d06fae20",
+    "rotation_controller.py": "d439706f8a704d5698ef9b6ad5139c747d2afd9004b161ca50431880dfca138c",
+    "rotation_cpu/CMakeLists.txt": "34de91013b041c7d2fe42ea0dd9eb8dc2d853c1168c4e3ad84576af07c76648d",
+    "rotation_evidence.py": "4b6911f678f54162bc33d48b18f247d2d1ee102934215fc2576a6ea760eb65a3",
+    "rotation_gpu_guard.py": "8fa00aaaff98490488a82320843eafc824e9b0078cd12550c72f83677025ea5e",
+    "rotation_pool.hpp": "68afe6bcfa91d628636b49ffb100da912b7e5bbc02dbcd931e54de8fa0f12e4a",
+    "rotation_runner.py": "d4732dd5d7bb2794b74306c373816d3530c54bcc0f09e031655818201aa87c56",
+    "test_rotation_controller.py": "6afcfa8b89ffda9e7eb24220abcf17a6200fea3281fbdffc4d04e0f9b593f2d5",
+    "test_rotation_generation.py": "c97d7483fe6d519069a735f13401493663f11c5005e2460f3a22a61b906d7951",
+    "test_rotation_pool.cpp": "27835b8d844f17804978143db3c7b2c22b49e59e17fedc6126be9cc7873b30da"
+  }
+}

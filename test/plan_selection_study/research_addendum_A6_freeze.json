@@ -1,0 +1,10 @@
+{
+  "schema_version": "plan-selection-study-addendum-freeze/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A6_cost_owned_exit_engineering_repair",
+  "frozen_at_utc": "2026-10-28T02:40:56Z",
+  "addendum_file": "research_addendum_A6.json",
+  "addendum_sha256": "aea6c6f006dd993d30983b37ec285aa8a214c1da9ef181bcde60c9ba52a035d6",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "status": "frozen_before_any_recovery_process"
+}

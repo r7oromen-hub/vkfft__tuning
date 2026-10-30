@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "declared_utc": "2026-10-27T09:19:06Z",
+  "analysis_rules_locked_utc": "2026-10-27T09:32:17Z",
+  "declaration_context": "Rules supplied by Astra before complete main screening/confirmation results; no main tuning-performance or model conclusions have been inspected by this tool's author.",
+  "review_context": "Astra reviewed and hardened these independent tools before main completion and before inspecting performance rankings: preserve actual GPU and candidate settings, validate paired input seeds, reject malformed/duplicate follow-up records, exclude controls in both directions, and treat floating-point-only spread as zero variance. Selection objectives, frozen R, ten rounds and benefit thresholds remain unchanged.",
+  "purpose": "Independent append-only checks of predeclared representative findings; never replace the main experiment or its data.",
+  "maximum_distinct_workloads": 6,
+  "selection_order": [
+    "1. Highest independently confirmed speedup among nondefault main-screen selections.",
+    "2. Highest confirmed speedup with a different N and changed upload count, stage radix, localSize or axisBlock versus default; prefer a different odd-part family from case 1. LUT-only or other fine-field changes do not qualify.",
+    "3. One screen rank-crossover pair: the same two candidates trade wins across two workloads with both directional ratios >=1.05. Prefer identical N and different B. Maximize the weaker directional ratio. This consumes two workload slots.",
+    "4. Worst confirmed nondefault main-screen selection. If no regression exists, label it weakest observed gain.",
+    "5. A workload where default is fastest (including ties) in screen, selecting the median after numeric (N,B) ordering; target its strongest nondefault competitor. If absent, choose the confirmed speedup minimizing abs(speedup-1)."
+  ],
+  "deduplication": "Merge reasons and required candidates for an already selected (N,B); do not add filler workloads. A crossover pair is added atomically only if its union fits the six-workload cap.",
+  "family_definition": "Odd part of N after removing powers of 2.",
+  "tie_breaking": "For equal objectives use numeric N, numeric B, then lexical candidate ID. Crossover ties use sorted workload keys and lexical candidate pair. The median default-fastest representative uses the lower median for even counts.",
+  "completeness_gate": "Require every planned screen candidate attempt to be present, a valid default and at least one valid candidate per workload, and three valid paired confirmation rounds (0,1,2) for default and the main-screen winner plus any deterministic exact-match default control. Failed screen candidates remain recorded and cannot participate in a selection/crossover.",
+  "confirmation_score": "Geometric mean of the three paired per-round default/selected median-device-time ratios; a default-selected workload has score 1.",
+  "crossover_definition": "For sorted candidate IDs A,B, tB/tA >=1.05 in one workload and tA/tB >=1.05 in the other. Workloads must differ. Each side uses screen medians only. Select globally over all valid shared candidate pairs, not only main winners.",
+  "case_candidates": "Always include default, all target candidates needed by merged reasons, and one explicit control matching both resolved_config and structural_features of default. Prefer a128_r1_l-1 for the control, else lexical first. Crossover cases include both crossing candidates. A selected case missing an exact control causes a planning error, never substitution with a nonmatching candidate.",
+  "append_protocol": {
+    "rounds": 10,
+    "warmup": 5,
+    "warmup_ms": 1000,
+    "repeats": 101,
+    "timing_mode": "graph",
+    "placement": "outofplace",
+    "graph_repeats": "Use each workload's frozen main graph_repeats.json value, crosschecked against all successful main records; never recalibrate.",
+    "seed_base": 2026102900,
+    "case_seed": "seed_base + numeric case index starting at 1; fixed independently from main seed",
+    "execution": "Sequential controlled_recheck.py invocations; one fresh output directory per distinct workload; pin CUDA_VISIBLE_DEVICES to the single verified actual main GPU UUID and verify it again in every result; no GPU work is started by selection tooling."
+  },
+  "analysis": {
+    "unit": "Each fresh process contributes its sample median; form paired log(reference_time/target_time) within each round. Validate the common round input seed against the runner's deterministic seed derivation.",
+    "rounds": "Exactly 10 rounds, fixed in advance; reject duplicate process keys and malformed completed records rather than silently selecting the last attempt; do not append rounds based on significance.",
+    "interval": "Ordinary two-sided 95% paired-log Student t interval, exponentiated to ratio scale, reporting finite-round approximate assumptions.",
+    "test": "One-sided t test H0 mean log speedup <= log(1.02), followed by Holm adjustment at family alpha 0.05.",
+    "comparison_family": "Deduplicated target versus default comparisons for selected cases and both predeclared crossover directions. Explicit matching-control/default comparisons in either direction are diagnostics, excluded from benefit tests, even if an ID is also a screen-selected target.",
+    "zero_variance": "Report ratios and descriptive range, but no t interval/p-value or inferential success; never infinite significance. Log-ratio spread at most 16*float64_epsilon*max(1,max(abs(log_ratios))) is arithmetic-only spread and receives the same treatment.",
+    "clear_gain_rule": "Geometric mean >=1.05 AND Holm-adjusted one-sided test rejects the <=2% null. A crossover claim requires both directional comparisons to satisfy this rule.",
+    "default_case": "Nonsignificance does not establish equivalence or global optimality.",
+    "model_scope": "Main model results remain offline screen cross-validation; six targeted cases are not independent model validation."
+  },
+  "interpretation": "Selection deliberately targets representative/extreme cases and is not an unbiased aggregate performance estimate. Additional checks use new seeds and fresh processes, without merging historical measurements. Recorded descriptor equality is not proof of identical generated code."
+}

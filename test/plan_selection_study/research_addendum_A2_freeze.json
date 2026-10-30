@@ -1,0 +1,12 @@
+{
+  "schema_version": "plan-selection-study-addendum-freeze/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A2_bounded_resource_resume_20261028",
+  "frozen_at_utc": "2026-10-28T00:17:22Z",
+  "addendum_file": "research_addendum_A2.json",
+  "addendum_sha256": "67c7c5b9eac4bb9a031e4ef41bcb7351a9511eb7d6908edc7e3386c32cb29f0e",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "phase_at_freeze": "Before the 2026-10-28 resumed health gate and before any S1 primary measurement; root verified the frozen GPU is currently idle and both executable hashes match the recorded versions.",
+  "approval": "Root accepted the finite A2 resource-recovery rules under the user's explicit 2026-10-28 continuation instruction.",
+  "amendment_policy": "Retain this file and hash. Any change requires a new dated amendment and an explicit data-state statement."
+}

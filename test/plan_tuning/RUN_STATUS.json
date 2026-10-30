@@ -1,0 +1,51 @@
+{
+  "status": "stopped_at_user_request_stage_summary",
+  "scope": "CUDA FP32 smooth-235 1D C2C forward, out-of-place repeated CUDA graph",
+  "remote_host": "222.199.197.22",
+  "remote_user": "ygb",
+  "remote_directory_current": "/home/ygb/vkfft_plan_tuning_20261027",
+  "remote_directory_after_completion": null,
+  "physical_gpu_index": 1,
+  "gpu_uuid": "GPU-fb86b36f-0a9f-6cbd-a36b-03b9073f4786",
+  "gpu_name": "NVIDIA GeForce RTX 4090",
+  "remote_runner_pid": null,
+  "main_output_relative": "results/full_outofplace_graph_v2",
+  "main_log_relative": "results/full.log",
+  "measured_binary_relative": "build/vkfft_plan_benchmark",
+  "measured_binary_sha256": "09dd69b59b8fe54b4d00f25029a85f058d371ce81155da27a3d084ae1e0b5eaf",
+  "upstream_commit": "066a17c17068c0f11c9298d848c2976c71fad1c1",
+  "planned_workloads": 48,
+  "candidates_per_workload": 19,
+  "warmup_ms": 1000,
+  "screen_samples": 31,
+  "confirmation_samples": 101,
+  "confirmation_process_rounds": 3,
+  "completed_validation": {
+    "initial_inplace_pilot": "114/114 passed original pointwise criterion",
+    "cpu_reference_tests": "direct DFT and FFTW passed",
+    "analytic_gpu_probes": "64/64 passed criterion_v2 and immutable-input checks",
+    "graph_negative_controls_100ms": "60/60 numerically valid; occasional 8% process shifts",
+    "graph_negative_controls_1000ms": "40/40 numerically valid; maximum paired deviation 1.27%"
+  },
+  "pending": [
+    "Deferred at user request: environmental timing repair, complete independent confirmation, and headline checks"
+  ],
+  "rename_completed": true,
+  "screen_records_at_rename": 116,
+  "screen_numerically_valid": 912,
+  "runner_stop_utc": "2026-10-27T09:52:48Z",
+  "timing_anomaly": "Five exact default-equivalent control ratios were outside 5%; abnormal late rows coincided with roughly 10-11 GiB extra GPU1 memory and high utilization. Timing conclusions withheld pending objective contamination audit and repair.",
+  "remote_telemetry_pid": null,
+  "screen_records_marked_for_timing_contamination": 61,
+  "unmarked_screen_records": 851,
+  "complete_unmarked_workloads": 11,
+  "confirmation_records": 91,
+  "complete_three_round_confirmation_workloads": 0,
+  "repair_started": false,
+  "headline_checks_started": false,
+  "stage_report": "plan_selection_findings_zh.md",
+  "draft_only_files": [
+    "gpu_guard.py",
+    "repair_design.json"
+  ]
+}

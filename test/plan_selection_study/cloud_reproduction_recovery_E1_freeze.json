@@ -1,0 +1,14 @@
+{
+  "schema_version": "cloud-reproduction-monitor-recovery-freeze/v1",
+  "recovery_id": "plan_selection_cloud_reproduction_20261028_recovery1",
+  "study_id": "plan_selection_cloud_reproduction_20261028_r1",
+  "frozen_at_utc": "2026-10-28T04:14:45Z",
+  "admission_file": "cloud_reproduction_recovery_E1.json",
+  "admission_sha256": "aaddd405f782709de09c85048719db98aba4d198737aadce315d45163dca64ae",
+  "primary_design_sha256": "6394ca299dfe5c6af8a9c703669c28716bc59afc22571f24c3badc988b17ede7",
+  "total_actual_processes_max": 369,
+  "future_processes_max": 178,
+  "automatic_retries": 0,
+  "data_state": "The fixed cloud execution had101 persisted successful rows and one guard-terminated quarantined process. No H1/H2 contrast estimates were inspected to choose recovery scope, candidates, directions or rounds. Cost and real-data H4 have not run. Audit read numerical/trace/quality/provenance evidence without outcome-driven reselection.",
+  "amendment_policy": "Preserve these bytes. No extension, new candidates, new model, extra retry or timing-based substitutions follow from this record."
+}

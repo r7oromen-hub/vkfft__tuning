@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "upstream_commit": "066a17c17068c0f11c9298d848c2976c71fad1c1",
+  "upstream_unchanged": true,
+  "implementation_status": "v1 frozen for guarded S0 GPU acceptance; no new performance claims",
+  "baseline_harness": {
+    "path": "test/plan_tuning/vkfft_plan_benchmark.cpp",
+    "sha256": "05ed30faae710fc8d0605fd1a6cd2a4e20e42ca114aa546d8d6e6bcb808d94ca"
+  },
+  "copied_cpu_reference": {
+    "path": "test/plan_tuning/cpu_reference.hpp",
+    "sha256": "9680ac4918ad1885e3be3a4aa6e01cf946037a39015242f307464177b11ddc65"
+  },
+  "generated_header_manifest": "build_instrumented/generated/header_provenance.json",
+  "files": {
+    "CMakeLists.txt": "8f6dd6e2e452ee267eeabe3f755f92724effdd2ee3f570812d8f6c6e75650fba",
+    "prepare_headers.py": "7fc0499723113c2dc8dfdbf6dd5467dab968e41191dabfd090f990dd38842694",
+    "trace.hpp": "dac46e2f12162c777e8b6045875272721e950c9401be1cc465e1ea887abd8c7c",
+    "vkfft_instrumented_benchmark.cpp": "ed5215f9885bb7cc72eeecab6c1fc611b3e99e36f8a1238481597547ff2bb62e",
+    "cpu_reference.hpp": "9680ac4918ad1885e3be3a4aa6e01cf946037a39015242f307464177b11ddc65",
+    "test_reference.cpp": "d6084024d491b45444c1c46646a54140c61a28b67c83a8d96fc386a547cf3b71",
+    "test_reference_fftw.cpp": "d8fb3ba5f812b3ee0927a3f6f3abf12936697d264bee4bcc26ad7d0b1a541e84",
+    "test_trace.cpp": "eeb0a6d3aa504792fab6008538f82b0e18a268078ca52b0ac66d824d51914582",
+    "README.md": "75fbcb54bc84b2bbda8e0535a7842724193391aa83144b4bc5058b50ea35e225"
+  }
+}

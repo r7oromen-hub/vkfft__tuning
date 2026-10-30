@@ -1,0 +1,78 @@
+{
+  "schema_version": "plan-selection-study-candidate-fault-decision/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "decision_id": "D5_single_forward_candidate_execution_invalid",
+  "decision_utc": "2026-10-28T00:42:13Z",
+  "design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "addendum_file": "research_addendum_A5.json",
+  "addendum_sha256": "8d0f0dd90d74bf2847389e26897e01eccbfd31e148f43bf09f1f6927f455c41e",
+  "decision": "enable_candidate_local_execution_invalid_classification",
+  "enabled": true,
+  "original_semantic_fault_record_sha256": "bc716916b4eee0df33c85046012735b50e53e65993f14baecba54388d31a21f4",
+  "diagnostic_record_hashes": [
+    "827d0234bfc18f96f782ad90c5fe70af766a6c28fa78720636674ac76b250bb1",
+    "5a9d9e47d264786871728be040106fa1d595b09c7333349470945d2901a9e35c",
+    "1135de8e70dc92686ae59159a870132f68fe2570c58e0d01604006f377c14c5b",
+    "b9042b7c9407b009dc62774b7b78d5472fa2c34c7333ea3f512471d42280bc75"
+  ],
+  "data_state": "Zero S1 primary measurements. Four of four fixed A5 diagnostic processes completed; no diagnostic expansion.",
+  "exact_semantic_invalid_cells": [
+    {
+      "workload_id": "n16384_b1",
+      "candidate_id": "a128_r4_l1_np1_s2_8192",
+      "pattern": "zero",
+      "source_record_sha256": "bc716916b4eee0df33c85046012735b50e53e65993f14baecba54388d31a21f4",
+      "failure_phase": "single_forward_validation",
+      "error": "synchronize one-forward validation: an illegal memory access was encountered",
+      "selection_eligible": false
+    }
+  ],
+  "independent_evidence_audit": {
+    "original_failure_row_hash_valid": true,
+    "original_failure_guard": "Three linked before/during/after samples pass independent re-audit. The original semantic session has zero bad GPU samples; its wrapper incident is only the controller's StudyStop exception.",
+    "diagnostic_all_four_row_hashes_valid": true,
+    "diagnostic_all_four_guard_audits_pass": true,
+    "diagnostic_guard_id": "a55ed564086d43568aae55c19829a978",
+    "diagnostic_guard_completed_successfully": true,
+    "diagnostic_bad_gpu_samples": 0,
+    "workload_and_input_equal": "N=16384, batch=1, zero pattern, seed=2235648248, graph_repeats=16, one sample, zero warmup; each input/output buffer is 131072 bytes.",
+    "default_controls": "Both plain and instrumented defaults return zero, pass one-forward and repeated-graph full-output correctness, and preserve input bitwise.",
+    "candidate_reproduction": "Both plain and instrumented suspect candidates return one with the same single-forward illegal-memory-access message after initialization; no correctness output or graph timing is fabricated for either failure.",
+    "canonical_equal_for_both_pairs": true,
+    "ordered_source_equal_for_both_pairs": true,
+    "requested_configuration_equal_for_both_pairs": true,
+    "compiler_common_projection_equal_for_both_pairs": true,
+    "compiler_projection_fields": ["source_sha256", "options", "function", "original_compile_header_sha256"],
+    "instrumented_actual_options_match_plain_expected_options": true,
+    "plain_actual_compiler_options": null,
+    "compiler_observation_limit": "Whole compiler-input metadata objects are intentionally not identical: plain does not observe actual options/backend/binary-kind/architecture metadata and uses a different provenance label. Only the common expected-input projection is compared. No missing plain observations are invented.",
+    "default_ordered_source_hashes": [
+      "a9d01091972622269237a0dca9eececcb9fdf8d506e289fc0f42f223ea17f546",
+      "f87e24d32aaf11876b7ba7d8ca3b70bcc910dfa799ae2ff419386a54f1d0fd4d"
+    ],
+    "candidate_ordered_source_hashes": [
+      "4a515aae12bf837b518e32ed9a5e4c023a7abe4abdab49f8dfb5dddcf0f9ded6",
+      "83609d6a3278c934ffc3201b994830736256a4fcf33eba4d44591300d964a91a"
+    ],
+    "candidate_source_matches_original_failed_probe": true,
+    "diagnostic_record_sha256": {
+      "instrumented_default": "827d0234bfc18f96f782ad90c5fe70af766a6c28fa78720636674ac76b250bb1",
+      "plain_default": "5a9d9e47d264786871728be040106fa1d595b09c7333349470945d2901a9e35c",
+      "instrumented_candidate": "1135de8e70dc92686ae59159a870132f68fe2570c58e0d01604006f377c14c5b",
+      "plain_candidate": "b9042b7c9407b009dc62774b7b78d5472fa2c34c7333ea3f512471d42280bc75"
+    }
+  },
+  "source_files": {
+    "results/resume_20261028_attempt2/semantics/measurements.jsonl": "d382cbdb958b7e1f75d22302a5e2cd610ac3570dbdef2f88b249acc0b1023b7d",
+    "results/resume_20261028_attempt2/guards/semantics_01.jsonl": "6ef40f5ef5f7a8d21160cdbd5eb6d002f3fb7c0a9ab00d9d8f5bd4dd1f2505b2",
+    "results/resume_20261028_attempt2/health/gate.json": "f28af68fe9e078074097111e99080e3ea86af6112b8ed202edbfebcabee6c6c9",
+    "results/candidate_diagnostic_20261028/manifest.json": "ed965250efee8129f726672db3646cd6e15a2e2e57966318214a95719490813f",
+    "results/candidate_diagnostic_20261028/candidate_diagnostic/diagnostic_manifest.json": "24a217dbab3bace1fac8afaec2356f12074f9c78b1c9e590441ac8d2da1b1f9f",
+    "results/candidate_diagnostic_20261028/candidate_diagnostic/measurements.jsonl": "93dbbd66b80bc925b2d916d8fb2ebd5fa7307717644844b628891d15815860ee",
+    "results/candidate_diagnostic_20261028/guards/candidate_diagnostic_01.jsonl": "60c0ecb5ffdbc47f8d1196e3ac40824d95214b574513cc764188e908541f51ff",
+    "results/candidate_diagnostic_20261028/guards/candidate_diagnostic_01_incidents.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "permitted_continuation": "Implement the candidate-local branch in A5 and complete the remaining 45 original semantic probes. Preserve the failed nineteenth record. Continue the unchanged S1 matrix with explicit invalid cells and isolated processes; keep all fatal protocol/default/reference/trace/graph/identity rules.",
+  "health_decision": "The completed 30-process health gate remains applicable: neither original failure nor diagnostic involved a bad GPU guard sample, and both fresh diagnostic defaults passed. This grants no new health gate and no recovery budget.",
+  "claim_limit": "This establishes execution-ineligibility for the observed candidate/workload under the declared task and reproduces the failure with original headers. It does not identify the memory fault's root cause, prove an upstream-only bug, or establish that describe-only can certify candidate correctness."
+}

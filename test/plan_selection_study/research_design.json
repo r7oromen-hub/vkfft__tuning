@@ -1,0 +1,1176 @@
+{
+  "schema_version": "plan-selection-study-design/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "status": "preregistered_before_new_performance_data",
+  "created_date": "2026-10-27",
+  "legacy_data_policy": "All earlier plan_tuning measurements are pilot evidence only. No old timings, confirmation rounds, or labels enter this study's estimators, models, or headline evidence.",
+  "source": {
+    "vkfft_commit": "066a17c17068c0f11c9298d848c2976c71fad1c1",
+    "version": "1.3.4",
+    "upstream_unchanged": true,
+    "instrumentation": "Generated independent header overrides and a separate harness; record original and generated source hashes, patch manifest, binary SHA256."
+  },
+  "scope": {
+    "backend": "CUDA",
+    "precision": "FP32",
+    "dimensions": 1,
+    "transform": "C2C forward unnormalized",
+    "placement": "out_of_place",
+    "output_order": "natural",
+    "input": "immutable contiguous",
+    "stream_count": 1,
+    "supported_factors": [
+      2,
+      3,
+      5
+    ],
+    "max_n": 1048576,
+    "max_input_bytes": 268435456,
+    "device_uuid": "GPU-fb86b36f-0a9f-6cbd-a36b-03b9073f4786",
+    "hardware_caps": "Query the selected real device; do not override thread/shared-memory/warp caps or use fake pointers.",
+    "excluded": [
+      "R2C",
+      "multidimensional",
+      "inverse",
+      "convolution",
+      "Rader",
+      "Bluestein",
+      "callbacks",
+      "custom strides/offsets",
+      "disableReorderFourStep=1",
+      "registerBoost4Step tuning",
+      "model-driven online execution policy"
+    ]
+  },
+  "questions": [
+    {
+      "id": "H1",
+      "priority": "primary",
+      "question": "For the declared legal tested candidates, where and by how much does the library default lose?",
+      "evidence": "Complete screening matrix plus frozen screen selections independently remeasured; report no improvement, regressions, and failures.",
+      "nonclaim": "The fastest tested candidate is not a global algorithmic oracle."
+    },
+    {
+      "id": "H2",
+      "priority": "primary",
+      "question": "Which requested controls change actual structures, and do the same candidate IDs change rank with N or batch?",
+      "evidence": "Requested/resolved/core-structure/source-compiler fingerprints; predetermined same-candidate batch contrasts; independently confirmed crossovers.",
+      "nonclaim": "Descriptor equality does not prove identical kernels; a structural association alone does not identify a single causal mechanism."
+    },
+    {
+      "id": "H3",
+      "priority": "primary",
+      "question": "What do planning, resource preparation, code generation, compilation and loading cost, and can all tested smooth-1D structures actually be obtained without compilation?",
+      "evidence": "Nested timing spans; actual describe-only counter checks and full-build equivalence; same-context construction pipelines with cleanup.",
+      "nonclaim": "A compile-time snapshot is not a plan-only implementation; known-winner construction is not a deployed learned selector."
+    },
+    {
+      "id": "H4",
+      "priority": "auxiliary",
+      "question": "Do precompile structural features help select candidates across held-out N in this small domain?",
+      "evidence": "Fixed model and feature ablations with grouped held-out N; selection regret and default-relative performance.",
+      "nonclaim": "Learning results cannot replace H1-H3 or establish cross-GPU/general FFT generalization."
+    }
+  ],
+  "design_rationale": {
+    "workloads": "Fixed length families and both single/large batches, with four intermediate batches around relevant stage boundaries. No N is added after seeing performance.",
+    "candidate_policy": "Fixed stratified contrasts of legal implementation controls. All 26 requests run on all 36 workloads, even when a setting folds to another plan; no timing-based pruning.",
+    "coalesced_memory": "A documented user-overridable scheduling hint, varied only over safe positive multiples of complex element size; queried device caps remain unchanged.",
+    "reorder_exclusion": "API guide states disableReorderFourStep omits the final transpose; including it would change the natural-order task.",
+    "forced_pass_thresholds": "The 8192 and 65536 values are implementation-policy thresholds, not fabricated hardware limits; below a threshold the request may collapse to default.",
+    "coverage_limit": "26 controls are a bounded tested set, not exhaustive coverage of VkFFT's design space. Report actual unique source/core classes and any uncovered dimensions."
+  },
+  "workloads": [
+    {
+      "id": "n256_b1",
+      "n": 256,
+      "batch": 1,
+      "input_bytes": 2048,
+      "role": "single"
+    },
+    {
+      "id": "n256_b131072",
+      "n": 256,
+      "batch": 131072,
+      "input_bytes": 268435456,
+      "role": "large_batch"
+    },
+    {
+      "id": "n1024_b1",
+      "n": 1024,
+      "batch": 1,
+      "input_bytes": 8192,
+      "role": "single"
+    },
+    {
+      "id": "n1024_b32768",
+      "n": 1024,
+      "batch": 32768,
+      "input_bytes": 268435456,
+      "role": "large_batch"
+    },
+    {
+      "id": "n8192_b1",
+      "n": 8192,
+      "batch": 1,
+      "input_bytes": 65536,
+      "role": "single"
+    },
+    {
+      "id": "n8192_b4096",
+      "n": 8192,
+      "batch": 4096,
+      "input_bytes": 268435456,
+      "role": "large_batch"
+    },
+    {
+      "id": "n12288_b1",
+      "n": 12288,
+      "batch": 1,
+      "input_bytes": 98304,
+      "role": "single"
+    },
+    {
+      "id": "n12288_b16",
+      "n": 12288,
+      "batch": 16,
+      "input_bytes": 1572864,
+      "role": "boundary_mid_batch"
+    },
+    {
+      "id": "n12288_b2730",
+      "n": 12288,
+      "batch": 2730,
+      "input_bytes": 268369920,
+      "role": "large_batch"
+    },
+    {
+      "id": "n16384_b1",
+      "n": 16384,
+      "batch": 1,
+      "input_bytes": 131072,
+      "role": "single"
+    },
+    {
+      "id": "n16384_b16",
+      "n": 16384,
+      "batch": 16,
+      "input_bytes": 2097152,
+      "role": "boundary_mid_batch"
+    },
+    {
+      "id": "n16384_b2048",
+      "n": 16384,
+      "batch": 2048,
+      "input_bytes": 268435456,
+      "role": "large_batch"
+    },
+    {
+      "id": "n20480_b1",
+      "n": 20480,
+      "batch": 1,
+      "input_bytes": 163840,
+      "role": "single"
+    },
+    {
+      "id": "n20480_b16",
+      "n": 20480,
+      "batch": 16,
+      "input_bytes": 2621440,
+      "role": "boundary_mid_batch"
+    },
+    {
+      "id": "n20480_b1638",
+      "n": 20480,
+      "batch": 1638,
+      "input_bytes": 268369920,
+      "role": "large_batch"
+    },
+    {
+      "id": "n32768_b1",
+      "n": 32768,
+      "batch": 1,
+      "input_bytes": 262144,
+      "role": "single"
+    },
+    {
+      "id": "n32768_b1024",
+      "n": 32768,
+      "batch": 1024,
+      "input_bytes": 268435456,
+      "role": "large_batch"
+    },
+    {
+      "id": "n49152_b1",
+      "n": 49152,
+      "batch": 1,
+      "input_bytes": 393216,
+      "role": "single"
+    },
+    {
+      "id": "n49152_b682",
+      "n": 49152,
+      "batch": 682,
+      "input_bytes": 268173312,
+      "role": "large_batch"
+    },
+    {
+      "id": "n65536_b1",
+      "n": 65536,
+      "batch": 1,
+      "input_bytes": 524288,
+      "role": "single"
+    },
+    {
+      "id": "n65536_b16",
+      "n": 65536,
+      "batch": 16,
+      "input_bytes": 8388608,
+      "role": "boundary_mid_batch"
+    },
+    {
+      "id": "n65536_b512",
+      "n": 65536,
+      "batch": 512,
+      "input_bytes": 268435456,
+      "role": "large_batch"
+    },
+    {
+      "id": "n81920_b1",
+      "n": 81920,
+      "batch": 1,
+      "input_bytes": 655360,
+      "role": "single"
+    },
+    {
+      "id": "n81920_b409",
+      "n": 81920,
+      "batch": 409,
+      "input_bytes": 268042240,
+      "role": "large_batch"
+    },
+    {
+      "id": "n131072_b1",
+      "n": 131072,
+      "batch": 1,
+      "input_bytes": 1048576,
+      "role": "single"
+    },
+    {
+      "id": "n131072_b256",
+      "n": 131072,
+      "batch": 256,
+      "input_bytes": 268435456,
+      "role": "large_batch"
+    },
+    {
+      "id": "n196608_b1",
+      "n": 196608,
+      "batch": 1,
+      "input_bytes": 1572864,
+      "role": "single"
+    },
+    {
+      "id": "n196608_b170",
+      "n": 196608,
+      "batch": 170,
+      "input_bytes": 267386880,
+      "role": "large_batch"
+    },
+    {
+      "id": "n262144_b1",
+      "n": 262144,
+      "batch": 1,
+      "input_bytes": 2097152,
+      "role": "single"
+    },
+    {
+      "id": "n262144_b128",
+      "n": 262144,
+      "batch": 128,
+      "input_bytes": 268435456,
+      "role": "large_batch"
+    },
+    {
+      "id": "n655360_b1",
+      "n": 655360,
+      "batch": 1,
+      "input_bytes": 5242880,
+      "role": "single"
+    },
+    {
+      "id": "n655360_b51",
+      "n": 655360,
+      "batch": 51,
+      "input_bytes": 267386880,
+      "role": "large_batch"
+    },
+    {
+      "id": "n786432_b1",
+      "n": 786432,
+      "batch": 1,
+      "input_bytes": 6291456,
+      "role": "single"
+    },
+    {
+      "id": "n786432_b42",
+      "n": 786432,
+      "batch": 42,
+      "input_bytes": 264241152,
+      "role": "large_batch"
+    },
+    {
+      "id": "n1048576_b1",
+      "n": 1048576,
+      "batch": 1,
+      "input_bytes": 8388608,
+      "role": "single"
+    },
+    {
+      "id": "n1048576_b32",
+      "n": 1048576,
+      "batch": 32,
+      "input_bytes": 268435456,
+      "role": "large_batch"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "default",
+      "role": "default",
+      "aim_threads": 0,
+      "register_boost": 0,
+      "use_lut": 0,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "default_replica",
+      "role": "negative_control",
+      "aim_threads": 0,
+      "register_boost": 0,
+      "use_lut": 0,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a64_r1_lm1",
+      "role": "search",
+      "aim_threads": 64,
+      "register_boost": 1,
+      "use_lut": -1,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r1_lm1",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 1,
+      "use_lut": -1,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a256_r1_lm1",
+      "role": "search",
+      "aim_threads": 256,
+      "register_boost": 1,
+      "use_lut": -1,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r2_lm1_np1",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 2,
+      "use_lut": -1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r2_l1_np1",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 2,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_lm1_np1",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": -1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_l1_np1",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a64_r4_l1_np1",
+      "role": "search",
+      "aim_threads": 64,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a256_r4_l1_np1",
+      "role": "search",
+      "aim_threads": 256,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r1_l1",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 1,
+      "use_lut": 1,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_l1_np0",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_l1_np1_c16",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 16,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_l1_np1_c64",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 64,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_l1_np1_c128",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 128,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r1_lm1_c16",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 1,
+      "use_lut": -1,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 16,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r1_lm1_c64",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 1,
+      "use_lut": -1,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 64,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r1_lm1_c128",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 1,
+      "use_lut": -1,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 128,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_l1_np1_l4m1",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": -1,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r1_l1_l4m1",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 1,
+      "use_lut": 1,
+      "register_boost_nonpow2": 0,
+      "coalesced_memory": 0,
+      "use_lut_4step": -1,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_l1_np1_s2_8192",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 8192,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_lm1_np1_s2_8192",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": -1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 8192,
+      "swap_to_3stage": 0,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_l1_np1_s3_65536",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 65536,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_lm1_np1_s3_65536",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": -1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 0,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 65536,
+      "disable_reorder_four_step": 0
+    },
+    {
+      "id": "a128_r4_l1_np1_c64_s3_65536",
+      "role": "search",
+      "aim_threads": 128,
+      "register_boost": 4,
+      "use_lut": 1,
+      "register_boost_nonpow2": 1,
+      "coalesced_memory": 64,
+      "use_lut_4step": 0,
+      "swap_to_2stage": 0,
+      "swap_to_3stage": 65536,
+      "disable_reorder_four_step": 0
+    }
+  ],
+  "candidate_field_semantics": {
+    "zero": "For these VkFFT request fields, zero leaves library automatic/default behavior. Preserve all requested values and separately report resolved values.",
+    "negative_control": "default_replica is a separate fresh process with the same empty tuning request as default. Exclude it from selection, model training and optimization objectives.",
+    "explicit_default": "a128_r1_lm1 tests explicit default-like settings; do not assume equality without source/compiled-input and resolved audits.",
+    "invalid": "Any initialization, compilation, numerical, natural-order, immutability or resource-budget failure is retained. Such a request is not an eligible timed candidate for that workload; never silently replace it."
+  },
+  "source_evidence": [
+    {
+      "path": "VkFFT/vkFFT/vkFFT/vkFFT_AppManagement/vkFFT_InitializeApp.h",
+      "lines": [
+        1228,
+        1229,
+        1236,
+        1246,
+        1313,
+        1325,
+        1326,
+        1423,
+        1424,
+        1461
+      ],
+      "finding": "coalescing/aim overrides, coupled LUT modes, reorder behavior, nonpow2 boost, pass thresholds; registerBoost4Step is forcibly reset."
+    },
+    {
+      "path": "VkFFT/vkFFT/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_Scheduler.h",
+      "lines": [
+        2588,
+        2617,
+        2648,
+        2649
+      ],
+      "finding": "coalescing changes strided capacity; NP gate collapses boost; swap thresholds force upload counts."
+    },
+    {
+      "path": "VkFFT/documentation/VkFFT_API_guide.tex",
+      "lines": [
+        1676
+      ],
+      "finding": "disableReorderFourStep omits final transpose and changes output ordering."
+    },
+    {
+      "path": "VkFFT/vkFFT/vkFFT/vkFFT_PlanManagement/vkFFT_Plans/vkFFT_Plan_FFT.h",
+      "lines": [
+        55,
+        231,
+        236,
+        244,
+        452,
+        768,
+        773,
+        786
+      ],
+      "finding": "batch folding; resource preparation; block layout; codegen; immediate compile; final axis normalization."
+    }
+  ],
+  "stages": [
+    {
+      "id": "S0",
+      "purpose": "Freeze source/instrumentation, validate numerical/reference/graph/counter behavior and guard. No research performance claim from validation probes."
+    },
+    {
+      "id": "S1",
+      "purpose": "Execute all 36x26 screening attempts with frozen per-workload graph repeats; emit a complete validity/coverage ledger."
+    },
+    {
+      "id": "S2",
+      "purpose": "Freeze screen winner, core-distinct alternative, global candidate and headline-selection inputs, then independently confirm all workloads in three process rounds."
+    },
+    {
+      "id": "S3",
+      "purpose": "Execute fixed eight-workload cost profiles and actual describe/full consistency checks; independent of execution-performance ranking."
+    },
+    {
+      "id": "S4",
+      "purpose": "Freeze at most six headline workloads from S1/S2 by deterministic rules and perform ten new paired process rounds."
+    },
+    {
+      "id": "S5",
+      "purpose": "Report H1-H3 including negative evidence; run H4 once if its data-coverage gate holds. End this round without automatically adding sizes or dimensions."
+    }
+  ],
+  "preflight": {
+    "semantic_probes": {
+      "patterns": [
+        "zero",
+        "impulse",
+        "constant",
+        "quarter-tone"
+      ],
+      "graph_repeats": 16,
+      "samples": 1,
+      "warmup_ms": 0,
+      "purpose": "Numerical/immutable-input/graph correctness only; these event times are not research performance evidence.",
+      "groups": [
+        {
+          "n": 1024,
+          "batch": 1,
+          "candidates": [
+            "default",
+            "a128_r4_l1_np1",
+            "a128_r4_l1_np1_c128",
+            "a128_r1_l1_l4m1"
+          ]
+        },
+        {
+          "n": 16384,
+          "batch": 1,
+          "candidates": [
+            "default",
+            "a128_r4_l1_np1",
+            "a128_r4_l1_np1_s2_8192",
+            "a128_r4_l1_np1_c16"
+          ]
+        },
+        {
+          "n": 81920,
+          "batch": 4,
+          "candidates": [
+            "default",
+            "a128_r4_l1_np1",
+            "a128_r4_l1_np0",
+            "a128_r4_l1_np1_c64"
+          ]
+        },
+        {
+          "n": 655360,
+          "batch": 1,
+          "candidates": [
+            "default",
+            "a128_r4_l1_np1_s3_65536",
+            "a128_r4_lm1_np1_s3_65536",
+            "a128_r4_l1_np1_c64_s3_65536"
+          ]
+        }
+      ],
+      "processes": 64
+    },
+    "cost_smoke": {
+      "workloads": [
+        "n16384_b1",
+        "n655360_b1"
+      ],
+      "candidates": "all26",
+      "paired_rounds": 1,
+      "known_selected_candidate": "default",
+      "pipeline_processes": 4,
+      "purpose": "Engineering zero-counter and descriptor/source consistency gate; kept separate from S3 cost estimates."
+    },
+    "failure": "A default numerical failure, reference failure, graph serialization error, full-vs-describe inconsistency, or trace corruption must stop the affected stage. Candidate-specific illegal/resource/numerical failures are preserved in the complete attempt ledger. If describe-only cannot pass, H1/H2 may use full mode with H3 feasibility explicitly unresolved."
+  },
+  "measurement": {
+    "execution_metric": "Median CUDA-event interval of a serialized graph containing R forward calls, divided by R. It is repeated immutable-input steady-state graph latency for this working set; not isolated-call latency or host API latency.",
+    "graph": "Use actual start/stop graph event-record nodes on the single stream; each forward follows the previous forward's final nodes. For this bounded smooth1D matrix, require captured kernel count = R times numAxisUploads and exactly two external event nodes. A mismatch rejects the measurement rather than silently assuming the dispatch count; any later scope requiring split dispatches needs a separate measured R=1 baseline and protocol amendment.",
+    "repeats": {
+      "calibration": "Fresh default candidate only, target raw median interval >=0.5ms, cap2048, at most3 total probes including initial R=1. Adjustment may use ceil(1.1*target_ms/observed_per_fft_ms). Freeze the last actually measured R, retain below-target flags, and save all probes for every candidate and later remeasurement of that workload.",
+      "min_raw_ms": 0.5,
+      "cap": 2048,
+      "max_probes": 3,
+      "inference_feature": false,
+      "cap_flag": "If cap prevents target, keep flagged result and quantify timer granularity; do not recalibrate on winners."
+    },
+    "warmup_ms": 1000,
+    "screen_samples": 31,
+    "confirmation_samples": 101,
+    "headline_samples": 101,
+    "restore": "Restore the same host input before each graph sample outside event timing; R calls within a graph reuse immutable input. Verify bitwise input stability after one call and repeated graph.",
+    "process_order": "Randomly permute N blocks using a frozen seed, then batch blocks within N. Within each screening workload, default first and default_replica last bracket a seeded random permutation of the 24 other requests. A block's requests are consecutive; no global interleaving of thousands of rows.",
+    "confirmation_order": "Within each workload/round, default and replica bracket seeded-random selected candidates; alternate which baseline ID is first by round. Alternate/seed the order of batch blocks across rounds. Only process medians are independent replications.",
+    "seed_namespace": "plan_selection_20261027_r2/v1",
+    "seed_derivation": "SHA256 UTF-8 of seed_namespace + ':' + phase + ':' + workload_id + ':' + round_index; first 4 bytes interpreted little-endian uint32. Same input seed across candidates in a paired block. Separate seed namespaces for screen, confirmation, headline and validation.",
+    "store": [
+      "all raw event intervals",
+      "normalized event samples",
+      "first/last sample quartiles",
+      "process median",
+      "R calibration and freeze record",
+      "process start/end UTC",
+      "requested/resolved settings",
+      "all kernel descriptions",
+      "source/compiler-input fingerprints",
+      "compiled attributes separately",
+      "GPU guard records",
+      "correctness diagnostics",
+      "stage spans",
+      "cleanup and process wall time"
+    ]
+  },
+  "correctness": {
+    "version": "norm_v2_frozen",
+    "per_transform": true,
+    "l2_formula": "norm2(y_gpu-y_ref) / (sqrt(N) * norm2(x)) <= 1e-5",
+    "linf_formula": "normInf(y_gpu-y_ref) / norm2(x) <= 1e-4",
+    "finite_required": true,
+    "zero_input": "Exact zero output; handle denominator separately.",
+    "reference": "Independent CPU FP64 reference for each tested N, with exact FP32 input representation and batch-specific scale/DC transformation. All output elements and every transform checked after one forward and after repeated graph.",
+    "retained_diagnostics": [
+      "pointwise absolute/relative errors",
+      "worst per-batch normalized norms",
+      "nonfinite count",
+      "first offending index",
+      "input unchanged"
+    ],
+    "preflight": "Retain independent small direct-DFT reference checks and fixed zero/impulse/constant/quarter-tone GPU probes. For new forced-stage/coalescing/NP paths require natural-order correctness before accepting timings. Check random-input full-output against CPU reference for every candidate; analytic probes supplement this.",
+    "threshold_policy": "Do not relax thresholds after seeing candidate errors. A failure is an observed limitation/failure within the tested space, not proof of a timing benefit."
+  },
+  "guard": {
+    "gpu_uuid_locked": true,
+    "poll_interval_seconds": 1,
+    "quiet_start_seconds": 30,
+    "foreign_compute": "Any compute PID outside the verified process tree on the selected UUID invalidates the overlapping process, stops the run, and preserves evidence. Do not touch other users' processes.",
+    "memory_cap_mib": 2048,
+    "memory_cap_semantics": "Predeclared total selected-GPU budget, including context and display baseline. An otherwise valid candidate exceeding it is resource-budget-ineligible; do not call it mathematically invalid. Record own allocations and total memory. No adaptive threshold based on timings.",
+    "record": [
+      "UTC",
+      "GPU UUID",
+      "compute PIDs",
+      "total/used/free GPU memory",
+      "SM clock",
+      "power",
+      "temperature",
+      "utilization",
+      "own process tree"
+    ],
+    "process_polling": "Capture pre/post state plus periodic observations; state the finite polling blind spot. Instrumentation/driver errors are explicit.",
+    "negative_control_gate": "In every block require default and replica source/compiler-input fingerprints equal, and absolute log(default_median/replica_median) <= log(1.05). Any violation quarantines the whole block for review, never only the faster/slower row.",
+    "drift_gate": "If first- vs last-quartile sample median differs by >5% in either direction, flag the block as nonstationary; do not present its apparent winner as settled evidence.",
+    "resume": "No automatic continuation through competition. After guard or control failure, preserve all rows; require 30s quiet and a fresh health gate. A partial block lacking its closing replica is never accepted by prefix-splicing: repeat the entire block as a new attempt and count it against the two-block retry cap, even without a recorded interference incident. Complete accepted blocks may resume. At most two whole screening blocks may be repeated; retain original and replacement IDs. Beyond this budget, stop and report incomplete coverage rather than silently mask/reselect.",
+    "health_gate": {
+      "workloads": [
+        "n1024_b1",
+        "n81920_b409",
+        "n1048576_b32"
+      ],
+      "paired_process_rounds": 5,
+      "candidates": [
+        "default",
+        "default_replica"
+      ],
+      "criteria": "All numerical/guard checks pass; each workload geometric-mean ratio within2% of1 and all individual paired ratios within5%; no >5% early/late drift. If a gate fails, stop pending explicit new design."
+    }
+  },
+  "selection": {
+    "eligible": "Guard-clean, within resource budget, initialization/compile/correctness passed; exclude default_replica from all selection objectives.",
+    "screen_winner": "Minimum screen process median among eligible candidates including default; exact numerical ties choose default then lexicographic candidate_id. This is an optimistic tested-set screen oracle, not the primary independently estimated effect.",
+    "core_projection": [
+      "numAxisUploads",
+      "axisSplit",
+      "fftDim per upload",
+      "stageRadix and stage order",
+      "localSize",
+      "canonical axisBlock",
+      "actual logical registerBoost"
+    ],
+    "source_class": "Ordered per-upload generated-source hash plus compiler options/architecture plus logical binding/layout metadata. Never use a small descriptor hash as a synonym for identical kernels.",
+    "alternative": "Fastest eligible candidate whose source class and core projection both differ from the screen winner; skip if none exists. LUT-only differences do not satisfy core-distinct alternative.",
+    "global": "Among candidates valid on every one of the36 workloads, choose minimum equal-workload mean log(t_candidate/t_default), excluding replica. Tie default then candidate_id. Freeze before independent confirmation; report absence if no nondefault is globally eligible.",
+    "confirmation_candidates": "Union of default, screen_winner, alternative and global, deduplicated by candidate_id, plus separate default_replica.",
+    "confirmation_rounds": 3,
+    "primary_effect": "For the frozen screen winner, exp(mean over3 independent rounds of log(t_default/t_winner))). If winner=default, the selection effect is1 by definition, not a fabricated paired statistical test.",
+    "confirmed_best_caveat": "The minimum among several candidates measured in confirmation is a further selected estimate. Label it descriptive only; do not substitute it for the frozen-winner primary effect.",
+    "aggregates": "Show every workload and N-grouped summaries, equal-workload geometric mean and distribution, paired-round variability and regressions. Main population is these36 deliberately selected workloads, not a random sample of all FFT uses."
+  },
+  "structure_analysis": {
+    "report": [
+      "requested -> resolved -> core descriptor -> source/compiler-input class counts per workload",
+      "unique classes gained by NP/coalescing/LUT4/forced-stage groups",
+      "candidate validity and folding matrices",
+      "upload/radix/local/block/shared/logical-register changes",
+      "compiled physical registers/local-memory separately",
+      "class-based latency distributions and same-source controls"
+    ],
+    "predeclared_batch_contrasts": [
+      {
+        "candidate": "a128_r4_l1_np1",
+        "reference": "default",
+        "n": "all16 fixed N",
+        "batches": "single vs large; also fixed middle batches where present"
+      },
+      {
+        "candidate": "a128_r4_l1_np0",
+        "reference": "a128_r4_l1_np1",
+        "n": "fixed nonpower-of-two N",
+        "batches": "all declared"
+      },
+      {
+        "candidate": "a128_r4_l1_np1_c64",
+        "reference": "a128_r4_l1_np1",
+        "n": "all16 fixed N",
+        "batches": "single vs large"
+      },
+      {
+        "candidate": "a128_r4_l1_np1_s2_8192",
+        "reference": "a128_r4_l1_np1",
+        "n": "fixed N >=8192",
+        "batches": "all declared"
+      },
+      {
+        "candidate": "a128_r4_l1_np1_s3_65536",
+        "reference": "a128_r4_l1_np1",
+        "n": "fixed N >=65536",
+        "batches": "all declared"
+      }
+    ],
+    "crossover": "Must use exactly the same two requested candidate IDs at both workloads. A reversal of ranks within2% is a near tie; an exploratory material crossover requires opposing >=5% screen/confirmation point effects and then independent headline testing of both directions.",
+    "interpretation": "Use structure change as a mechanistic explanation supported by measured dispatch, source and resource data; do not attribute all gain to upload count while other generated code changes simultaneously.",
+    "hardware_counter_profile": {
+      "status": "planned_but_not_implemented_guard_scope_gate",
+      "cases": [
+        {
+          "workload": "n16384_b1",
+          "candidates": [
+            "default",
+            "a128_r4_l1_np1"
+          ]
+        },
+        {
+          "workload": "n16384_b2048",
+          "candidates": [
+            "default",
+            "a128_r4_l1_np1"
+          ]
+        },
+        {
+          "workload": "n655360_b1",
+          "candidates": [
+            "default",
+            "a128_r4_l1_np1_s3_65536"
+          ]
+        },
+        {
+          "workload": "n655360_b51",
+          "candidates": [
+            "default",
+            "a128_r4_l1_np1_s3_65536"
+          ]
+        }
+      ],
+      "processes_max": 8,
+      "purpose": "Explain fixed candidate/batch contrasts using measured DRAM/L2 traffic, achieved occupancy, launch dimensions and compiled resources.",
+      "capture": "Separate Nsight Compute run; profile one forward's complete upload sequence after warmup using an explicit profiler range. No profiling of all graph repetitions or sample loops.",
+      "metrics": "Resolve available metrics on the installed ncu version; freeze exact names before profile data. Record tool version, replay mode, cache-control mode and collection passes; sum traffic across all uploads for one forward.",
+      "guard": "Only run after the guard explicitly verifies all profiler child/descendant processes as belonging to this task. No blanket allowance for arbitrary GPU PIDs.",
+      "limits": "Profiler timings are never merged into primary event timings. Replay/cache policy can change observed cache state; counters explain this profiled regime and cannot alone prove the cause of unprofiled runtime differences.",
+      "fallback": "If safe descendant tracking or bounded capture is unavailable, record not performed and restrict mechanism claims. Do not add other profiler cases or delay core conclusions indefinitely."
+    }
+  },
+  "headline": {
+    "max_workloads": 6,
+    "rounds": 10,
+    "freeze_before_headline_data": true,
+    "selection_order": [
+      "1: workload with largest S2 frozen-winner/default geometric-mean speedup.",
+      "2: highest remaining such speedup at a different N with a core structure change; prefer a different odd-part family (1,3,5).",
+      "3-4: same-N single/large-batch pair with an exact same-candidate-ID crossover; maximize weaker opposing direction, require both point ratios>=1.05. Prefer prespecified boost-vs-default contrast; use remaining prespecified contrasts next. If none qualifies, skip these slots.",
+      "5: workload with worst S2 frozen screen-winner effect (largest regression, or least gain if no regression).",
+      "6: default-screen-best workload with the lower median N then lower batch; if none, workload whose confirmed selected effect is closest to1."
+    ],
+    "tie_break": "Numeric N, numeric batch, candidate_id; deduplicate workloads. Do not fill empty slots with additional winners. Freeze every pair/direction to be tested in a signed manifest.",
+    "candidates": "default, frozen selected candidate(s), required crossover counterpart, and default_replica. Reuse original R and all measurement settings; fresh inputs and fresh processes.",
+    "statistics": {
+      "unit": "paired process median, never the101 graph samples",
+      "effect": "geometric mean of10 paired ratios",
+      "interval": "ordinary paired-log Student-t95% interval shown as descriptive interval",
+      "null": "H0 mean(log(reference/target)) <= log(1.02)",
+      "test": "one-sided paired-log Student-t; Holm correction across all predeclared directional benefit tests in the headline manifest",
+      "clear_gain": "point geometric-mean ratio>=1.05 AND Holm-adjusted p<0.05 against the2% null, plus valid negative controls and guard",
+      "zero_variance": "If paired-log range <=16*float64_epsilon*max(1,maxabs(logratios)), report noninferential/quantization-limited, no fabricated t/p/CI; retain p=1 in Holm family counting only.",
+      "negative_control": "default_replica comparisons are quality diagnostics, never benefit hypotheses and never counted as performance wins.",
+      "crossover_claim": "Both opposing directions must independently satisfy clear_gain; otherwise exploratory reversal only."
+    },
+    "no_extension": "End after these fixed ten rounds, including null results. Do not add rounds until significance or add boundary N after viewing outcomes."
+  },
+  "cost_profile": {
+    "workloads": [
+      "n1024_b1",
+      "n16384_b1",
+      "n16384_b2048",
+      "n49152_b1",
+      "n49152_b682",
+      "n655360_b1",
+      "n655360_b51",
+      "n1048576_b32"
+    ],
+    "paired_rounds": 3,
+    "context": "One initialized CUDA primary context per pipeline process. Construct and destroy each candidate sequentially. Report context bootstrap separately; no binary-import cache in full construction. Do not sum separate-process initialization costs and call it same-context search.",
+    "pipelines": {
+      "full": "Construct all26 requests fully in the frozen candidate permutation, recording every span and cleanup. This is all-candidate construction cost; actual GPU benchmarking/search-decision cost is separate.",
+      "describe_selected": "Describe all26 in the identical permutation and cleanup each draft, then fully construct/destroy the frozen S1 winner. Winner is supplied from offline screening; label this a known-choice construction lower bound, not an online learned selection demonstration."
+    },
+    "order": "Pair the two pipeline modes within each workload/round; alternate mode order across rounds and seed candidate permutation by workload/round. Fresh process per pipeline, same context retained within it. Record the first and subsequent NVRTC/module operations.",
+    "spans": [
+      "context_bootstrap",
+      "initialize",
+      "set_configuration",
+      "device_queries",
+      "scheduler",
+      "per_upload_plan_axis",
+      "LUT/resource_preparation",
+      "layout/buffer_selection",
+      "host_codegen",
+      "NVRTC_program_create",
+      "NVRTC_compile",
+      "binary_extract",
+      "module_load",
+      "function_lookup_attributes",
+      "tail_temporary_allocation",
+      "cleanup",
+      "final_sync",
+      "whole_pipeline_wall"
+    ],
+    "accounting": "Keep span ID/parent, monotonic start/end, inclusive and exclusive wall times. Sum exclusive categories for reconciliation; never sum overlapping inclusive times. Preserve unattributed residual. API host time is not necessarily device completion time; no artificial sync between every stage. Explicit final sync belongs to its own measured boundary.",
+    "cold_warm": "Use 'fresh process/context, first operation' and 'later operation in same context'; do not claim OS/compiler/driver cache coldness. Record cache environment, CUDA/driver/NVRTC versions and compiler options.",
+    "describe_contract": "Restricted smooth1D scope, layout and host codegen reused; skip CompileKernel and return before app tail temp allocation. Allowed LUT allocation/H2D must be timed and cleaned. Entire call chain compile/module-load/kernel-launch counts must all be zero. Reject auxiliary FFT paths before side effects.",
+    "equivalence": "For every candidate on each fixed cost workload, compare describe vs full canonical value descriptor, ordered source hashes and compiler inputs. Ignore addresses/module handles and transient buffer-update flags. Confirm immutable original request (including batch and buffer capacities) is used on full reconstruction.",
+    "failure_policy": "If describe-only implementation or equivalence fails, retain failures and report H3 feasibility unresolved/limited. H1/H2 may continue on the full path; never relabel precompile traces as successful zero-compile construction.",
+    "outputs": [
+      "absolute ms per stage and pipeline",
+      "first/subsequent operation distributions",
+      "fraction of full setup in compilation/loading vs other work",
+      "actual describe overhead and retained resource cost",
+      "all26 vs source-deduplicated hypothetical lower-bound counts, clearly separated",
+      "execution-count amortization using measured setup and execution deltas"
+    ],
+    "amortization": "For a fixed candidate use ceil(max(0, setup_candidate-setup_default)/(exec_default-exec_candidate)) only if execution delta>0, and state setup policy. For search construction include all candidate setup plus separately measured benchmarking/selection costs. No finite break-even claim when delta<=0 or unresolved."
+  },
+  "learning": {
+    "priority": "auxiliary_after_H1_H3",
+    "gate": "Use only fully guard-clean complete screening workloads and legal candidates; publish exact coverage. At least12 distinct N groups required. Do not impute invalid/contaminated latency or turn valid flags into inference features.",
+    "target_primary": "log(t_candidate/t_default) computed from training workload labels only; default timing is never an inference feature.",
+    "target_secondary": "log(t_candidate) sensitivity analysis, prespecified and not chosen based on outcome.",
+    "features": [
+      "workload + requested knobs",
+      "workload + precompile structural descriptors",
+      "workload + knobs + descriptors"
+    ],
+    "excluded_features": [
+      "R",
+      "all timing labels",
+      "compiled physical registers/local memory",
+      "candidate compile/validity outcome",
+      "process order/time/GPU contention",
+      "source hash as an arbitrary memorization ID"
+    ],
+    "split": "4-fold grouped by exact N, all batches/candidates for an N in the same fold; sorted N assigned round-robin to folds before fitting. Additional odd-part-family holdout is exploratory due few families.",
+    "model": "ExtraTreesRegressor, n_estimators=256, max_depth=8, min_samples_leaf=2, max_features=1.0, random_state=20261027; same capacity/splits for every ablation, no tuning on held-out groups.",
+    "comparison": "Include default, S1 global policy, and all-candidate screen oracle upper-bound diagnostic. For a leakage-free held-out global baseline, select the fixed candidate using training workloads only.",
+    "metrics": [
+      "selected/default speedup",
+      "regret to fastest tested held-out candidate",
+      "fraction within2% and5% of held-out tested-set minimum",
+      "worst regression",
+      "top2/top4 hypothetical shortlist oracle (not real online cost savings)"
+    ],
+    "limitations": "Sixteen N groups and one GPU support only an auxiliary domain-limited check. Row counts do not equal independent workload evidence. Null/weak ML results do not show that all structural models are useless."
+  },
+  "budgets": {
+    "semantic_probe_processes": 64,
+    "cost_smoke_pipeline_processes": 4,
+    "screen_processes": 936,
+    "screen_block_retries_max": 2,
+    "screen_with_retry_cap": 988,
+    "confirmation_processes_max": 540,
+    "headline_workloads_max": 6,
+    "headline_processes_max": 300,
+    "cost_pipeline_processes": 48,
+    "cost_plan_constructions_or_descriptions_max": 1272,
+    "calibration_probes_max": 108,
+    "health_processes_per_gate": 30,
+    "health_gates_max": 2,
+    "stop_after": "One complete preregistered sequence or a defined validity/resource/competition stop. No automatic extra candidate/grid/model sweep.",
+    "resource_process_timeout_seconds": 180,
+    "profiler_processes_max": 8
+  },
+  "reporting": {
+    "required_artifacts": [
+      "research_design.json and SHA256 freeze",
+      "research_questions.md",
+      "requested candidate/workload manifest",
+      "instrumentation provenance and schema",
+      "complete attempt/validity ledger",
+      "raw timings and numerical outputs",
+      "guard logs",
+      "frozen selection manifests",
+      "independent confirmation/headline results",
+      "structure coverage/collapse tables",
+      "stage and pipeline cost breakdown",
+      "negative/null result table",
+      "study report with H1-H4 separately assessed"
+    ],
+    "positive": "Only guard-valid independently remeasured selected-case effects support stable gains. Use exact domain and metric labels.",
+    "negative": "Report default-near-best domains, successful candidates that regress, request folding, invalid/resource-excluded controls, no clear crossover, insignificant headline tests, expensive describe/codegen/resource stages, and no demonstrable model advantage.",
+    "conclusion_levels": [
+      "H1 robust repeated gap exists only where independent evidence supports it",
+      "H2 structure dependence/crossover requires same candidate identities and both directions",
+      "H3 zero-compile feasibility and measured setup savings each need their own evidence",
+      "H4 remains supplementary, even if positive"
+    ],
+    "incomplete": "If validity or implementation blocks completion, state which questions remain open; do not make the missing experiment disappear or reuse pilot claims as replacement."
+  }
+}

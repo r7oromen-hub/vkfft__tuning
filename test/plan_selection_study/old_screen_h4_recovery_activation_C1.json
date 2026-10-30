@@ -1,0 +1,54 @@
+{
+  "schema_version": "old-screen-h4-recovered-primary-activation/v1",
+  "attachment_id": "old_screen_h4_recovery_activation_C1",
+  "analysis_id": "plan_selection_old_screen_h4_analysis_20261028_r1",
+  "frozen_at_utc": "2026-10-28T04:18:50.987072+00:00",
+  "base_admission_file": "old_screen_h4_admission.json",
+  "base_admission_sha256": "65b8bae1b7b21fd42af172c2b89c1a87510171cf08ba3f57be02d84a8438e921",
+  "base_freeze_sha256": "f1f364113e9e710349066b91a8a969f710f0763fc88c4060f1c59eca1f3d2b55",
+  "recovery_admission_file": "cloud_reproduction_recovery_E1.json",
+  "recovery_admission_sha256": "aaddd405f782709de09c85048719db98aba4d198737aadce315d45163dca64ae",
+  "recovery_freeze_sha256": "e5f4f9013889db853f6a64ad0d6ce89d5fdab964f8e2bc4fcefa913fb04071e1",
+  "recovery_id": "plan_selection_cloud_reproduction_20261028_recovery1",
+  "recovery_root": "results/cloud_reproduction_20261028_recovery1",
+  "primary_study_id": "plan_selection_cloud_reproduction_20261028_r1",
+  "primary_root": "results/cloud_reproduction_20261028_r1",
+  "primary_design_sha256": "6394ca299dfe5c6af8a9c703669c28716bc59afc22571f24c3badc988b17ede7",
+  "decision": "Only adapt the original H4 administrative activation to the separately frozen E1 recovery artifacts. Do not modify the base H4 admission, model, source data, learning code, folds, targets, metrics,24-fit cap, reservation or independent output.",
+  "reason": "E1 requires the original cloud execution status to remain stopped and all original files immutable. Completed selected execution evidence will therefore be represented by a separate exact accepted-block manifest and recovery gates rather than rewriting the original stage status.",
+  "data_state": "E1 recovery is authorized but its new health/execution/cost observations have not been collected. No real-data H4 fit has run. This attachment is independent of performance direction or significance.",
+  "complete_branch": {
+    "terminal_disposition": "complete",
+    "requirements": [
+      "Re-audit E1 admission/freeze and its fixed original source artifacts, exact incident,99 preserved records/34 closed blocks and excluded2 orphan/1quarantine.",
+      "Original equivalence/semantics/calibration/health are complete and all original preflight guards and frozenR pass their existing independent audits.",
+      "Recovery health/execution/cost are complete with their own full clean guards, exactly30/100/48 new processes and unchanged protocol; no recovery status is running.",
+      "E1 execution_selection.json contains exactly65 original schedule blocks and199 records:99 exact preserved old hashes plus100 new, with only affected n16384_b2048/r3 attempt1. All provenance/seed/quality checks pass; no orphan/quarantine is selected.",
+      "Re-audited combined cloud report has no unresolved protocol/coverage errors; protocol-clean H3 equivalence scientific negatives are allowed regardless of effect signs.",
+      "Keep the original cloud execution stopped status and missing original cost unchanged. They are not generic exceptions: the only completion path is the exact frozen E1 selection and recovery cost evidence."
+    ],
+    "terminal_metadata": [
+      "Base H4 admission and C1 attachment SHA",
+      "E1 admission/freeze SHA and recovery manifest SHA",
+      "Execution selection SHA and recovered report/audit SHA",
+      "Hashes of all available original and recovery status files",
+      "sequence_ended true, disposition complete, reason identifying E1, missing_primary_evidence empty"
+    ]
+  },
+  "technical_stop_branch": {
+    "terminal_disposition": "technical_stop",
+    "requirements": [
+      "Root explicitly declares the bounded E1 primary sequence ended with reason; a transient stopped status during diagnosis or authorized recovery does not activate H4.",
+      "Bind all available original and recovery status files and E1 identity; no available status is starting or running and at least one original/recovery status is stopped.",
+      "List nonempty missing_primary_evidence. Preserve all incomplete primary data and report that old-screen H4 cannot replace any missing H1/H2/H3 evidence.",
+      "No further recovery follows from this attachment."
+    ]
+  },
+  "invariants": [
+    "Exactly the841 frozen legal old-S1 records/36 workloads/16 exact-N groups enter the fixed learning function; no new-cohort label, timing, validity, R, cost or selection enters its training/evaluation.",
+    "One real-data fitting attempt only,24 fits maximum. Existing exclusive reservation and no-rerun behavior are unchanged.",
+    "Old study cost/headline remain incomplete; new cloud cohort has no newH4. This remains a separate old-screen auxiliary analysis.",
+    "Publish all six fixed results and four baselines with conditional legality, coverage, single-screen noise and small-domain limitations. No choice to run or report is based on significance."
+  ],
+  "implementation": "Use a separate optional activation adapter in the old-screen wrapper or independent helper. Validate every attachment hash, record adapter/wrapper hashes before fitting and preserve base source bindings. Do not edit any running GPU dependency."
+}

@@ -1,0 +1,17 @@
+{
+  "schema": "expanded-admission/v1",
+  "gpu_uuid": "GPU-492bdfa1-90bc-e9d3-a759-c2c9ea7f629e",
+  "validation_seeds": [42, 53, 71],
+  "patterns": ["zero", "impulse", "constant", "quarter-tone", "random"],
+  "workloads": [
+    {"n":128,"batch":1,"requests":[{"radix":[2,8,8],"logical_registers":8,"grouped_batch":1}]},
+    {"n":128,"batch":4096,"requests":[{"radix":[2,8,8],"logical_registers":8,"grouped_batch":4}]},
+    {"n":256,"batch":1,"requests":[{"radix":[8,8,4],"logical_registers":8,"grouped_batch":1},{"radix":[2,2,2,2,2,2,2,2],"logical_registers":2,"grouped_batch":1}]},
+    {"n":256,"batch":4096,"requests":[{"radix":[8,8,4],"logical_registers":8,"grouped_batch":4},{"radix":[16,16],"logical_registers":64,"grouped_batch":4}]},
+    {"n":1024,"batch":1,"requests":[{"radix":[8,8,16],"logical_registers":16,"grouped_batch":1}]},
+    {"n":1024,"batch":4096,"requests":[{"radix":[8,8,16],"logical_registers":16,"grouped_batch":4}]},
+    {"n":8192,"batch":1,"requests":[{"radix":[8,32,32],"logical_registers":32,"grouped_batch":1}]},
+    {"n":8192,"batch":4096,"requests":[{"radix":[8,32,32],"logical_registers":32,"grouped_batch":4}]}
+  ],
+  "policy": "admission only; no performance selection; original, expanded default and representable identity must agree; candidates require guarded describe, compiled resource and full numerical validation"
+}

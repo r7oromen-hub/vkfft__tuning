@@ -1,0 +1,67 @@
+{
+  "schema_version": "plan-selection-study-addendum/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A1_instrumentation_equivalence",
+  "created_utc": "2026-10-27T10:52:28Z",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "original_freeze_file": "research_freeze.json",
+  "data_state": "Root confirmed zero new GPU records at proposal/acceptance; no new performance evidence informed case selection.",
+  "reason": "Add a minimal engineering check that generated instrumentation preserves original-header full initialization, generated source and numerical behavior before the research run.",
+  "research_protocol_unchanged": [
+    "36 workloads",
+    "26 fixed requests",
+    "936 screen attempts",
+    "selection/confirmation rules",
+    "numerical thresholds",
+    "execution timing regime",
+    "cost profile cases",
+    "headline tests and stopping rules"
+  ],
+  "cases": [
+    {
+      "workload_id": "n16384_b1",
+      "n": 16384,
+      "batch": 1,
+      "candidates": [
+        "default",
+        "a128_r4_l1_np1"
+      ]
+    },
+    {
+      "workload_id": "n81920_b4",
+      "n": 81920,
+      "batch": 4,
+      "candidates": [
+        "default",
+        "a128_r4_l1_np1"
+      ]
+    }
+  ],
+  "binaries": [
+    "plain_control_original_headers",
+    "instrumented_full"
+  ],
+  "processes_max": 8,
+  "graph_repeats": 16,
+  "samples": 1,
+  "warmup_ms": 0,
+  "warmup_count": 0,
+  "pattern": "random",
+  "input_seed_rule": "Same seed per workload across both binaries and candidates, using frozen namespace with phase='instrumentation_equivalence' and round_index=0.",
+  "guard": "Same fixed GPU UUID and guard requirements as the main study.",
+  "plain_source_capture": "Only the plain validation harness may set keepShaderCode=1 to retain source after full initialize. Capture source hashes and canonical descriptions then; label snapshot_stage='post_initialize_retained_source'. Do not claim this is a precompile or zero-compile snapshot.",
+  "compiler_options": "The instrumented target observes actual NVRTC options. The original-header target may expose only expected options derived from the unchanged original CompileKernel source and queried architecture; actual options must be marked unobserved/null, not invented. Compare source hashes, expected compiler inputs and original-header SHA; document this observation limit.",
+  "comparison_fields": [
+    "actual normalized workload and requested knobs",
+    "full canonical semantic descriptor excluding pointers/handles/resource update flags and keepShaderCode retention setting",
+    "ordered generated source hashes",
+    "expected compiler-input metadata with its provenance",
+    "compiled function resource diagnostics when available",
+    "complete one-forward and repeated-graph correctness",
+    "bitwise input stability"
+  ],
+  "pass_rule": "All eight guarded numerical executions pass; each matching candidate/workload pair has equal canonical semantics and ordered generated source hashes. Instrumented actual compiler options match the original-path-derived expected options. Any discrepancy blocks main performance collection until understood and fixed with source provenance.",
+  "excluded_claims": "Do not use these eight one-sample records to estimate instrumentation speed overhead, heuristic gap, or online plan-selection benefit.",
+  "budget_policy": "This adds eight engineering-validation processes only. No new research workload or candidate, and no automatic expansion.",
+  "implementation_note": "Keep original headers untouched. Source retention and postinitialize capture belong only to the plain control validation target; main study remains keepShaderCode=0."
+}

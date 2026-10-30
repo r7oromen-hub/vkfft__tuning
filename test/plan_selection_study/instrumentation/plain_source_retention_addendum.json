@@ -1,0 +1,11 @@
+{
+  "scope": "fixed S0 engineering equivalence only; not primary timing/effect evidence",
+  "compile_guard": "VKFFT_STUDY_UNINSTRUMENTED",
+  "v1_instrumented_source_sha256": "ed5215f9885bb7cc72eeecab6c1fc611b3e99e36f8a1238481597547ff2bb62e",
+  "plain_addendum_source_sha256": "0c47fbc813c5f67a73f087c64580dd283a541acfc0986110de9a03c06db16d84",
+  "instrumented_v1_binary_policy": "do not rebuild or replace the active instrumented binary for this addendum",
+  "build_target": "vkfft_uninstrumented_control",
+  "snapshot_stage": "post_initialize_retained_source",
+  "actual_nvrtc_options": "unavailable/null; expected options bound to original compile header SHA",
+  "keepShaderCode": "1 only during plain initialization; post-init source hashed and freed, then 0 before execution"
+}

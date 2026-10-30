@@ -1,0 +1,9 @@
+{
+  "base_sha256": "e94eac5fd7679ff2ea539ccd5e38d14fda5190252d17458f1397467a7c17266f",
+  "files": {
+    "test/plan_selection_study/direct_candidates/controller/README-block.md": "fe99f207780f7e991f399d8a61966b163c4149899ebeb00820c8cc1582889145",
+    "test/plan_selection_study/direct_candidates/controller/direct_block_controller.py": "504fc970f2d7fde3be707d7c7720bb011817e21e86d99ac58954832710504da4",
+    "test/plan_selection_study/direct_candidates/controller/direct_block_gpu_guard.py": "f01172e737556718cbb2d965f541897bc57e859248bdb7be33504375bce15135",
+    "test/plan_selection_study/direct_candidates/controller/test_block_controller.py": "84a003d752e543d44ff4a53524a0a77a5b63421631a2e69904c71ca228e55dc3"
+  }
+}

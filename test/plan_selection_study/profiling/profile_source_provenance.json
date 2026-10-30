@@ -1,0 +1,8 @@
+{
+  "base_source": "test\\plan_selection_study\\instrumentation\\vkfft_instrumented_benchmark.cpp",
+  "base_sha256": "0c47fbc813c5f67a73f087c64580dd283a541acfc0986110de9a03c06db16d84",
+  "profile_source": "vkfft_profile_benchmark.cpp",
+  "profile_sha256": "aa4bb376252163f3359cbbf60c6399c9ebfeb8a0b5436e8051deeeed5fbfab19",
+  "main_binary_unchanged": true,
+  "scope": "independent optional mechanism counters only; CUDA profiler Start/Stop brackets one full forward after warmup; no timed effect data"
+}

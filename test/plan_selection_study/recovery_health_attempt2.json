@@ -1,0 +1,117 @@
+{
+  "schema_version": "plan-selection-study-recovery/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "decision_id": "R1_health_guard_restart",
+  "decision_utc": "2026-10-27 11:00:14 UTC",
+  "design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "executable_sha256": "0efb158af512078094b23cb015e30ea5f7b800067003c03da0c2aeda21dbf17a",
+  "gpu_uuid": "GPU-fb86b36f-0a9f-6cbd-a36b-03b9073f4786",
+  "incident": {
+    "utc": "2026-10-27T10:56:06.830029+00:00",
+    "guard_id": "8b91e350e1d04ada8d6f564b9c917249",
+    "affected_guard_run_id": "8b91e350e1d04ada8d6f564b9c917249:8e5c7cea74a54807b3db2a6461110902",
+    "foreign_compute_pid": 1399934,
+    "reported_process_name": "./verify_codecs",
+    "identity_limit": "nvidia-smi reported the foreign compute entry; /proc identity was already unavailable. No individual owner attribution and no claim that its actual timing impact was measured.",
+    "incident_log": "results/health_01_incidents.jsonl",
+    "incident_log_sha256": "0801d7dde45fd5fab709c090466b10bd8369cd03a8ce217fe3ddba8be9371871"
+  },
+  "decision": "Retain the three already frozen clean calibration R values, with their exact source-row and guard provenance; run the second and final complete health gate in a fresh output directory after the fixed quiet-start interval.",
+  "rationale": "Calibration process intervals ended before the later unrelated guard incident and passed their own before/during/after provenance checks. A later session abort does not retroactively change a clean frozen timing-resolution setting. No new R is selected from health-effect data.",
+  "calibration_reuse_verified": true,
+  "calibration_evidence": [
+    {
+      "workload_id": "n1024_b1",
+      "graph_repeats": 426,
+      "raw_ms": 0.5468159914016724,
+      "source_record_sha256": "a87e5cc4224ac9bb797f7eba07c43b4ce03d98a5b55ba5001749db7b7e567581",
+      "guard_id": "8b91e350e1d04ada8d6f564b9c917249",
+      "guard_run_id": "8b91e350e1d04ada8d6f564b9c917249:c8b6905949c04874a24484a3f054dc3c",
+      "started_utc": "2026-10-27T10:54:28.783568+00:00",
+      "ended_utc": "2026-10-27T10:54:30.081136+00:00",
+      "guard_audit": {
+        "ok": true,
+        "errors": [],
+        "guard_id": "8b91e350e1d04ada8d6f564b9c917249",
+        "guard_run_id": "8b91e350e1d04ada8d6f564b9c917249:c8b6905949c04874a24484a3f054dc3c",
+        "samples": 4,
+        "boundaries": [
+          "after",
+          "before",
+          "during"
+        ]
+      }
+    },
+    {
+      "workload_id": "n81920_b409",
+      "graph_repeats": 1,
+      "raw_ms": 1.1645439863204956,
+      "source_record_sha256": "4014b08b75d5b8e99dae1664103ef0f2e259db1c3851c8ec8a7115d16125f000",
+      "guard_id": "8b91e350e1d04ada8d6f564b9c917249",
+      "guard_run_id": "8b91e350e1d04ada8d6f564b9c917249:da2ca661b79d41ddb4ec5a8d546ad3e9",
+      "started_utc": "2026-10-27T10:54:30.233435+00:00",
+      "ended_utc": "2026-10-27T10:54:36.090641+00:00",
+      "guard_audit": {
+        "ok": true,
+        "errors": [],
+        "guard_id": "8b91e350e1d04ada8d6f564b9c917249",
+        "guard_run_id": "8b91e350e1d04ada8d6f564b9c917249:da2ca661b79d41ddb4ec5a8d546ad3e9",
+        "samples": 8,
+        "boundaries": [
+          "after",
+          "before",
+          "during"
+        ]
+      }
+    },
+    {
+      "workload_id": "n1048576_b32",
+      "graph_repeats": 1,
+      "raw_ms": 1.172063946723938,
+      "source_record_sha256": "23e0042d7a8ff0371dee2ab7e7163ed9da5a6c50d71ef7704ef43c132b078b33",
+      "guard_id": "8b91e350e1d04ada8d6f564b9c917249",
+      "guard_run_id": "8b91e350e1d04ada8d6f564b9c917249:00940aa8b5564c97b65d690d7d25a3f6",
+      "started_utc": "2026-10-27T10:54:36.243751+00:00",
+      "ended_utc": "2026-10-27T10:54:43.021563+00:00",
+      "guard_audit": {
+        "ok": true,
+        "errors": [],
+        "guard_id": "8b91e350e1d04ada8d6f564b9c917249",
+        "guard_run_id": "8b91e350e1d04ada8d6f564b9c917249:00940aa8b5564c97b65d690d7d25a3f6",
+        "samples": 9,
+        "boundaries": [
+          "after",
+          "before",
+          "during"
+        ]
+      }
+    }
+  ],
+  "source_files": {
+    "test\\plan_selection_study\\results\\health_attempt1\\main\\manifest.json": "ed965250efee8129f726672db3646cd6e15a2e2e57966318214a95719490813f",
+    "test\\plan_selection_study\\results\\health_attempt1\\main\\graph_repeats.json": "047b35bdbd52c848f20c68909f4be7b3b10fc4278e7d3d9063b43fe2dccec172",
+    "test\\plan_selection_study\\results\\health_attempt1\\main\\health\\measurements.jsonl": "bb6f71b43abd0faac44e276a5b897088c4d7c00b7f68b29af63c5c0843d178ee"
+  },
+  "health1_retained_rows": 20,
+  "health1_use": "Calibration provenance only for this restart. Do not splice any of its paired health measurements into health2, and do not use health measurements as H1/H2 research effects.",
+  "health2": {
+    "quiet_start_seconds": 30,
+    "workloads": [
+      "n1024_b1",
+      "n81920_b409",
+      "n1048576_b32"
+    ],
+    "paired_rounds": 5,
+    "processes": 30,
+    "graph_repeats": {
+      "n1024_b1": 426,
+      "n81920_b409": 1,
+      "n1048576_b32": 1
+    },
+    "new_output": "results/main_attempt2",
+    "same_binary_required": true,
+    "remaining_health_gates_after_this": 0,
+    "stop_rule": "Any further competition or health-quality failure stops this preregistered attempt; preserve all evidence. No automatic third health gate."
+  },
+  "scope": "This implements the existing freeze/guard/budget rules and does not change candidates, workload effects, numerical thresholds or statistical hypotheses."
+}

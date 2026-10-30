@@ -1,0 +1,12 @@
+{
+  "schema_version": "plan-selection-study-addendum-freeze/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A5_candidate_execution_fault_diagnostic",
+  "frozen_at_utc": "2026-10-28T00:38:22Z",
+  "addendum_file": "research_addendum_A5.json",
+  "addendum_sha256": "8d0f0dd90d74bf2847389e26897e01eccbfd31e148f43bf09f1f6927f455c41e",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "phase_at_freeze": "After the observed S0 nondefault single-forward illegal-access failure and before S1 primary measurements. No diagnostic result was available to the decision agent when these decision branches were frozen.",
+  "budget": "At most four engineering diagnostic processes; remaining 45 original semantic probes, no extra primary workload/candidate or health gate.",
+  "amendment_policy": "Retain the original failed row. Save outcome evidence and its hashes separately; do not revise the diagnostic decision branches to fit results."
+}

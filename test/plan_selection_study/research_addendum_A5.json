@@ -1,0 +1,57 @@
+{
+  "schema_version": "plan-selection-study-addendum/v1",
+  "study_id": "plan_selection_20261027_r2",
+  "addendum_id": "A5_candidate_execution_fault_diagnostic",
+  "created_utc": "2026-10-28T00:35:25Z",
+  "original_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+  "data_state": "Before S1 primary measurements. The final A2 health gate passed all 30 new processes. S0 semantics stopped after 18 successful probes and one nondefault candidate execution failure; the remaining 45 fixed probes have not been replaced or expanded.",
+  "original_rule": "research_design.json preflight.failure already preserves candidate-specific illegal/resource/numerical failures in the complete attempt ledger, while default, reference, graph-serialization, describe-equivalence and trace failures stop the affected stage.",
+  "trigger": {
+    "workload_id": "n16384_b1",
+    "pattern": "zero",
+    "candidate_id": "a128_r4_l1_np1_s2_8192",
+    "reported_failure_phase": "single_forward_validation",
+    "reported_failure": "CUDA illegal memory access after successful initialization, before graph construction",
+    "observed_controls": "The same-workload default and ordinary a128_r4_l1_np1 zero probes passed. Root reports clean per-process GPU guard checks, two NVRTC compiles/two module loads and matching precompile/postinitialize canonical descriptions for the failed candidate.",
+    "evidence_policy": "Preserve the original failed row and guard log. Save exact hashes and independently audited diagnostic outcomes in a separate decision record; do not alter this prediagnostic plan after seeing those outcomes."
+  },
+  "bounded_diagnostic": {
+    "processes_max": 4,
+    "matrix": {
+      "binaries": ["plain_control_original_headers", "instrumented_full"],
+      "candidates": ["default", "a128_r4_l1_np1_s2_8192"],
+      "workload_id": "n16384_b1",
+      "n": 16384,
+      "batch": 1,
+      "pattern": "zero"
+    },
+    "settings": "Use the original failing semantic probe's exact input seed, R=16, one sample, warmup count=0 and warmup_ms=0. Preserve FP32 C2C forward, natural output order, separate immutable input/output buffers and the frozen correctness thresholds.",
+    "order": "Prefer both default controls before both suspect-candidate runs. If one of these exact four diagnostics has already started, count it toward the four-process cap rather than repeating it to change order.",
+    "isolation": "Every diagnostic is a separate fresh process/context under the unchanged UUID, memory cap and guard. Do not reuse a CUDA context after an illegal-access exception.",
+    "compare": [
+      "actual request, N, batch, pattern, seed and buffer capacities",
+      "ordered generated source hashes and canonical semantic descriptors",
+      "original-header expected versus instrumented observed compiler inputs, retaining A1 observation limits",
+      "default numerical and immutable-input checks",
+      "suspect candidate failure phase/message and compiler/descriptor evidence"
+    ],
+    "excluded_use": "These four processes diagnose correctness/execution eligibility only. Their times do not enter screening, confirmation, headline, model labels or cost estimators. No extra workload or candidate search is authorized."
+  },
+  "decision_rules": {
+    "matching_failure": "If both default controls pass, both suspect-candidate paths fail at the same single-forward execution boundary, their request/canonical/source/expected compiler inputs match, and all guard checks are clean, classify the observed suspect workload/candidate as execution-invalid under this harness and declared task. This does not establish a timing gain.",
+    "attribution_limit": "Matching original-header and instrumented failures argue against an instrumentation-only defect. Because both use the same harness, this alone does not prove an upstream-library bug or exclude a shared harness/configuration issue. State that limit explicitly.",
+    "disagreement": "If either default fails, the binary paths disagree, source/canonical/compiler evidence differs, or monitoring/reference/trace/graph-serialization integrity is uncertain, stop the affected path for focused engineering diagnosis. Do not relax correctness or silently classify that discrepancy as candidate-invalid.",
+    "controller_fix": "On the matching-failure branch, allow a separately labeled nondefault execution-invalid result after successful audited initialization and a CUDA execution fault at the single-forward boundary. Keep reference, request, identity, source/descriptor, trace, graph-serialization and default/replica failures fatal. Preserve all unavailable numerical fields as unavailable rather than fabricating correctness results.",
+    "no_retroactive_pass": "The original failed S0 probe remains failed. Complete only the remaining 45 unique frozen semantic probes; do not rerun failed cases until they pass or substitute diagnostic rows for them.",
+    "semantic_gate": "Record protocol completion separately from candidate validity: all 64 fixed probes accounted for, protocol_valid=true only if every failed probe is an explicitly classified candidate-local failure, all_candidates_passed=false when any candidate failed, and a full candidate_validation_failures ledger. Do not label this all-candidates-passed.",
+    "exact_cell_eligibility": "A failed fixed semantic probe makes its exact workload_id/candidate_id ineligible for performance selection even if a later random-input execution succeeds. Still perform the original S1 request and retain its actual observed result, annotated with that preflight failure. Do not extrapolate an S0-only batch failure to other batches or remove a whole candidate column without observations.",
+    "complete_matrix": "Retain all 36x26 S1 attempted cells. Each isolated failed candidate is recorded as invalid/unavailable and excluded from winner, alternative, global eligibility and learning targets; no zero or imputed latency, skipped-column search or post-failure candidate replacement.",
+    "new_faults": "New nondefault CUDA single-forward execution failures with the same audited initialization/protocol integrity may be recorded as execution-invalid under the same task, without claiming their root cause is proven. A new structural/trace/reference/graph/identity discrepancy remains fatal and is not covered by this classification."
+  },
+  "health_and_guard": {
+    "no_new_health_budget": true,
+    "distinction": "A guard wrapper terminating because the controller raised its candidate-failure exception is not by itself evidence of GPU competition or a failed health comparison. Reuse the completed health gate only if the associated GPU samples and closed process intervals are clean and the new diagnostic default controls pass; retain the original target-exception/guard-abort record.",
+    "admission": "Require the original 30-second quiet start for each guarded diagnostic/resumed stage. A real foreign-process, memory, monitoring, default-health or negative-control failure remains governed by A2/A4's exhausted recovery budget."
+  },
+  "research_unchanged": "No correctness threshold, candidate/workload request, R, performance sampling, selection objective, S2/S3/S4 budget, inferential threshold or H4 feature rule changes. This records bounded engineering evidence and implements the frozen distinction between invalid candidates and invalid experiments."
+}

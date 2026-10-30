@@ -1,0 +1,21 @@
+{
+  "archived_v1_failure_evidence_sha256": {
+    "rotating_benchmark_v1.cpp": "ff08be0af0623266fd45df2351754a8570dc2a5f46c3f05edb7e8a7eb90fff38",
+    "rotation_build_v1_0.json": "00d37bbcac603ad5b8de0b6782eafe1127a7e03b895e2750b124c3b437af4b6f",
+    "rotation_build_v1_1.json": "ce75c34796c13b3805702fa39b1006cbc7dc0fee0e8406264bdbd532eaae1b6e",
+    "rotation_build_v1_2.json": "d275af279c9c90f2773ca7e7883bf3f56a74320bdf9cc2196c7d5fa70fac1d5e",
+    "rotation_provenance_v1.json": "2c3b92fd5bd596fa72ba992fc57601a427578eecf8b5be15dcefe214ab2df240"
+  },
+  "schema": "rotation-v2-source-freeze/v1",
+  "scope": "isolated CUDA 12/13 compatibility; actual CUDA13 rebuild and GPU execution pending",
+  "source_sha256": {
+    "ROTATION_V2.md": "8833275ba1aedb4843d0eead08a270fc89202b097560e275493ae7ae16208361",
+    "prepare_rotation_v2.py": "d34d7687e54e08ee4c4fdac2839a2639996c6fd7a2348a12b56dabfb8e89dbda",
+    "rotation_compat_cpu/CMakeLists.txt": "dbf6495cac153e3fdd313ed60868d155a2e8ae0225d1f0d546e12e8009b2a7fe",
+    "rotation_cuda_compat.hpp": "4cb27516ab0c57ec76a8b1796b73cc6b14568fbad16d2ddc3690e9a75c1fb65d",
+    "rotation_runner_v2.py": "04c7f99eabc4c175befc775f5cc6b9a3e17155f62adc5fa919be5e9732aad249",
+    "rotation_source_manifest_20261030.json": "2ce79852455ffa3cfc71f999ff2b425ce724c3c1460935f416215fd2a5ecce80",
+    "test_rotation_cuda_compat.cpp": "1bba440a62f24002aa4c1185eb3479a89449d2a4f6e2e60bb3c9ce53049830ce",
+    "test_rotation_v2.py": "efd93d3f4b2198a0c92a1ba0621274385cb38f516ef8bbd140e59435f75cad51"
+  }
+}

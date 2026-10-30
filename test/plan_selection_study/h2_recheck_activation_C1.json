@@ -1,0 +1,33 @@
+{
+  "schema_version": "plan-selection-independent-h2-activation-clarification/v1",
+  "clarification_id": "H2-C1",
+  "study_id": "plan_selection_h2_followup_20261028_r1",
+  "created_utc": "2026-10-28T02:20:38Z",
+  "design_file": "h2_recheck_design.json",
+  "design_sha256": "0382c528887a215d9b0dc2507b8956845c0a0bf1403e5804a26ff88eeb572d52",
+  "data_state": "No independent followup process has started. The decision agent has reviewed completed primary S1 only; no primary S2/S3/S4 performance outcome has been used. This record resolves a controller-status interpretation before admission, not a result-driven change.",
+  "reason": "The frozen phrase 'status is complete' must distinguish completion of the planned original sequence from a positive H3 construction-equivalence result. The original controller can report a fully completed cost matrix as complete_with_limitations when construction equivalence is not established. Negative scientific evidence must remain reportable without being confused with an interrupted or invalid experiment.",
+  "original_freeze_preserved": true,
+  "activation": {
+    "screen_confirmation_headline": "Each stage must have state exactly complete, a passed gate, complete frozen workload/candidate/round coverage, verified row hashes, and completed clean guard sessions. No generic complete_with_limitations admission is allowed for these stages.",
+    "cost_complete": "Require the exact original eight workloads, three paired rounds and two pipeline modes: 48 unique pipeline rows and 24 complete pair audits. Every pipeline row must have status ok, returncode 0, no validation/protocol/timeout error, and verified row/guard provenance. Every guard session must be complete. A complete state additionally requires a passed cost gate.",
+    "cost_limited_exception": "Only the cost stage may use state complete_with_limitations, and only with exit_reason exactly H3_unresolved_or_limited, all 48 pipeline rows and 24 pairs meeting the preceding completeness and execution requirements, and a negative gate whose remaining errors are solely construction-equivalence findings. The allowed findings are describe_full_inequivalent:<candidate_id> and selected_materialization_changed_plan_or_source from audit_pair. No other audit error is admitted by this exception.",
+    "always_reject": [
+      "Any missing, duplicated or substituted pipeline, workload, candidate schedule or pair",
+      "Any pipeline row with failed status, nonzero returncode, initialization/compilation/execution failure, timeout or validation error",
+      "Any monitoring, resource, foreign-process, identity or guard stop; unfinished guard session",
+      "Any malformed or incomplete trace, compiler-options mismatch, wrong compiler/module/launch counters, missing fingerprint or protocol/coverage mismatch",
+      "Any original stage still running, stopped, incomplete or not started",
+      "Using the followup to replace or continue an original stopped experiment"
+    ],
+    "proof": "Retain this clarification and its SHA256 with the independent runtime manifest and admission snapshot. Recompute coverage and the stated admissibility checks from raw records and pair audits rather than trusting state names alone. No original performance-effect threshold is an activation condition."
+  },
+  "unchanged": [
+    "The independently frozen N, batch endpoints, candidate pair, directions, namespace, R values and source hashes",
+    "One mandatory fresh 30-process health gate and exactly 60 recheck processes, at most 90 total, zero retries",
+    "All correctness and guard thresholds and the separate two-test Holm family",
+    "The original study's design, matrices, selection manifests, headline family, effects and validity classifications",
+    "Posthoc S1-selected status; no claim of original preregistration or pooling with original data"
+  ],
+  "decision": "Enable only the narrow complete-cost-negative-equivalence exception described above; all other frozen activation restrictions remain in force."
+}

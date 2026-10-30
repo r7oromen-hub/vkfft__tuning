@@ -1,0 +1,29 @@
+{
+  "schema_version": "plan-selection-independent-h2-activation-clarification/v1",
+  "clarification_id": "H2-C2",
+  "study_id": "plan_selection_h2_followup_20261028_r1",
+  "created_utc": "2026-10-28T02:40:56Z",
+  "design_file": "h2_recheck_design.json",
+  "design_sha256": "0382c528887a215d9b0dc2507b8956845c0a0bf1403e5804a26ff88eeb572d52",
+  "activation_C1_sha256": "b1c2259a40b7fbf4f3659b8d5655cc51083ee6eb4269d523647e0671d4646210",
+  "A6_file": "research_addendum_A6.json",
+  "A6_sha256": "aea6c6f006dd993d30983b37ec285aa8a214c1da9ef181bcde60c9ba52a035d6",
+  "A6_freeze_sha256": "1e8348cc146e667dd7884fe347646efb464582b184eb9584df5a4eafdcd7f69b",
+  "data_state": "No independent H2 process has started. Original S2 is complete; original cost stopped at the specific A6 owned-child exit identity incident. This record only defines admission after the explicitly authorized finite engineering repair completes.",
+  "interpretation": "A completed A6-repaired original cost sequence is an engineering-repaired completed scientific matrix. It is not a continuation of an unresolved resource/validity stop. The original H2 activation still requires the original screen, confirmation, cost and headline sequence to finish before any H2 health or recheck process.",
+  "cost_admission": {
+    "required": "Verify the frozen A6 identity, exact original 21-row prefix and original guard/incident hashes, immutable explicit recovery admission and all accepted_pairs.json membership. Require exactly 24 original pairs and 48 unique selected rows. The raw ledger must retain 49 accepted attempts, including exactly the A6 orphan, and the single separate A6 quarantine; physical launches must not exceed 50. No other exclusions or repaired pairs are permitted.",
+    "pair_schema": "Each selected entry has workload_id, round, block_attempt, candidate_ids in original mode order, record_hashes, and recomputed quality. Use only A6 fixed memberships: ten preserved attempt-0 pairs, affected pair attempt 1, thirteen remaining attempt-0 pairs.",
+    "guard_exception": "For exactly the twenty A6-enumerated original row hashes, verify their clean closed run intervals and the exact later A6 incident instead of requiring their old cost guard session to be complete. The old session remains aborted. Every newly selected row must have a clean completed new guard session; no other failed or incomplete guard session is admitted.",
+    "preserve_C1": "All selected 48 rows must meet C1 execution/protocol checks and exact original candidate schedule/seed coverage. Cost state complete requires passed gate and positive pair audits; the narrow C1 complete_with_limitations exception remains only for construction-equivalence scientific negatives. Any new execution/resource/monitor/protocol failure blocks H2.",
+    "snapshot": "Hash A6, its freeze, this C2, the recovery admission, accepted_pairs, raw ledgers, pair history, gates/statuses and source guard evidence in the H2 runtime admission. Do not silently normalize raw49 into raw48."
+  },
+  "unchanged": [
+    "No original effect or hypothesis is replaced by followup data",
+    "Same frozen H2 pair and endpoints, fresh namespace and two-test family",
+    "Mandatory one 30-process health gate plus 60 paired recheck processes; no retry",
+    "Same correctness, resource, negative-control and statistical thresholds",
+    "Posthoc S1-selected classification; no pooling or substitution"
+  ],
+  "decision": "Allow only the A6-specific completed repaired primary-cost matrix described here. All other original H2 activation restrictions and C1 checks remain in force."
+}

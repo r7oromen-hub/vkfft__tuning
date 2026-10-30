@@ -1,0 +1,131 @@
+{
+  "schema_version": "plan-selection-independent-h2-design/v1",
+  "study_id": "plan_selection_h2_followup_20261028_r1",
+  "created_utc": "2026-10-28T02:09:20Z",
+  "status": "frozen_after_primary_S1_before_any_followup_data",
+  "purpose": "Independently confirm or refute one exact-candidate-ID rank reversal across two batch endpoints. This closes an original confirmation-coverage gap without modifying the original study.",
+  "selection_origin": {
+    "classification": "Posthoc S1-selected, prospectively frozen independent confirmation; not part of the original preregistered S2/S4 family.",
+    "primary_study_id": "plan_selection_20261027_r2",
+    "primary_design_sha256": "145298636cc4669e96d226a5b0d0366612abacf193bf4fd8347ef32403b0fa0e",
+    "primary_output": "results/resume_20261028_attempt2",
+    "screen_selection_sha256": "3f7dc556aea14edb6131ebf457e07029561460f8d5547e0f9b5490213c41664c",
+    "screen_measurements_sha256": "4777ef38ba2e561b3c6f50064ddecd1adba7870abcd7c76c1e3dcf5124750384",
+    "basis": "Use only the completed primary S1 matrix: N=16384 shows the originally predeclared default-versus-a128_r4_l1_np1 contrast reversing between B=1 and B=2048, but the candidate is absent from the small-batch frozen S2 union. Fix this pair and both directions now; no S2/S4 result is a selection input.",
+    "screen_reference_ratios": {"n16384_b1_default_over_candidate": 0.4372113700976564, "n16384_b2048_default_over_candidate": 2.0097741302247076},
+    "screen_record_sha256": {
+      "n16384_b1_default": "de666cf1fe678c37d7777bce1361b44fbf698a4d16c5a883f8be0134c32504e4",
+      "n16384_b1_candidate": "0ab25d20117089d238f37e184c06b0295f92643b91089a2f5cb36b869617042f",
+      "n16384_b2048_default": "98abc2af7beae0e2c4815e428fa1d09e6c1103ca11578e0a9f20bd7d247fa153",
+      "n16384_b2048_candidate": "72d94ac9538aabf12b201ab9bb008a3897ab22ce29f7a6f336fa5867951d9a66"
+    },
+    "no_adaptive_reselection": "Do not change the N, batch endpoints, candidate pair, directions, sample count or round count after observing original S2/S4 or this followup. Do not substitute another pair if this one fails."
+  },
+  "activation": {
+    "required_primary_stages": ["screen", "confirmation", "cost", "headline"],
+    "require_primary_sequence_complete": true,
+    "rule": "Start only after all original fixed GPU stages have finished their planned sequence and their status is complete. A resource, monitoring or validity stop in the original sequence does not authorize this followup as a way to continue or replace the stopped original experiment. Retain a hash snapshot of original statuses/gates/selection files at admission.",
+    "execution_policy": "Root alone schedules remote GPU work. This freeze authorizes the separate bounded followup under the user's comprehensive research request; it does not permit overlap with the original GPU run."
+  },
+  "output_directory": "results/h2_independent_20261028_r1",
+  "scope": {
+    "device_uuid": "GPU-fb86b36f-0a9f-6cbd-a36b-03b9073f4786",
+    "backend": "CUDA",
+    "precision": "FP32",
+    "dimensions": 1,
+    "transform": "C2C forward unnormalized",
+    "placement": "out_of_place",
+    "output_order": "natural",
+    "input": "immutable contiguous",
+    "stream_count": 1,
+    "executable_sha256": "0efb158af512078094b23cb015e30ea5f7b800067003c03da0c2aeda21dbf17a",
+    "upstream_commit": "066a17c17068c0f11c9298d848c2976c71fad1c1",
+    "source_policy": "Use the same verified measurement binary and original library revision. Only the independent controller/report is new; no changes to primary measurement code or data."
+  },
+  "workloads": [
+    {"id": "n16384_b1", "n": 16384, "batch": 1, "input_bytes": 131072, "role": "single"},
+    {"id": "n16384_b2048", "n": 16384, "batch": 2048, "input_bytes": 268435456, "role": "large_batch"}
+  ],
+  "candidates": [
+    {"id": "default", "role": "default", "aim_threads": 0, "register_boost": 0, "use_lut": 0, "register_boost_nonpow2": 0, "coalesced_memory": 0, "use_lut_4step": 0, "swap_to_2stage": 0, "swap_to_3stage": 0, "disable_reorder_four_step": 0},
+    {"id": "default_replica", "role": "negative_control", "aim_threads": 0, "register_boost": 0, "use_lut": 0, "register_boost_nonpow2": 0, "coalesced_memory": 0, "use_lut_4step": 0, "swap_to_2stage": 0, "swap_to_3stage": 0, "disable_reorder_four_step": 0},
+    {"id": "a128_r4_l1_np1", "role": "fixed_comparator", "aim_threads": 128, "register_boost": 4, "use_lut": 1, "register_boost_nonpow2": 1, "coalesced_memory": 0, "use_lut_4step": 0, "swap_to_2stage": 0, "swap_to_3stage": 0, "disable_reorder_four_step": 0}
+  ],
+  "measurement": {
+    "seed_namespace": "plan_selection_h2_followup_20261028_r1/v1",
+    "seed_derivation": "Same SHA256 little-endian first-four-byte method as the original study, but this new namespace. Use phase='health' or 'h2_recheck'; input seed is shared within each paired workload/round and differs from original-study seeds.",
+    "screen_samples": 101,
+    "confirmation_samples": 101,
+    "warmup_ms": 1000,
+    "warmup_count": 5,
+    "execution_metric": "Median CUDA-event interval of the frozen-R serialized graph divided by R, immutable-input repeated steady-state full-batch forward; not isolated host API latency.",
+    "process_unit": "Every candidate/workload/round is a fresh process and context. Only paired process medians are independent repetitions; 101 graph samples are not 101 independent process replicates.",
+    "order": "Seed the two workload endpoint order separately for each round. Default and default_replica bracket the comparator; alternate which baseline ID comes first by round. Use the original deterministic helpers with the new namespace and phase.",
+    "restore": "Restore input outside each timed graph sample; retain one-forward and repeated-graph correctness plus bitwise input-stability checks.",
+    "repeats_source_file": "results/resume_20261028_attempt2/graph_repeats.json",
+    "repeats_source_sha256": "3cd2901cedc32c6b7874489e70c3eda82a82c59424f5e96d54af69db21ff4153",
+    "repeats_frozen": {"n16384_b1": 137, "n16384_b2048": 1, "n1024_b1": 426, "n81920_b409": 1, "n1048576_b32": 1},
+    "no_new_calibration": true,
+    "repeat_import_rule": "Verify exact source-file SHA, original study identity, same executable and UUID, frozen R entries and their original provenance. Reuse R only, not old timing labels, health pairs or confirmation observations."
+  },
+  "rounds": 10,
+  "directional_tests": [
+    {"test_id": "single_batch_default_benefit", "workload_id": "n16384_b1", "reference": "a128_r4_l1_np1", "target": "default"},
+    {"test_id": "large_batch_comparator_benefit", "workload_id": "n16384_b2048", "reference": "default", "target": "a128_r4_l1_np1"}
+  ],
+  "health": {
+    "enabled": true,
+    "workloads": [
+      {"id": "n1024_b1", "n": 1024, "batch": 1, "input_bytes": 8192, "role": "health"},
+      {"id": "n81920_b409", "n": 81920, "batch": 409, "input_bytes": 268042240, "role": "health"},
+      {"id": "n1048576_b32", "n": 1048576, "batch": 32, "input_bytes": 268435456, "role": "health"}
+    ],
+    "paired_process_rounds": 5,
+    "candidates": ["default", "default_replica"],
+    "samples": 101,
+    "criteria": "All numerical/guard checks pass, every default/replica pair satisfies abs(log(ratio))<=log(1.05), each workload geometric-mean ratio is in [0.98,1.02], and no process first/last-quartile median drift exceeds 5% in either direction. Source/compiler fingerprints must agree for default and replica.",
+    "complete_gate_required": true,
+    "gates_max": 1
+  },
+  "correctness": {
+    "inherited_from": "primary research_design.json norm_v2_frozen",
+    "l2_formula": "norm2(y_gpu-y_ref)/(sqrt(N)*norm2(x))<=1e-5 for every transform",
+    "linf_formula": "normInf(y_gpu-y_ref)/norm2(x)<=1e-4 for every transform",
+    "finite_required": true,
+    "immutable_input_required": true,
+    "full_natural_order_output_required": true,
+    "failure_rule": "Any comparator/default/replica numerical, initialization, execution or protocol failure stops this separate study. No A5 candidate-local-failure continuation, replacement, imputation or threshold relaxation is allowed."
+  },
+  "guard": {
+    "quiet_start_seconds": 30,
+    "poll_interval_seconds": 1,
+    "memory_cap_mib": 2048,
+    "frozen_uuid_required": true,
+    "negative_control": "For every recheck block require default/replica source/compiler equality and abs(log(default/replica))<=log(1.05). No additional 2% aggregate-control threshold is imposed on recheck; that threshold belongs only to health.",
+    "drift": "No successful process's first-versus-last-quartile median may differ by more than 5% in either direction.",
+    "failure_rule": "Any foreign compute, memory breach, monitoring/identity failure, failed control or stage-start resource refusal stops this followup with preserved evidence. Never touch another user's process.",
+    "no_retry": true
+  },
+  "statistics": {
+    "family_id": "independent_h2_followup_family_20261028_r1",
+    "family_size": 2,
+    "unit": "ten paired fresh-process medians per endpoint",
+    "effect": "exp(mean(log(reference_median/target_median))) over the ten frozen paired rounds",
+    "null": "mean(log(reference/target))<=log(1.02)",
+    "test": "One-sided paired-log Student-t with df=9; Holm correction across exactly the two predeclared opposite directions.",
+    "interval": "Ordinary paired-log Student-t 95% interval, labeled descriptive and not familywise adjusted.",
+    "clear_gain": "Point geometric-mean ratio>=1.05 AND Holm-adjusted p<0.05 against the 2% null, plus complete guard/control/correctness validity.",
+    "zero_variance": "If paired-log range<=16*float64_epsilon*max(1,maxabs(logratios)), label noninferential/quantization-limited and do not manufacture t/p/CI; use p=1 only for Holm family counting.",
+    "missing": "Incomplete or invalid directions remain in the family with p=1 for counting, have no inferential effect/CI, and cannot establish a crossover.",
+    "rank_reversal_claim": "Both opposite directions must independently satisfy clear_gain. Otherwise report the observed valid data and uncertainty without claiming a confirmed rank reversal.",
+    "negative_control": "Default_replica is a quality control only and is not a benefit hypothesis.",
+    "no_pooling": "Never pool these observations, health rows or p-values with original S1/S2/S3/S4; do not revise the original headline family or original frozen-winner primary effect."
+  },
+  "budgets": {"health_processes_max": 30, "recheck_processes": 60, "total_processes_max": 90, "health_gates_max": 1, "retries": 0, "resource_process_timeout_seconds": 180},
+  "reporting": {
+    "label": "Separate posthoc S1-selected independent H2 confirmation",
+    "retain": "Frozen design/hash, primary-admission snapshot, original R provenance, every fresh process record and numerical result, raw timing samples, guard logs, exact test family, controller hashes, negative/null/invalid/incomplete outcomes.",
+    "limits": "A positive result establishes a pair-specific rank reversal between these two declared workload regimes on this GPU and timing metric. Batch changes working-set/cache conditions as well as parallelism. Do not attribute causality to upload count alone or infer a complex-model requirement, cross-GPU generalization, compile-free correctness certification or end-to-end online selector performance.",
+    "stop_after": "One health gate followed by exactly ten rounds per endpoint, or the first defined failure. No pair substitution, additional endpoints, extra rounds until significance, or automatic expansion."
+  }
+}

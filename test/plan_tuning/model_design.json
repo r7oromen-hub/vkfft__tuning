@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "declared_utc": "2026-10-27T08:53:10Z",
+  "declaration_context": "Before any complete main-screen workload or model outcome was available. Parent reported 22 incomplete screen records. Only separate protocol/control validation had been inspected.",
+  "primary_target": "log(t_candidate/t_default)",
+  "secondary_target": "absolute log(t_candidate_ms), sensitivity analysis only; do not select target based on results",
+  "default_timing_usage": "Construct training/evaluation labels only; no default or candidate timing is an inference feature",
+  "feature_sets": [
+    "workload + raw requested knobs",
+    "workload + planner descriptors",
+    "workload + raw requested knobs + planner descriptors"
+  ],
+  "excluded_features": ["all nested cuda_* compiler/resource fields", "graph repetition count R", "initialization/graph construction/execution timings", "correctness metrics"],
+  "primary_grouping": "GroupKFold by exact N, all batch regimes and candidate configurations together, up to 5 folds",
+  "secondary_grouping": "GroupKFold by odd part of N, leaving entire pow2/mixed3/mixed5 families out, up to 5 folds (3 for main design)",
+  "learner": {"class": "ExtraTreesRegressor", "n_estimators": 160, "min_samples_leaf": 2, "max_features": 1.0, "random_state": 20261027, "n_jobs": 1},
+  "training_weights": "Equal workload weight: candidate weight 1/19 for each complete workload. All methods use identical complete-workload support and splits.",
+  "preprocessing": "Fit DictVectorizer vocabulary on training rows only; test-only fields are ignored",
+  "baselines": ["default", "single globally fixed configuration selected by training-workload geometric mean only"],
+  "tie_policy": "Canonical row order by workload, default first, then candidate ID; stable minimum predicted cost wins ties",
+  "metrics": ["geometric mean speedup versus default", "geometric mean slowdown versus tested oracle", "fraction within 2% and 5% of oracle", "hypothetical top2/top4 shortlist-oracle quality"],
+  "interpretation": "Exploratory screen-based model selection quality, not independent confirmation. All plans were actually initialized. No measured plan-only path, compile avoidance, or online end-to-end model overhead."
+}
