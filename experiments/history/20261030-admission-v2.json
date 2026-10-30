@@ -1,0 +1,55 @@
+{
+  "schema": "historical-experiment-index/v1",
+  "id": "20261030-admission-v2",
+  "execution_commit": null,
+  "archive_basis_commit": "b68cde195137e57158d3e1fa8cdb8a7122f07b04",
+  "provenance_status": "retrospective_evidence_index_not_execution_commit",
+  "status_description": "Fresh repaired admission passed; snapshot and final logs retained",
+  "evidence": [
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/admission_v2_b6fcc72e9ff2413783c1b5710a9ba963.guard.jsonl",
+      "bytes": 1457860,
+      "sha256": "998b2676fb266cae2f365faf6e5078bfdd13726332ccb93c0cab552eed4a7f58"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/admission_v2_b6fcc72e9ff2413783c1b5710a9ba963.incidents.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/admission_v2_b6fcc72e9ff2413783c1b5710a9ba963.jsonl",
+      "bytes": 10289868,
+      "sha256": "b3c009888609de31ec320b789ed565307028ba828220f9176e3ef181ebe7459e"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/admission_v2_b6fcc72e9ff2413783c1b5710a9ba963.snapshot.guard.jsonl",
+      "bytes": 518848,
+      "sha256": "785ed6b6f1d0c141a20d606aa009bb015bf740a9990bad9fda03127516d7e608"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/admission_v2_b6fcc72e9ff2413783c1b5710a9ba963.snapshot.incidents.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/admission_v2_b6fcc72e9ff2413783c1b5710a9ba963.snapshot.jsonl",
+      "bytes": 3699448,
+      "sha256": "9ef686455541f579b23e683a6718eb783534e818f2dd6d6fb10b4fcde5630ca9"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/expanded_provenance_v2.json",
+      "bytes": 2644,
+      "sha256": "e33afb4140d217ec05881ddf52d0d5aa05a805f949bcbf1b900ea5e84bbe7947"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/study_protocol.json",
+      "bytes": 1618,
+      "sha256": "72e1dd2eddf4d530c0b79c90c0ed681ce09e79b941b8e82efca75e2032df9589"
+    }
+  ],
+  "limitations": [
+    "Original run predates this experiment Git repository.",
+    "Current imported source is not asserted identical to historical executed source.",
+    "Local evidence paths and hashes do not imply raw data has been uploaded."
+  ]
+}
