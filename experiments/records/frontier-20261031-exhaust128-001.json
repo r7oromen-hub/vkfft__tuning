@@ -1,0 +1,21 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-exhaust128-001",
+  "status": "declared",
+  "declared_at": "2026-10-30T16:33:23.048310+00:00",
+  "parent_code_commit": "8b3cb8db52d59077b7e1162bff074a51069b3ae9",
+  "protocol": {
+    "path": "experiments/frontier_20261031_protocol.json",
+    "bytes": 2185,
+    "sha256": "778b5d241085128c3622944ec573e4745255ae00617e533c86d32d696f86d397"
+  },
+  "command": [
+    "python3",
+    "tools/frontier_search_phase.py",
+    "--phase",
+    "exhaust128"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
