@@ -1,0 +1,165 @@
+{
+  "scope": "20 discovered historical run/stage records; not an exhaustive reconstruction of every earlier command",
+  "runs": [
+    {
+      "id": "20261030-admission-v1",
+      "archive_commit": "d11e1e76f6efd61cc6d7cae16ee7f28362932114",
+      "execution_commit": null,
+      "record": "20261030-admission-v1.json",
+      "status": "Stopped on identity-check issue; retained failed admission",
+      "primary_evidence": "test/plan_selection_study/expanded_search/results_20261030/admission_dc66fec2f0ec471fb6723e44967a4ceb.guard.jsonl"
+    },
+    {
+      "id": "20261030-admission-v2",
+      "archive_commit": "99c8362647c42251ff3ddb1ed51b8d663a9a85da",
+      "execution_commit": null,
+      "record": "20261030-admission-v2.json",
+      "status": "Fresh repaired admission passed; snapshot and final logs retained",
+      "primary_evidence": "test/plan_selection_study/expanded_search/results_20261030/admission_v2_b6fcc72e9ff2413783c1b5710a9ba963.guard.jsonl"
+    },
+    {
+      "id": "20261030-confirmation-session1",
+      "archive_commit": "5a4a25a19359f2250ae2908fd80aaf1b41dc2ede",
+      "execution_commit": null,
+      "record": "20261030-confirmation-session1.json",
+      "status": "11 workloads, 110 pairs",
+      "primary_evidence": "test/plan_selection_study/expanded_search/results_20261030/confirmation_first_d0a3389193ab406c97c149c0752597f3.guard.jsonl"
+    },
+    {
+      "id": "20261030-confirmation-session2",
+      "archive_commit": "1eb2fd45968dd8ecc655cbca71d69edd861f9d09",
+      "execution_commit": null,
+      "record": "20261030-confirmation-session2.json",
+      "status": "9 workloads, 90 pairs",
+      "primary_evidence": "test/plan_selection_study/expanded_search/results_20261030/confirmation_second_d3e5f3c437f24030830f8cb865247b9a.guard.jsonl"
+    },
+    {
+      "id": "20261030-rotation-v1",
+      "archive_commit": "130fe95059941fe6610b6c8a193b381a9e7df73e",
+      "execution_commit": null,
+      "record": "20261030-rotation-v1.json",
+      "status": "Build failed before GPU experiment",
+      "primary_evidence": "test/plan_selection_study/expanded_search/results_20261030/rotation_build_v1_0.json"
+    },
+    {
+      "id": "20261030-rotation-v2",
+      "archive_commit": "5aebf884bd47d3a84fe10e8f501c86db34efa321",
+      "execution_commit": null,
+      "record": "20261030-rotation-v2.json",
+      "status": "Repaired build passed; GPU rotation experiment not started",
+      "primary_evidence": "test/plan_selection_study/expanded_search/results_20261030/rotation_uncovered_local_audit.json"
+    },
+    {
+      "id": "20261030-search",
+      "archive_commit": "3a6d7ada4ae6313628f6ed1d425fcc0d15d1235d",
+      "execution_commit": null,
+      "record": "20261030-search.json",
+      "status": "393 complete candidates, 255 scheduler rejects, 1 partial",
+      "primary_evidence": "test/plan_selection_study/expanded_search/results_20261030/search_7c86f6f3e3ea4e29ad024a63743d3872.snapshot.guard.jsonl"
+    },
+    {
+      "id": "legacy-15ae3a2ef3c7ebc0",
+      "archive_commit": "f571a7e7a90d9e286dcb620cdffb9776c2eab6f9",
+      "execution_commit": null,
+      "record": "legacy-15ae3a2ef3c7ebc0.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_tuning/results/controls_hot_1024/manifest.json"
+    },
+    {
+      "id": "legacy-2ad8801f415ce6c5",
+      "archive_commit": "2ffbaaa45d7325f16d6f71a76cf4f1aea90bb18b",
+      "execution_commit": null,
+      "record": "legacy-2ad8801f415ce6c5.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_selection_study/results/resume_20261028_attempt2/equivalence/manifest.json"
+    },
+    {
+      "id": "legacy-3c3b1918fb6cf86f",
+      "archive_commit": "d763eaa7290600993dd593fb5213dc85039d5363",
+      "execution_commit": null,
+      "record": "legacy-3c3b1918fb6cf86f.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_selection_study/results/resume_20261028_attempt2/manifest.json"
+    },
+    {
+      "id": "legacy-4a3aa706c97b2131",
+      "archive_commit": "b8c81763da184b3afd9b7e79365657dcacc3afb1",
+      "execution_commit": null,
+      "record": "legacy-4a3aa706c97b2131.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_tuning/results/pilot/manifest.json"
+    },
+    {
+      "id": "legacy-535e285837836e9a",
+      "archive_commit": "b91c706d53baced43b3e32b6c00f80fa27d44d9b",
+      "execution_commit": null,
+      "record": "legacy-535e285837836e9a.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_tuning/results/full_outofplace_graph_v2/manifest.json"
+    },
+    {
+      "id": "legacy-6719c0a5d12f221f",
+      "archive_commit": "0dbf1fe93f3b0bce0253546c9ef33c4b4218da6f",
+      "execution_commit": null,
+      "record": "legacy-6719c0a5d12f221f.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_selection_study/results/health_attempt1/main/manifest.json"
+    },
+    {
+      "id": "legacy-8c5a1be3b418a908",
+      "archive_commit": "57b5767b1cb132b2c0bbef42db0c569ec36ed9d7",
+      "execution_commit": null,
+      "record": "legacy-8c5a1be3b418a908.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_selection_study/results/cloud_reproduction_20261028_r1/manifest.json"
+    },
+    {
+      "id": "legacy-a214337f17e7ea12",
+      "archive_commit": "7f3a2309c698979b5bfa1a80e56026046d828719",
+      "execution_commit": null,
+      "record": "legacy-a214337f17e7ea12.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_selection_study/results/resume_20261028/manifest.json"
+    },
+    {
+      "id": "legacy-c2adb5d22e27f958",
+      "archive_commit": "48e3a7c875800d046f9809396007d13ffaff2def",
+      "execution_commit": null,
+      "record": "legacy-c2adb5d22e27f958.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_tuning/results/controls_hot_81920/manifest.json"
+    },
+    {
+      "id": "legacy-cb42cbdce0e1fa8d",
+      "archive_commit": "f74209da7e6cc6f9fb307af188c0d5fb035d077e",
+      "execution_commit": null,
+      "record": "legacy-cb42cbdce0e1fa8d.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_selection_study/results/candidate_diagnostic_20261028/manifest.json"
+    },
+    {
+      "id": "legacy-cf3c9bb4b93f6cd4",
+      "archive_commit": "3d6cc9a93d85a3f04671480475a0b7da108a1ac2",
+      "execution_commit": null,
+      "record": "legacy-cf3c9bb4b93f6cd4.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_selection_study/results/main_attempt2/manifest.json"
+    },
+    {
+      "id": "legacy-e7d29958e88251c7",
+      "archive_commit": "2c0338eeed4d6bf3eb1bdfa5bc85edc956efc8a5",
+      "execution_commit": null,
+      "record": "legacy-e7d29958e88251c7.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_tuning/results/screen_complete_snapshot/manifest.json"
+    },
+    {
+      "id": "legacy-fccd00c69e40b4ee",
+      "archive_commit": "4066d1a5e9597f0b2dcc93d76f3ab8f0e14a9e2f",
+      "execution_commit": null,
+      "record": "legacy-fccd00c69e40b4ee.json",
+      "status": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+      "primary_evidence": "test/plan_tuning/results/controls_outofplace_graph_v2/manifest.json"
+    }
+  ]
+}
