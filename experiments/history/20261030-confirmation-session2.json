@@ -1,0 +1,50 @@
+{
+  "schema": "historical-experiment-index/v1",
+  "id": "20261030-confirmation-session2",
+  "execution_commit": null,
+  "archive_basis_commit": "b68cde195137e57158d3e1fa8cdb8a7122f07b04",
+  "provenance_status": "retrospective_evidence_index_not_execution_commit",
+  "status_description": "9 workloads, 90 pairs",
+  "evidence": [
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/confirmation_second_d3e5f3c437f24030830f8cb865247b9a.guard.jsonl",
+      "bytes": 1388169,
+      "sha256": "1a21f868c197e575b7a4032af4fc4df2feadd6d4ddec727d22e2aacbf62415a4"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/confirmation_second_d3e5f3c437f24030830f8cb865247b9a.incidents.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/confirmation_second_d3e5f3c437f24030830f8cb865247b9a.jsonl",
+      "bytes": 6572724,
+      "sha256": "d638dd73114dda9dbb54109da0a3cf62efeff473fa57a3a7bec906ccb78421ac"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/expanded_provenance_v2.json",
+      "bytes": 2644,
+      "sha256": "e33afb4140d217ec05881ddf52d0d5aa05a805f949bcbf1b900ea5e84bbe7947"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/study_protocol.json",
+      "bytes": 1618,
+      "sha256": "72e1dd2eddf4d530c0b79c90c0ed681ce09e79b941b8e82efca75e2032df9589"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/confirmation_source_manifest_20261030.json",
+      "bytes": 2642,
+      "sha256": "c0ada8faa2665c83158955068a8de889e8238c6f4f33793af369bd56afe36431"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/two_session_local_combined.json",
+      "bytes": 21208,
+      "sha256": "d44f21bc054334abcdd070eec789bd467eae8276555e0593aff30cdaec4c064d"
+    }
+  ],
+  "limitations": [
+    "Original run predates this experiment Git repository.",
+    "Current imported source is not asserted identical to historical executed source.",
+    "Local evidence paths and hashes do not imply raw data has been uploaded."
+  ]
+}
