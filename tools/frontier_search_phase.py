@@ -10,9 +10,10 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT/'tools'))
+import frontier_campaign_inputs as campaign_inputs
 FRONT = ROOT/'test/plan_selection_study/frontier_search'
 CONTROL = ROOT/'test/plan_selection_study/frontier_execution/runner.py'
-GPU = 'GPU-3559ec6b-6278-8f93-0706-5f8a85c4911b'
 
 
 def sha(path):
@@ -40,30 +41,21 @@ def prioritize_anchors(rows):
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--phase',choices=('exhaust128','breadth'),required=True)
+    p.add_argument('--protocol',type=Path,default=ROOT/campaign_inputs.DEFAULT_PROTOCOL)
+    p.add_argument('--admission-run',default=campaign_inputs.DEFAULT_ADMISSION_RUN)
+    p.add_argument('--gate',type=Path,default=ROOT/campaign_inputs.DEFAULT_GATE)
     args = p.parse_args()
     output = Path(os.environ['EXPERIMENT_ARTIFACT_DIR'])
-    previous = ROOT/'experiments/artifacts/frontier-20261031-admission-001'
-    gatepath = ROOT/'experiments/evidence/frontier-20261031-admission-gate.json'
-    gate = json.loads(gatepath.read_text())
-    if gate.get('status') != 'pass' or gate['gpu'] != GPU or gate['candidates'] != 7:
-        raise ValueError('fresh-device admission gate missing')
-    expected = {Path(k.replace('\\','/')).name:v for k,v in gate['evidence_sha256'].items()}
-    for name,h in expected.items():
-        if sha(previous/name) != h: raise ValueError('admission evidence changed: '+name)
-    start = json.loads((previous/'campaign_start.json').read_text())
-    # Monotonic clock and boot must match the original admission ledger.
-    first = json.loads((previous/'budget.jsonl').read_text().splitlines()[0])['state']
-    if Path('/proc/sys/kernel/random/boot_id').read_text().strip() != first['boot']:
-        raise ValueError('campaign host rebooted; budget requires review')
-    deadline = start['start_monotonic'] + start['total_reserved_wall_seconds']
-    if time.monotonic() < start['start_monotonic']: raise ValueError('monotonic clock moved backwards')
+    context=campaign_inputs.load_campaign(ROOT,args.protocol,args.admission_run,args.gate)
+    previous=context['admission_dir'];gatepath=context['gate'];gpu=context['gpu']
+    deadline=campaign_inputs.validate_clock(context)
     remaining = deadline-time.monotonic()
     # Reserve one hour for confirmation and one for the separate knob prototype.
     seconds = min(7200 if args.phase=='exhaust128' else 10800,remaining-7200)
     if seconds < 660: raise ValueError('campaign budget cannot start this phase')
     env = dict(os.environ)
-    env['PATH']='/usr/local/cuda-13.0/bin:'+env.get('PATH','')
-    env['LD_LIBRARY_PATH']='/usr/local/cuda-13.0/lib64:'+env.get('LD_LIBRARY_PATH','')
+    env['PATH']=context['cuda_root']+'/bin:'+env.get('PATH','')
+    env['LD_LIBRARY_PATH']=context['cuda_root']+'/lib64:'+env.get('LD_LIBRARY_PATH','')
     spec = importlib.util.spec_from_file_location('frontier_manifest',FRONT/'manifest.py')
     mod = importlib.util.module_from_spec(spec);spec.loader.exec_module(mod)
 
@@ -79,16 +71,16 @@ def main():
 
     def run(manifests,directory,budget,rr=False):
         directory.mkdir(parents=True,exist_ok=True)
-        cmd=[sys.executable,str(CONTROL),'--gpu',GPU,
+        cmd=[sys.executable,str(CONTROL),'--gpu',gpu,
              '--original',str(previous/'build/vkfft_frontier_original'),
              '--expanded',str(previous/'build/vkfft_frontier_v2'),
-             '--source-file',str(ROOT/'experiments/frontier_20261031_protocol.json'),
+             '--source-file',str(context['protocol']),
              '--source-file',str(Path(__file__).resolve()),'--source-file',str(gatepath),
              '--artifact-file',str(previous/'build/compile_commands.json'),
              '--generated-provenance',str(previous/'generated/expanded_provenance.json'),
              '--output',str(directory/'rows.jsonl'),'--budget-ledger',str(directory/'budget.jsonl'),
              '--log',str(directory/'guard.jsonl'),'--incidents',str(directory/'incidents.jsonl'),
-             '--lock','/run/lock/vkfft-study-'+GPU+'.lock','--seconds',str(budget),'--timeout','300']
+             '--lock','/run/lock/vkfft-study-'+gpu+'.lock','--seconds',str(budget),'--timeout','300']
         if rr:cmd+=['--round-robin']
         for path in manifests:cmd+=['--manifest',str(path)]
         (directory/'command.json').write_text(json.dumps(cmd,indent=2)+'\n')
@@ -140,7 +132,8 @@ def main():
                 mandatory.append((workload['n'],workload['batch'],item['candidate_id']))
     disposed={(r['n'],r['batch'],r['candidate_id']) for r in dispositions}
     missing=[list(key) for key in mandatory if key not in disposed]
-    status={'phase':args.phase,'gpu':GPU,'execution_commit':os.environ['EXPERIMENT_CODE_COMMIT'],
+    status={'phase':args.phase,'gpu':gpu,'execution_commit':os.environ['EXPERIMENT_CODE_COMMIT'],
+            'admission_run':context['admission_run'],'protocol_sha256':campaign_inputs.sha(context['protocol']),
             'phase_elapsed_seconds':time.monotonic()-phase_start,'budget_seconds':seconds,
             'selected_requests':sum(h['selected_count'] for h in summaries),
             'disposed_requests':len(dispositions),'screen_complete':complete,
