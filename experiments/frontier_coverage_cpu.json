@@ -1,0 +1,6 @@
+{
+  "schema": "frontier-coverage-cpu-validation/v1",
+  "suite": "frontier_confirmation",
+  "gpu_execution": false,
+  "purpose": "Check complete/partial/rejected coverage evidence and independent finite-domain counts; not a new GPU performance experiment"
+}

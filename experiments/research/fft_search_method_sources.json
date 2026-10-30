@@ -1,0 +1,28 @@
+{
+  "purpose": "Primary-source research context for the expanded VkFFT campaign; paper speedups are not measurements of this repository",
+  "sources": [
+    {
+      "title": "TurboFFT: Co-Designed High-Performance and Fault-Tolerant Fast Fourier Transform on GPUs",
+      "version": "arXiv:2412.05824v1, December 2024; paper identifies PPoPP 2025",
+      "url": "https://arxiv.org/html/2412.05824v1",
+      "sections": ["3.3.2", "5.1.4"],
+      "supported_observation": "The authors generate parameterized FFT kernels and search kernel parameters; they discuss processing one signal per block for some sizes to improve SM utilization.",
+      "our_inference": "Batch grouping should remain a joint search variable rather than being fixed while studying radix. This is motivation for testing, not proof of the same mechanism on our RTX 4090."
+    },
+    {
+      "title": "Auto-tuning of Fast Fourier Transform on Graphics Processors",
+      "version": "PPoPP 2011; historical foundation, not a recent paper",
+      "url": "https://www.microsoft.com/en-us/research/wp-content/uploads/2011/02/PPOP11.pdf",
+      "supported_observation": "The framework composes kernel variants and prunes the space using compute and memory considerations; its variants include twiddle and I/O choices.",
+      "our_inference": "Radix and block dimensions alone are not the entire optimization space. LUT and memory-layout choices deserve separately admitted experiments; historical reported speedups cannot be transferred to modern VkFFT."
+    },
+    {
+      "title": "A methodology for comparing optimization algorithms for auto-tuning",
+      "version": "Future Generation Computer Systems 159 (2024), 489–504",
+      "url": "https://pure.uva.nl/ws/files/182730825/A_methodology_for_comparing_optimization_algorithms_for_auto-tuning.pdf",
+      "doi": "10.1016/j.future.2024.05.021",
+      "supported_observation": "The paper distinguishes evaluation count from actual elapsed tuning time and includes setup, stochasticity, stopping and cross-space performance aggregation in its methodology.",
+      "our_inference": "Report best-so-far curves both by evaluated candidates and by reserved elapsed time. Do not use fewer evaluations as evidence of lower total search cost, or a temporary plateau as proof of a global optimum."
+    }
+  ]
+}
