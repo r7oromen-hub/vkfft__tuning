@@ -1,0 +1,35 @@
+{
+  "schema": "experiment-host-migration/v1",
+  "reason": "user_requested_host_change",
+  "destination": {
+    "host": "222.199.197.22",
+    "user": "ygb",
+    "port": 22,
+    "repository": "/home/ygb/vkfft_frontier_20261031_migrated/repo",
+    "selected_gpu_index": 1,
+    "selected_gpu_uuid": "GPU-fb86b36f-0a9f-6cbd-a36b-03b9073f4786",
+    "gpu_name": "NVIDIA GeForce RTX 4090",
+    "cuda_root": "/usr/local/cuda-12.6",
+    "driver": "580.105.08",
+    "observed_compute_processes_on_selected_gpu": 0
+  },
+  "migrated_code_commit": "8aedcefa2e8e754b3ec5313fc85dc2fb6648e93a",
+  "vkfft_commit": "066a17c17068c0f11c9298d848c2976c71fad1c1",
+  "archive_sha256": "43c1cd380b644823c8bedb1e49da68df11bc210b6218c56bdec0439660675bcc",
+  "verified_recorded_artifacts": 133,
+  "old_run": {
+    "id": "frontier-20261031-exhaust128-001",
+    "status": "interrupted_for_migration",
+    "wrapper_record_status": "failed",
+    "old_runner_and_child_processes_confirmed_stopped": true,
+    "interpretation": "Incomplete screening evidence retained; no terminal clean-guard confirmation claim"
+  },
+  "backup": "Old-device artifacts preserved on old host, in local migration-evidence.tar.gz and migration_snapshot, and extracted on destination",
+  "next_requirements": [
+    "Rebuild under destination CUDA and rerun original/default/identity and numerical admission on selected GPU",
+    "Do not reuse old-device timing ratios or resume old monotonic budget ledger",
+    "Carry forward elapsed campaign budget explicitly before launching a new destination campaign",
+    "Recheck selected GPU availability under guard before device execution"
+  ],
+  "destination_performance_tests_started": false
+}
