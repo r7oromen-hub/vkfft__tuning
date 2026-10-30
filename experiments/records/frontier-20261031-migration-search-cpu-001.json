@@ -1,0 +1,46 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-migration-search-cpu-001",
+  "status": "completed",
+  "declared_at": "2026-10-30T17:26:03.291549+00:00",
+  "parent_code_commit": "b6f7c1a09652cdb488d7bb32447b182f860c5b95",
+  "protocol": {
+    "path": "experiments/frontier_search_phase_cpu.json",
+    "bytes": 213,
+    "sha256": "ce22e6de5a3029e6773428d53cdd7a871bbd9b563ea7d0f37c594b142c207c6a"
+  },
+  "command": [
+    "F:\\anaconda\\python.exe",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "test/plan_selection_study/frontier_search",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": "97b1071e0228ce725be2b6be71634d2f3791831d",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-30T17:26:03.575007+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-30T17:26:05.269078+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-migration-search-cpu-001/execution.json",
+      "bytes": 935,
+      "sha256": "77c8e44944eaac5a4f018cbb586e393d642b8ff5a724b2732da9f66d7c20249b"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-migration-search-cpu-001/stderr.log",
+      "bytes": 2145,
+      "sha256": "ebedbcced8c0e6d1c5596c9c55cecd7dee8150e01ef8dc9d1c9b92d0090f2800"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-migration-search-cpu-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
