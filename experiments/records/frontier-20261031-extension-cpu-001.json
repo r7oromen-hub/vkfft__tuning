@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-extension-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-30T16:42:46.909767+00:00",
   "parent_code_commit": "ad4b83bd6be8744eb58755abaee888ca3aab14cb",
   "protocol": {
@@ -14,6 +14,41 @@
     "tools/frontier_test_extensions.py"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "80ec0b9b2084ee7d96080ac56611e791e3e05dd1",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-30T16:42:47.194708+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-30T16:42:49.568935+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-extension-cpu-001/execution.json",
+      "bytes": 822,
+      "sha256": "c488bcb76f7e7b8a271060743590e7fc119e99de9e0ef62995e569d6fa42ee73"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-extension-cpu-001/frontier_confirmation.json",
+      "bytes": 1406,
+      "sha256": "41f6fa8f43d9175e6ab2822d7109dbe39250f1cac83937d35e6113b1db14e275"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-extension-cpu-001/frontier_knobs.json",
+      "bytes": 2535,
+      "sha256": "59df0fa632b8314ba2ed1764f748ce2f7b2e00606b47fa4b0912997c5937f1d7"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-extension-cpu-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-extension-cpu-001/stdout.log",
+      "bytes": 53,
+      "sha256": "761c230fc536eb8a50b6ee63c148911f9617e311e33fa8d5d90b861ac1d21931"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-extension-cpu-001/summary.json",
+      "bytes": 193,
+      "sha256": "e600c15bcb4e5493aba56674c8d5528b24b9c0f84b693141ebadca92d0bbed65"
+    }
+  ]
 }
