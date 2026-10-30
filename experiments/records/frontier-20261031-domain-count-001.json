@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-domain-count-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-30T17:01:27.527801+00:00",
   "parent_code_commit": "85f2032196c04d61a21834a2819bba66a0e8c4f9",
   "protocol": {
@@ -14,6 +14,31 @@
     "tools/frontier_domain_summary.py"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "43acb03b76e4491fc0b92116a795ae65230ff6ba",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-30T17:01:27.823722+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-30T17:01:28.155354+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-domain-count-001/domain_summary.json",
+      "bytes": 7234,
+      "sha256": "587645bd000f60a3cafc162cad54eb7a058c423577c6a700300f8f76f7efc7ce"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-domain-count-001/execution.json",
+      "bytes": 820,
+      "sha256": "9d6c754e022dd596e2d1e98946ebd525fc0e8cfe9e173a8d156773ea2400e907"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-domain-count-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-domain-count-001/stdout.log",
+      "bytes": 486,
+      "sha256": "4d5c22a320ccb7b48968f8d1c1896a0ea78d81ceef8bfe0e4443931cb8d8b141"
+    }
+  ]
 }
