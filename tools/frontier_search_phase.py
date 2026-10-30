@@ -22,6 +22,21 @@ def sha(path):
     return h.hexdigest()
 
 
+def available_seconds(phase_start, phase_budget, deadline, now):
+    """Account for manifest construction before admitting another guarded run."""
+    return min(phase_budget - (now-phase_start), deadline-now-7200)
+
+
+def prioritize_anchors(rows):
+    selected = [r for r in rows if r['selection']=='selected']
+    def priority(row):
+        labels=set(row['selection_reasons'])
+        return (0 if 'historical' in labels else 1 if 'identity' in labels else
+                2 if 'identity_neighbor' in labels else 3, row['selection_index'])
+    for index,row in enumerate(sorted(selected,key=priority)):
+        row['selection_index']=index
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('--phase',choices=('exhaust128','breadth'),required=True)
@@ -55,6 +70,8 @@ def main():
     def manifest(n,b,identity,historical,limit,directory):
         directory.mkdir(parents=True,exist_ok=True)
         header,rows=mod.build(n,b,identity,historical,limit)
+        prioritize_anchors(rows)
+        header['execution_priority']='historical, identity, identity_neighbor, remaining selection order'
         dest=directory/f'n{n}_b{b}.manifest.jsonl'
         with dest.open('x') as f:
             for row in [header,*rows]:f.write(json.dumps(row,sort_keys=True)+'\n')
@@ -84,11 +101,15 @@ def main():
     if args.phase=='exhaust128':
         path,header=manifest(128,1,None,[],1000000,output/'manifests')
         summaries.append(header)
-        rows=run([path],output/'search',seconds)
+        search_seconds=available_seconds(phase_start,seconds,deadline,time.monotonic())
+        if search_seconds<660:raise ValueError('no search budget after manifest generation')
+        rows=run([path],output/'search',search_seconds)
     else:
         workloads=[(n,b) for b in (1,16,256,4096) for n in (128,256,512,1024,2048,4096,8192)]
         paths=[manifest(n,b,None,[],0,output/'defaults_manifests')[0] for n,b in workloads]
-        baseline=run(paths,output/'defaults',min(1800,seconds))
+        defaults_seconds=min(1800,available_seconds(phase_start,seconds,deadline,time.monotonic()))
+        if defaults_seconds<660:raise ValueError('no default-admission budget after manifest generation')
+        baseline=run(paths,output/'defaults',defaults_seconds)
         identities={(r['n'],r['batch']):r['request'] for r in baseline if r.get('record_type')=='workload_status' and r.get('status')=='identity_passed'}
         if len(identities)!=28:raise ValueError('not all fresh-device defaults admitted')
         historical={
@@ -101,17 +122,32 @@ def main():
         for n,b in workloads:
             path,header=manifest(n,b,identities[n,b],historical.get((n,b),[]),128,output/'manifests')
             paths.append(path);summaries.append(header)
-        remaining_phase=min(seconds-(time.monotonic()-phase_start),deadline-time.monotonic()-7200)
+        remaining_phase=available_seconds(phase_start,seconds,deadline,time.monotonic())
         if remaining_phase<660:raise ValueError('no search budget after defaults')
         rows=run(paths,output/'search',remaining_phase,True)
     dispositions=[r for r in rows if r.get('record_type')=='candidate_disposition']
     complete=sum(r['status']=='screen_complete' for r in dispositions)
+    mandatory=[]
+    selected_keys=set()
+    manifest_paths=[path] if args.phase=='exhaust128' else paths
+    for manifest_path in manifest_paths:
+        inventory=[json.loads(x) for x in manifest_path.read_text().splitlines()]
+        workload=inventory[0]['workload']
+        for item in inventory[1:]:
+            if item['selection']=='selected':
+                selected_keys.add((workload['n'],workload['batch'],item['candidate_id']))
+            if item['selection']=='selected' and set(item['selection_reasons']) & {'historical','identity','identity_neighbor'}:
+                mandatory.append((workload['n'],workload['batch'],item['candidate_id']))
+    disposed={(r['n'],r['batch'],r['candidate_id']) for r in dispositions}
+    missing=[list(key) for key in mandatory if key not in disposed]
     status={'phase':args.phase,'gpu':GPU,'execution_commit':os.environ['EXPERIMENT_CODE_COMMIT'],
             'phase_elapsed_seconds':time.monotonic()-phase_start,'budget_seconds':seconds,
             'selected_requests':sum(h['selected_count'] for h in summaries),
             'disposed_requests':len(dispositions),'screen_complete':complete,
             'budget_exhausted':any(r.get('record_type')=='budget_exhausted' for r in rows),
-            'all_selected_disposed':len(dispositions)==sum(h['selected_count'] for h in summaries),
+            'all_selected_disposed':disposed==selected_keys and len(dispositions)==len(disposed),
+            'mandatory_selected_count':len(mandatory),'mandatory_missing':missing,
+            'all_mandatory_disposed':not missing,
             'performance_confirmation':'not performed in this phase','inventories':summaries}
     (output/'phase_summary.json').write_text(json.dumps(status,indent=2)+'\n')
     print(json.dumps({k:v for k,v in status.items() if k!='inventories'}))

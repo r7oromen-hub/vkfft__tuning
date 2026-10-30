@@ -1,0 +1,5 @@
+{
+  "schema": "frontier-rotation-cpu-validation/v1",
+  "gpu_execution": false,
+  "purpose": "Validate generated rotation harness, hot-confirmation evidence bridge, campaign and build provenance, and independent raw-pair audit; GPU admission remains pending"
+}

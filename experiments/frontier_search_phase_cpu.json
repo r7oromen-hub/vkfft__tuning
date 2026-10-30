@@ -1,0 +1,5 @@
+{
+  "schema": "frontier-search-phase-cpu-validation/v1",
+  "gpu_execution": false,
+  "purpose": "Validate finite candidate manifests, mandatory anchor ordering and phase budget accounting before breadth search"
+}
