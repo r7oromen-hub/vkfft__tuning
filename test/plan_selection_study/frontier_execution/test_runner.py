@@ -31,9 +31,22 @@ class LedgerTests(unittest.TestCase):
                   dict(event='guard_abort', guard_id='bad', success=False, clean=False)]
         self.assertEqual(runner.completed_candidates(rows, guards), {(128,1,'a')})
 
+    def test_recorded_numerical_failure_blocks_resume(self):
+        with self.assertRaises(runner.NumericalFailure):
+            runner.reject_prior_numerical_failure([{'record_type':'candidate_disposition','status':'numerically_invalid'}])
+        with self.assertRaises(runner.NumericalFailure):
+            runner.reject_prior_numerical_failure([{'record_type':'execution','result':{'single_forward_correctness':{'passed':False}}}])
+
     def test_alternating_randomized_order(self):
         order = [runner.seeded_order(128,16,'x',i) for i in range(3)]
         self.assertNotEqual(order[0], order[1]); self.assertEqual(order[0], order[2])
+
+    def test_round_robin_respects_selection_order_and_unequal_lengths(self):
+        contexts = [(128,1,['a0','a1','a2'],None,64), (256,16,['b0'],None,64),
+                    (512,16,['c0','c1'],None,64)]
+        self.assertEqual([(ctx[0],item) for ctx,item in runner.candidate_schedule(contexts)],
+                         [(128,'a0'),(256,'b0'),(512,'c0'),(128,'a1'),(512,'c1'),(128,'a2')])
+        self.assertEqual(list(runner.candidate_schedule([])),[])
 
     def test_generated_provenance_detects_tampering(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
@@ -55,25 +68,31 @@ class LedgerTests(unittest.TestCase):
 
 
 class ScreeningTests(unittest.TestCase):
-    def run_case(self, *, fail_validation=False):
+    def run_case(self, *, fail_validation=False, fail_post_budget=False, round_robin=False, workloads=(128,), per_workload=1):
         tmp = tempfile.TemporaryDirectory(dir=Path(__file__).parent); self.addCleanup(tmp.cleanup)
         base = Path(tmp.name); request = {'radix':[8,16], 'logical_registers':16, 'grouped_batch':1}
         cid = hashlib.sha256(json.dumps(request,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-        manifest = base/'manifest.jsonl'
-        manifest.write_text('\n'.join(json.dumps(x) for x in [
-            {'schema':'frontier-manifest/v1','workload':{'n':128,'batch':16}},
-            {'candidate_id':cid, 'request':request, 'selection':'selected', 'selection_index':0,
-             'status':'pending_scheduler_and_device_validation'}])+'\n', encoding='utf8')
-        args = SimpleNamespace(gpu='GPU-test', manifest=[manifest], output=base/'out', log=base/'guard',
-                               original=base/'original', expanded=base/'expanded', timeout=10)
+        manifests = []
+        for n in workloads:
+            manifest = base/f'manifest-{n}.jsonl'; manifests.append(manifest)
+            candidates = []
+            for index in range(per_workload):
+                candidate_request = dict(request, radix=[8,16] if index == 0 else [16,8])
+                candidate_id = hashlib.sha256(json.dumps(candidate_request,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+                candidates.append({'candidate_id':candidate_id,'request':candidate_request,'selection':'selected',
+                                   'selection_index':index,'status':'pending_scheduler_and_device_validation'})
+            manifest.write_text('\n'.join(json.dumps(x) for x in [
+                {'schema':'frontier-manifest/v1','workload':{'n':n,'batch':16}}, *candidates])+'\n', encoding='utf8')
+        args = SimpleNamespace(gpu='GPU-test', manifest=manifests, output=base/'out', log=base/'guard',
+                               original=base/'original', expanded=base/'expanded', timeout=10, round_robin=round_robin)
         contract = {'binaries':{'original':'a','expanded':'b'}}
         class Budget:
-            def start(self, *a): return True
+            def start(self, identity, *a): return not (fail_post_budget and identity['phase']=='post_rejection')
             def finish(self, *a): pass
         calls = []
         descriptor = {'canonical_descriptor':{}, 'source_sha256':'hash', 'source_bytes':1, 'compiler_input':{}}
         def one(a, workload, candidate, phase, round_no, order):
-            calls.append((phase, workload['pattern'], workload['seed'], candidate[0], round_no, order))
+            calls.append((phase, workload['pattern'], workload['seed'], candidate[0], round_no, order, workload['n']))
             result = {'precompile_kernels':[descriptor], 'raw_interval_ms_samples':[2.0], 'warmup_actual':5,
                       'warmup_wall_ms':1000, 'exec_ms_median':1.0, 'exec_ms_samples':[1.0]}
             return {'record_type':'execution','status':'ok','workload':workload,'result':result}
@@ -87,7 +106,11 @@ class ScreeningTests(unittest.TestCase):
              mock.patch.object(runner,'representable',return_value=(request,None)), \
              mock.patch.object(runner.search_controller,'source_signature',return_value='same'), \
              mock.patch.object(runner.search_controller,'numerical_failure',return_value=fail_validation):
-            runner.screen(args, Budget(), contract, [])
+            if fail_validation:
+                with self.assertRaises(runner.BudgetStop if fail_post_budget else runner.NumericalFailure):
+                    runner.screen(args, Budget(), contract, [])
+            else:
+                runner.screen(args, Budget(), contract, [])
         return calls, runner.read_log(args.output)
 
     def test_complete_validation_precedes_timing(self):
@@ -105,6 +128,20 @@ class ScreeningTests(unittest.TestCase):
         self.assertFalse(any(x[0]=='timing' for x in calls))
         self.assertTrue(any(x[0]=='post_rejection' for x in calls))
         self.assertEqual([x['status'] for x in rows if x['record_type']=='candidate_disposition'], ['numerically_invalid'])
+
+    def test_numerical_failure_is_persisted_when_post_control_cannot_start(self):
+        calls, rows = self.run_case(fail_validation=True,fail_post_budget=True)
+        self.assertFalse(any(x[0] in ('post_rejection','timing') for x in calls))
+        self.assertEqual([x['status'] for x in rows if x['record_type']=='candidate_disposition'], ['numerically_invalid'])
+
+    def test_round_robin_admits_all_before_interleaved_candidates(self):
+        calls, rows = self.run_case(round_robin=True, workloads=(128,256), per_workload=2)
+        descriptions = [x[6] for x in calls if x[0]=='describe']
+        self.assertEqual(descriptions,[128,256,128,256])
+        first_candidate = next(i for i,x in enumerate(calls) if x[0]=='describe')
+        self.assertEqual(sum(x[0]=='identity' for x in calls[:first_candidate]),6)
+        self.assertEqual(sum(x[0]=='calibration' for x in calls[:first_candidate]),2)
+        self.assertEqual(sum(x.get('record_type')=='candidate_disposition' for x in rows),4)
 
 
 if __name__ == '__main__': unittest.main()

@@ -152,12 +152,20 @@ class Ledger:
 
 
 class BudgetStop(Exception): pass
+class NumericalFailure(RuntimeError): pass
 
 
 def seeded_order(n, batch, cid, round_no):
     key = json.dumps([20261031, n, batch, cid], separators=(',', ':')).encode()
     first = random.Random(int.from_bytes(hashlib.sha256(key).digest(), 'big')).randrange(2)
     return ('original', 'candidate') if (first + round_no) % 2 == 0 else ('candidate', 'original')
+
+
+def candidate_schedule(contexts):
+    """Interleave each workload's frozen selection order without replacement."""
+    for index in range(max((len(context[2]) for context in contexts), default=0)):
+        for context in contexts:
+            if index < len(context[2]): yield context, context[2][index]
 
 
 def representable(default):
@@ -188,9 +196,20 @@ def completed_candidates(rows, guard_rows):
             r.get('status') in ('screen_complete', 'scheduler_rejected', 'resource_rejected', 'numerically_invalid')}
 
 
+def reject_prior_numerical_failure(rows):
+    for row in rows:
+        result = row.get('result') or {}
+        if ((row.get('record_type') == 'candidate_disposition' and row.get('status') == 'numerically_invalid') or
+            result.get('status') == 'correctness_failed' or
+            (result.get('single_forward_correctness') or {}).get('passed') is False or
+            (result.get('correctness') or {}).get('passed') is False):
+            raise NumericalFailure('existing numerical failure requires offline audit before a new run')
+
+
 def screen(args, ledger, contract, rows):
     if os.environ.get('VKFFT_STUDY_GUARD_UUID') != args.gpu or not os.environ.get('VKFFT_STUDY_GUARD_ID'):
         raise ValueError('GPU guard required')
+    reject_prior_numerical_failure(rows)
     session = uuid.uuid4().hex
     def emit(row):
         out = dict(row); out.update(session_id=session, guard_id=os.environ['VKFFT_STUDY_GUARD_ID'], contract=contract)
@@ -219,14 +238,14 @@ def screen(args, ledger, contract, rows):
         row = one(*a, **kw)
         return validation.check(row, args.gpu, original=original, request=request)
 
-    for manifest_path in args.manifest:
+    def prepare(manifest_path):
         n, batch, selected = load_manifest(manifest_path)
         original = checked(n, batch, 'original', original=True, phase='identity')
         default = checked(n, batch, 'expanded_default', phase='identity')
         comparison.compare(default, original)
         req, reason = representable(default)
         if req is None:
-            emit(dict(record_type='workload_status', n=n, batch=batch, status='unsupported_identity', reason=reason)); continue
+            emit(dict(record_type='workload_status', n=n, batch=batch, status='unsupported_identity', reason=reason)); return None
         replay = checked(n, batch, 'identity', req, request=req, phase='identity')
         if validation.signature(default) != validation.signature(replay): raise ValueError('default identity replay mismatch')
         original_sig = search_controller.source_signature(original, original=True)
@@ -238,63 +257,80 @@ def screen(args, ledger, contract, rows):
             if min(result['raw_interval_ms_samples']) >= 2: break
             if graph >= 2048: raise ValueError('calibration failed')
             graph *= 2
-        for item in selected:
-            cid, request = item['candidate_id'], item['request']
-            if (n, batch, cid) in complete: continue
-            emit(dict(record_type='candidate_start', n=n, batch=batch, candidate_id=cid, request=request))
-            row = one(n, batch, cid, request, phase='describe', mode='describe', graph=graph)
-            reason = None
-            if validation.known_rejection(row, args.gpu):
-                reason = 'scheduler_rejected' if row['result']['error'].endswith('3002') else 'resource_rejected'
-            else:
-                described = validation.check_describe(row, args.gpu, request)
-                dp = described['precompile_kernels'][0]
-                validated_sig = None
-                for pattern in PATTERNS:
-                    for seed in SEEDS:
-                        row = one(n, batch, cid, request, phase='validation', pattern=pattern, seed=seed, graph=graph)
-                        if validation.known_rejection(row, args.gpu):
-                            reason = 'scheduler_rejected' if row['result']['error'].endswith('3002') else 'resource_rejected'
-                        elif search_controller.numerical_failure(row, args.gpu, request): reason = 'numerically_invalid'
-                        else:
-                            result = validation.check(row, args.gpu, request=request)
-                            cp = result['precompile_kernels'][0]
-                            if any(cp[k] != dp[k] for k in ('canonical_descriptor', 'source_sha256', 'source_bytes', 'compiler_input')):
-                                raise ValueError('describe and validation code differ')
-                            sig = search_controller.source_signature(result, original=False)
-                            if validated_sig is not None and validated_sig != sig: raise ValueError('validation plan drift')
-                            validated_sig = sig
-                        if reason: break
+        return (n, batch, selected, original_sig, graph)
+
+    def process(context, item):
+        n, batch, selected, original_sig, graph = context
+        cid, request = item['candidate_id'], item['request']
+        if (n, batch, cid) in complete: return
+        emit(dict(record_type='candidate_start', n=n, batch=batch, candidate_id=cid, request=request))
+        row = one(n, batch, cid, request, phase='describe', mode='describe', graph=graph)
+        reason = None
+        if validation.known_rejection(row, args.gpu):
+            reason = 'scheduler_rejected' if row['result']['error'].endswith('3002') else 'resource_rejected'
+        else:
+            described = validation.check_describe(row, args.gpu, request)
+            dp = described['precompile_kernels'][0]
+            validated_sig = None
+            for pattern in PATTERNS:
+                for seed in SEEDS:
+                    row = one(n, batch, cid, request, phase='validation', pattern=pattern, seed=seed, graph=graph)
+                    if validation.known_rejection(row, args.gpu):
+                        reason = 'scheduler_rejected' if row['result']['error'].endswith('3002') else 'resource_rejected'
+                    elif search_controller.numerical_failure(row, args.gpu, request): reason = 'numerically_invalid'
+                    else:
+                        result = validation.check(row, args.gpu, request=request)
+                        cp = result['precompile_kernels'][0]
+                        if any(cp[k] != dp[k] for k in ('canonical_descriptor', 'source_sha256', 'source_bytes', 'compiler_input')):
+                            raise ValueError('describe and validation code differ')
+                        sig = search_controller.source_signature(result, original=False)
+                        if validated_sig is not None and validated_sig != sig: raise ValueError('validation plan drift')
+                        validated_sig = sig
                     if reason: break
-            if reason:
-                result = checked(n, batch, 'original', original=True, phase='post_rejection', graph=graph)
-                if search_controller.source_signature(result, original=True) != original_sig: raise ValueError('post-rejection control drift')
-                emit(dict(record_type='candidate_disposition', n=n, batch=batch, candidate_id=cid, request=request, status=reason,
-                          diagnostic=row.get('result', {}).get('expanded_rejection_reason', 'unattributed'))); continue
-            ratios = []
-            candidate_sig = None
-            for round_no in range(3):
-                results = {}
-                for ix, name in enumerate(seeded_order(n, batch, cid, round_no)):
-                    variant = 'original' if name == 'original' else cid
-                    row = one(n, batch, variant, None if name == 'original' else request, phase='timing', graph=graph,
-                              repeats=31, round_no=round_no, order=ix, timing=True)
-                    results[name] = validation.check(row, args.gpu, original=name == 'original',
-                                                     request=request if name == 'candidate' else None, timing=True)
-                    if results[name]['warmup_actual'] < 5 or results[name]['warmup_wall_ms'] < 1000: raise ValueError('short warmup')
-                if search_controller.source_signature(results['original'], original=True) != original_sig: raise ValueError('timing original drift')
-                sig = search_controller.source_signature(results['candidate'], original=False)
-                if sig != validated_sig: raise ValueError('validation and timing plan differ')
-                if candidate_sig is not None and candidate_sig != sig: raise ValueError('candidate plan drift')
-                candidate_sig = sig
-                cp = results['candidate']['precompile_kernels'][0]
-                if any(cp[k] != dp[k] for k in ('canonical_descriptor', 'source_sha256', 'source_bytes', 'compiler_input')): raise ValueError('timing code drift')
-                ratio = statistics.median(results['candidate']['exec_ms_samples']) / statistics.median(results['original']['exec_ms_samples'])
-                if not math.isfinite(ratio) or ratio <= 0: raise ValueError('invalid timing ratio')
-                ratios.append(ratio)
-                emit(dict(record_type='screen_pair', n=n, batch=batch, candidate_id=cid, round=round_no, ratio=ratio))
-            emit(dict(record_type='candidate_disposition', n=n, batch=batch, candidate_id=cid, request=request,
-                      status='screen_complete', pair_ratios=ratios, median_ratio=statistics.median(ratios)))
+                if reason: break
+        if reason:
+            if reason == 'numerically_invalid':
+                emit(dict(record_type='candidate_disposition', n=n, batch=batch, candidate_id=cid,
+                          request=request, status=reason, diagnostic='numerical_failure_before_post_control'))
+            result = checked(n, batch, 'original', original=True, phase='post_rejection', graph=graph)
+            if search_controller.source_signature(result, original=True) != original_sig: raise ValueError('post-rejection control drift')
+            if reason == 'numerically_invalid':
+                raise NumericalFailure(f'numerical failure: n={n}, batch={batch}, candidate={cid}')
+            emit(dict(record_type='candidate_disposition', n=n, batch=batch, candidate_id=cid, request=request, status=reason,
+                      diagnostic=row.get('result', {}).get('expanded_rejection_reason', 'unattributed'))); return
+        ratios = []
+        candidate_sig = None
+        for round_no in range(3):
+            results = {}
+            for ix, name in enumerate(seeded_order(n, batch, cid, round_no)):
+                variant = 'original' if name == 'original' else cid
+                row = one(n, batch, variant, None if name == 'original' else request, phase='timing', graph=graph,
+                          repeats=31, round_no=round_no, order=ix, timing=True)
+                results[name] = validation.check(row, args.gpu, original=name == 'original',
+                                                 request=request if name == 'candidate' else None, timing=True)
+                if results[name]['warmup_actual'] < 5 or results[name]['warmup_wall_ms'] < 1000: raise ValueError('short warmup')
+            if search_controller.source_signature(results['original'], original=True) != original_sig: raise ValueError('timing original drift')
+            sig = search_controller.source_signature(results['candidate'], original=False)
+            if sig != validated_sig: raise ValueError('validation and timing plan differ')
+            if candidate_sig is not None and candidate_sig != sig: raise ValueError('candidate plan drift')
+            candidate_sig = sig
+            cp = results['candidate']['precompile_kernels'][0]
+            if any(cp[k] != dp[k] for k in ('canonical_descriptor', 'source_sha256', 'source_bytes', 'compiler_input')): raise ValueError('timing code drift')
+            ratio = statistics.median(results['candidate']['exec_ms_samples']) / statistics.median(results['original']['exec_ms_samples'])
+            if not math.isfinite(ratio) or ratio <= 0: raise ValueError('invalid timing ratio')
+            ratios.append(ratio)
+            emit(dict(record_type='screen_pair', n=n, batch=batch, candidate_id=cid, round=round_no, ratio=ratio))
+        emit(dict(record_type='candidate_disposition', n=n, batch=batch, candidate_id=cid, request=request,
+                  status='screen_complete', pair_ratios=ratios, median_ratio=statistics.median(ratios)))
+
+    if args.round_robin:
+        contexts = [context for path in args.manifest if (context := prepare(path)) is not None]
+        for context, item in candidate_schedule(contexts): process(context, item)
+    else:
+        for path in args.manifest:
+            context = prepare(path)
+            if context is not None:
+                for item in context[2]: process(context, item)
 
 
 def main(argv=None):
@@ -308,6 +344,7 @@ def main(argv=None):
     p.add_argument('--log', type=Path, required=True); p.add_argument('--incidents', type=Path, required=True)
     p.add_argument('--lock', type=Path, required=True); p.add_argument('--seconds', type=float, required=True)
     p.add_argument('--timeout', type=int, default=300); p.add_argument('--idle-seconds', type=float, default=30)
+    p.add_argument('--round-robin', action='store_true', help='admit all workloads before interleaving candidate indices')
     args = p.parse_args(argv)
     if os.name != 'posix' or not hasattr(os, 'pidfd_open') or not args.gpu.startswith('GPU-') or ',' in args.gpu:
         p.error('Linux pidfd and a single GPU UUID required')
@@ -322,6 +359,8 @@ def main(argv=None):
     contract = dict(provenance(root, args.source_file, args.artifact_file), gpu=args.gpu,
                     binaries={'original':sha(args.original), 'expanded':sha(args.expanded)},
                     manifests={str(x.resolve(strict=True)):sha(x) for x in args.manifest},
+                    manifest_order=[str(x.resolve(strict=True)) for x in args.manifest],
+                    ordering='round_robin' if args.round_robin else 'workload_sequential',
                     timeout=args.timeout, protocol='frontier-execution/v1')
     contract['generated_provenance'] = verify_generated(root, args.generated_provenance, contract['vkfft_commit'])
     for path in args.manifest: load_manifest(path)
@@ -331,6 +370,7 @@ def main(argv=None):
             raise ValueError('resume evidence missing; manual audit required')
         old_rows = read_log(args.output)
         if old_rows and any(row.get('contract') != contract for row in old_rows): raise ValueError('output contract mismatch')
+        reject_prior_numerical_failure(old_rows)
         ledger = Ledger(args.budget_ledger, contract, args.seconds)
         guard_args = argparse.Namespace(gpu=args.gpu, log=args.log, incidents=args.incidents, idle_seconds=args.idle_seconds)
         for path in (args.log, args.incidents): path.touch(exist_ok=True)
