@@ -1,0 +1,20 @@
+{
+  "schema": "historical-experiment-index/v1",
+  "id": "legacy-8c5a1be3b418a908",
+  "execution_commit": null,
+  "archive_basis_commit": "b68cde195137e57158d3e1fa8cdb8a7122f07b04",
+  "provenance_status": "retrospective_evidence_index_not_execution_commit",
+  "status_description": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+  "evidence": [
+    {
+      "path": "test/plan_selection_study/results/cloud_reproduction_20261028_r1/manifest.json",
+      "bytes": 2230,
+      "sha256": "d825272d8ed635f9b9a75af08a8de35b5b6ed5599b8a8d3cf282b6fe7017197e"
+    }
+  ],
+  "limitations": [
+    "Original run predates this experiment Git repository.",
+    "Current imported source is not asserted identical to historical executed source.",
+    "Local evidence paths and hashes do not imply raw data has been uploaded."
+  ]
+}
