@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-migration-confirm-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-30T17:26:06.898354+00:00",
   "parent_code_commit": "5c87560994ab5c95a83e584814108ae3e6873419",
   "protocol": {
@@ -21,6 +21,26 @@
     "-v"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "bc26e15b449dc86292226c04ac4848a6b8482c29",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-30T17:26:07.172510+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-30T17:26:08.162789+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-migration-confirm-cpu-001/execution.json",
+      "bytes": 938,
+      "sha256": "af8d423c766f0f26fded146cb0437dfe5f630aaed3724041cfaf52024d1899e6"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-migration-confirm-cpu-001/stderr.log",
+      "bytes": 3985,
+      "sha256": "59931a0ddaba4eb1086e39b938c58771e2f28f195b7b193a3874b3ca29d66730"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-migration-confirm-cpu-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
