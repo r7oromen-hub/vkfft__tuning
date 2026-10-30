@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-coverage-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-30T16:53:55.674082+00:00",
   "parent_code_commit": "4846c1645ff42a57e51bb170fc634884557bc034",
   "protocol": {
@@ -21,6 +21,26 @@
     "-v"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "5c73ad677de05b4f0585d1e896a905dd5955c53e",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-30T16:53:55.971478+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-30T16:53:56.723471+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-coverage-cpu-001/execution.json",
+      "bytes": 929,
+      "sha256": "592202890cd6bd953ea27a05591d0b0097ab23ce48c45908c64fffce52760fc4"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-coverage-cpu-001/stderr.log",
+      "bytes": 2425,
+      "sha256": "16cc288cdf8419a00e2f80c1d83884fbc5f85735247647df7eb9a7600a998085"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-coverage-cpu-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
