@@ -1,0 +1,20 @@
+{
+  "schema": "historical-experiment-index/v1",
+  "id": "legacy-cb42cbdce0e1fa8d",
+  "execution_commit": null,
+  "archive_basis_commit": "b68cde195137e57158d3e1fa8cdb8a7122f07b04",
+  "provenance_status": "retrospective_evidence_index_not_execution_commit",
+  "status_description": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+  "evidence": [
+    {
+      "path": "test/plan_selection_study/results/candidate_diagnostic_20261028/manifest.json",
+      "bytes": 794,
+      "sha256": "ed965250efee8129f726672db3646cd6e15a2e2e57966318214a95719490813f"
+    }
+  ],
+  "limitations": [
+    "Original run predates this experiment Git repository.",
+    "Current imported source is not asserted identical to historical executed source.",
+    "Local evidence paths and hashes do not imply raw data has been uploaded."
+  ]
+}
