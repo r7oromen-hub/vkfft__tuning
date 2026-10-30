@@ -1,0 +1,40 @@
+{
+  "schema": "historical-experiment-index/v1",
+  "id": "20261030-admission-v1",
+  "execution_commit": null,
+  "archive_basis_commit": "b68cde195137e57158d3e1fa8cdb8a7122f07b04",
+  "provenance_status": "retrospective_evidence_index_not_execution_commit",
+  "status_description": "Stopped on identity-check issue; retained failed admission",
+  "evidence": [
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/admission_dc66fec2f0ec471fb6723e44967a4ceb.guard.jsonl",
+      "bytes": 182359,
+      "sha256": "ee3e98fa123d74271891f19122a38998aaece8650943280e182f6dfc3f9c5e61"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/admission_dc66fec2f0ec471fb6723e44967a4ceb.incidents.jsonl",
+      "bytes": 555,
+      "sha256": "45fdc2f73d71f7ca89a90c731d6fd50352fb1a4e5f7f5205824ff5604fbbfcb1"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/admission_dc66fec2f0ec471fb6723e44967a4ceb.jsonl",
+      "bytes": 1251670,
+      "sha256": "a9765924e6b731db3c471aa21229be91455f23ba6203b82672251d40e50b635b"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/expanded_provenance_v2.json",
+      "bytes": 2644,
+      "sha256": "e33afb4140d217ec05881ddf52d0d5aa05a805f949bcbf1b900ea5e84bbe7947"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/study_protocol.json",
+      "bytes": 1618,
+      "sha256": "72e1dd2eddf4d530c0b79c90c0ed681ce09e79b941b8e82efca75e2032df9589"
+    }
+  ],
+  "limitations": [
+    "Original run predates this experiment Git repository.",
+    "Current imported source is not asserted identical to historical executed source.",
+    "Local evidence paths and hashes do not imply raw data has been uploaded."
+  ]
+}
