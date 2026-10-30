@@ -1,0 +1,132 @@
+{
+  "schema": "frontier-campaign/v1",
+  "gpu_uuid": "GPU-fb86b36f-0a9f-6cbd-a36b-03b9073f4786",
+  "cuda_root": "/usr/local/cuda-12.6",
+  "total_reserved_wall_seconds": 25066,
+  "initial_admission_seconds": 2400,
+  "scope": "FP32 1D C2C forward out-of-place; single upload; boost 1; ordered radix 2/4/8/16/32; uniform R through 256",
+  "purpose": "Fresh admission on migrated host, preserving conservative elapsed campaign charge",
+  "identity": "Observe original and experimental defaults on this GPU; do not import old-device timings",
+  "validation_patterns": [
+    "zero",
+    "impulse",
+    "constant",
+    "quarter-tone",
+    "random"
+  ],
+  "validation_seeds": [
+    42,
+    53,
+    71
+  ],
+  "screen_pairs": 3,
+  "independent_confirmation_required": true,
+  "admission_workloads": [
+    {
+      "n": 128,
+      "batch": 16,
+      "requests": [
+        {
+          "radix": [
+            8,
+            16
+          ],
+          "logical_registers": 16,
+          "grouped_batch": 1
+        },
+        {
+          "radix": [
+            8,
+            16
+          ],
+          "logical_registers": 128,
+          "grouped_batch": 1
+        }
+      ]
+    },
+    {
+      "n": 256,
+      "batch": 4096,
+      "requests": [
+        {
+          "radix": [
+            16,
+            16
+          ],
+          "logical_registers": 16,
+          "grouped_batch": 1
+        },
+        {
+          "radix": [
+            16,
+            16
+          ],
+          "logical_registers": 256,
+          "grouped_batch": 1
+        }
+      ]
+    },
+    {
+      "n": 1024,
+      "batch": 256,
+      "requests": [
+        {
+          "radix": [
+            8,
+            4,
+            4,
+            8
+          ],
+          "logical_registers": 16,
+          "grouped_batch": 1
+        },
+        {
+          "radix": [
+            8,
+            4,
+            4,
+            8
+          ],
+          "logical_registers": 128,
+          "grouped_batch": 1
+        }
+      ]
+    },
+    {
+      "n": 8192,
+      "batch": 1,
+      "requests": [
+        {
+          "radix": [
+            8,
+            32,
+            32
+          ],
+          "logical_registers": 256,
+          "grouped_batch": 1
+        }
+      ]
+    }
+  ],
+  "next_stages": [
+    "Exhaust the explicitly supported N=128,batch=1 request domain, record every rejection and remaining candidate",
+    "Cover all 28 previous workloads with fresh defaults, mandatory historical winners and default-neighbor strata",
+    "Compare uniform R through 64 against through 256 with the same measurement protocol",
+    "Confirm selected winners in fresh processes and sessions before aggregate claims",
+    "Consider further parameter families only with consistent new planning contracts and separate correctness admission"
+  ],
+  "not_claimed": [
+    "global VkFFT optimum",
+    "cross-device reuse of old speedups",
+    "cold-cache performance",
+    "online tuning amortization"
+  ],
+  "migration_budget": {
+    "original_cap_seconds": 28800,
+    "old_admission_started_at": "2026-10-30T16:22:41.649092+00:00",
+    "calculated_at": "2026-10-30T17:19:54.682795+00:00",
+    "charged_elapsed_including_300s_transfer_margin": 3734,
+    "launch_not_after": "2026-10-30T17:24:54.682795+00:00",
+    "basis": "UTC elapsed since original admission plus transfer margin; deliberately includes migration time; do not reset"
+  }
+}

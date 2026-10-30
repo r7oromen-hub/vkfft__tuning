@@ -1,5 +1,7 @@
 """Build and admit a new frontier prototype from the actual committed checkout."""
 import hashlib
+import argparse
+from datetime import datetime, timezone
 import importlib.util
 import json
 import os
@@ -13,8 +15,18 @@ FRONT = ROOT / 'test/plan_selection_study/frontier_search'
 
 
 def main():
-    protocol = ROOT / 'experiments/frontier_20261031_protocol.json'
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--protocol',type=Path,default=ROOT/'experiments/frontier_20261031_protocol.json')
+    args=parser.parse_args()
+    protocol = args.protocol.resolve(strict=True)
+    if not protocol.is_relative_to(ROOT):raise ValueError('protocol must be inside checkout')
     cfg = json.loads(protocol.read_text())
+    migration=cfg.get('migration_budget')
+    if migration:
+        if datetime.now(timezone.utc)>datetime.fromisoformat(migration['launch_not_after']):
+            raise ValueError('migration launch allowance expired; recompute carried budget')
+        if cfg['total_reserved_wall_seconds']+migration['charged_elapsed_including_300s_transfer_margin']!=migration['original_cap_seconds']:
+            raise ValueError('migration budget does not reconcile')
     output = Path(os.environ['EXPERIMENT_ARTIFACT_DIR']).resolve()
     output.mkdir(parents=True, exist_ok=True)
     started = time.monotonic()
@@ -41,7 +53,9 @@ def main():
         if query.stdout.strip(): raise RuntimeError('GPU has an active compute process')
         for i, cmd in enumerate(commands):
             t = time.monotonic()
-            r = subprocess.run(cmd,cwd=ROOT,env=env,capture_output=True,text=True,timeout=900)
+            available=cfg['total_reserved_wall_seconds']-(t-started)
+            if available<=360:raise RuntimeError('campaign budget exhausted before build step')
+            r = subprocess.run(cmd,cwd=ROOT,env=env,capture_output=True,text=True,timeout=min(900,available-360))
             record = dict(command=cmd,returncode=r.returncode,stdout=r.stdout,stderr=r.stderr,
                           seconds=time.monotonic()-t, execution_commit=os.environ['EXPERIMENT_CODE_COMMIT'])
             (output/f'build_step_{i}.json').write_text(json.dumps(record,indent=2)+'\n')
