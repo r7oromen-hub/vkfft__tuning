@@ -1,0 +1,23 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-migrated-audit-001",
+  "status": "declared",
+  "declared_at": "2026-10-30T17:32:12.033343+00:00",
+  "parent_code_commit": "3c2acfd67624c4a83a4a02ff76acc5192879d01d",
+  "protocol": {
+    "path": "experiments/frontier_20261031_migrated_protocol.json",
+    "bytes": 3371,
+    "sha256": "c896721bd1d2465b42fd1606f10e8e1f39a63cafd5975beb56c6ec06d9756e7d"
+  },
+  "command": [
+    "python3",
+    "tools/frontier_verify_admission.py",
+    "--protocol",
+    "experiments/frontier_20261031_migrated_protocol.json",
+    "--admission-run",
+    "frontier-20261031-migrated-admission-001"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
