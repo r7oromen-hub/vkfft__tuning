@@ -1,0 +1,28 @@
+{
+  "binary_hashes_rechecked": true,
+  "candidates": 7,
+  "evidence_sha256": {
+    "F:\\vkfft_demo\\experiments\\artifacts\\frontier-20261031-admission-001\\admission.jsonl": "06f3893b4e1deda2460b3bf5c5a5ef732c5cbe4231f14c760edf68a5fc6197ed",
+    "F:\\vkfft_demo\\experiments\\artifacts\\frontier-20261031-admission-001\\budget.jsonl": "a9b6d6737bdc5111ccf2da8a75fada0c355c1591de08b9f84a63edfffb9f8e6c",
+    "F:\\vkfft_demo\\experiments\\artifacts\\frontier-20261031-admission-001\\guard.jsonl": "63a090e7506f234d0f51e595736445e1c22624d8751b684f6aa59077d22d9aab",
+    "F:\\vkfft_demo\\experiments\\artifacts\\frontier-20261031-admission-001\\incidents.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "F:\\vkfft_demo\\experiments\\artifacts\\frontier-20261031-admission-001\\n1024_b256.manifest.jsonl": "5514f0c5307bf888511701146dcee9356a294a62624c9983132778ebb626ba85",
+    "F:\\vkfft_demo\\experiments\\artifacts\\frontier-20261031-admission-001\\n128_b16.manifest.jsonl": "14cdf6f7a915b831025f922f37a92b2d14aa57c90f5c8e0bc1848b4aa9a9db6d",
+    "F:\\vkfft_demo\\experiments\\artifacts\\frontier-20261031-admission-001\\n256_b4096.manifest.jsonl": "b1d79312a0bff541c753a753509b69c71261d782dd1ab4349e9e69bbf718976c",
+    "F:\\vkfft_demo\\experiments\\artifacts\\frontier-20261031-admission-001\\n8192_b1.manifest.jsonl": "e2fb3a4e1797bf6bdd19d7be6934ac58c5b0536d82f263505b1260df44fed136"
+  },
+  "execution_commit": "4c8fe1f5ba38a5afcb91d96e2fd7d86e1fff2c7a",
+  "gpu": "GPU-3559ec6b-6278-8f93-0706-5f8a85c4911b",
+  "guard_audit": {
+    "counts": {
+      "executions": 185
+    },
+    "errors": [],
+    "scope": "guard/event linkage only; periodic sampling cannot rule out between-sample interference",
+    "status": "pass"
+  },
+  "schema": "frontier-admission-gate/v1",
+  "scope": "one guarded session; all selected candidates validated and screened; no general device or performance guarantee",
+  "status": "pass",
+  "workloads": 4
+}
