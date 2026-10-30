@@ -1,0 +1,30 @@
+{
+  "schema": "historical-experiment-index/v1",
+  "id": "20261030-rotation-v2",
+  "execution_commit": null,
+  "archive_basis_commit": "b68cde195137e57158d3e1fa8cdb8a7122f07b04",
+  "provenance_status": "retrospective_evidence_index_not_execution_commit",
+  "status_description": "Repaired build passed; GPU rotation experiment not started",
+  "evidence": [
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/rotation_uncovered_local_audit.json",
+      "bytes": 6097,
+      "sha256": "f25b730528691baf3e7ec37fe9aa3c2b64e95a74d463b9eed842624214fb9e18"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/results_20261030/expanded_provenance_v2.json",
+      "bytes": 2644,
+      "sha256": "e33afb4140d217ec05881ddf52d0d5aa05a805f949bcbf1b900ea5e84bbe7947"
+    },
+    {
+      "path": "test/plan_selection_study/expanded_search/study_protocol.json",
+      "bytes": 1618,
+      "sha256": "72e1dd2eddf4d530c0b79c90c0ed681ce09e79b941b8e82efca75e2032df9589"
+    }
+  ],
+  "limitations": [
+    "Original run predates this experiment Git repository.",
+    "Current imported source is not asserted identical to historical executed source.",
+    "Local evidence paths and hashes do not imply raw data has been uploaded."
+  ]
+}
