@@ -1,0 +1,26 @@
+# Independent frontier confirmation
+
+These tools confirm explicit winners from one completed, cleanly guarded frontier screen on the **same GPU and binaries**. Commit this directory and run CPU tests before using it. The screen must have finished and its four evidence files must remain immutable; this implementation does not merge multiple screen guard sessions or re-use a partial one.
+
+Create a JSON selection spec containing only the GPU and a list of exact screened requests. Each `candidate_id` is the SHA-256 of the request serialized with sorted keys and compact separators. Obtain the ID and request from the screen's `candidate_disposition` record; do not fill in a new request using a historical speed measurement.
+
+```json
+{
+  "gpu": "GPU-3559ec6b-6278-8f93-0706-5f8a85c4911b",
+  "cases": [{"n": 128, "batch": 1, "candidate_id": "EXACT_SCREEN_ID", "request": {"radix": [4, 2, 4, 4], "logical_registers": 4, "grouped_batch": 1}}]
+}
+```
+
+Freeze it with `make_plan.py`, passing `--spec`, `--output`, `--screen-rows`, `--screen-guard`, `--screen-incidents`, `--screen-budget`, `--original`, and `--expanded`. The tool hashes those four screen files, verifies their guard and budget linkage, rechecks original/experimental/replay identity, and independently validates each selected request's five patterns × three seeds and three paired screen timings. Only screened candidates faster than default can enter the plan. The plan itself is then hashed and cannot change between confirmation sessions. The screen proof does not establish complete search coverage.
+
+Run `runner.py` twice with the same frozen `--plan`, the same four `--screen-*` files, `--gpu`, `--original`, `--expanded`, committed `--source-file` arguments, `--generated-provenance`, and any build evidence as `--artifact-file`. Use the same per-device `--lock`, but fresh and distinct `--output`, `--log`, `--incidents`, and `--budget-ledger` files for each session. Give each an explicit `--seconds` budget; the external overall GPU budget must separately include both sessions, screen, builds and gaps. Set `--session-kind first` for the first. For `--session-kind second`, also supply `--first-rows`, `--first-guard`, `--first-incidents`, and `--first-budget`. The second launch re-audits the raw first session and binds its four hashes in the new contract. There are no selective retries: a partial, invalid or interrupted session needs audit and a separately planned fresh run.
+
+Each session runs a fresh original default, experimental default and identity replay per workload, checks their actual structure, source and resources against the screen, calibrates graph length, then uses ten independently guarded candidate/original process pairs. Each process validates the complete random input output and input immutability, using the same seed 42. The code, descriptors and compiled resources must match the screened versions, and any failure stops the session. Timing uses 31 samples, warmup, seeded randomized pair order and a separate process for each side. Output, guard and budget rows preserve the full execution commit, VkFFT commit, binary hashes, generated-source provenance, plan hash and screen hashes.
+
+Run `audit.py` with `--plan`, all four `--screen-*` files, all four `--first-*` files, `--gpu`, `--execution-commit` (full confirmation commit), `--original`, `--expanded`, and a new `--output`; pass all four `--second-*` files to audit both sessions. It re-reads raw executions and independently recomputes each session's paired log-t interval using `audit_pairs.ten_round_session`. A candidate is labeled practical in a session only when its geometric mean latency reduction is at least 2% and its 95% upper interval is below 1; the combined label requires both independent sessions to pass. The intervals describe within-session paired variation and do not correct winner selection or multiple comparisons. These are repeated-address CUDA graph measurements, not cold-cache or end-to-end results.
+
+The inherited generator provenance covers selected changed files, not every copied header, and the binary hash does not independently prove which source produced the executable. Preserve and audit a full generated-tree hash, compiler commands, dependency paths and build logs separately. Guards use periodic monitoring and cannot exclude interference between samples. The implementation has CPU mock tests only and requires a new guarded GPU admission before performance claims.
+
+```sh
+python3 -m unittest discover -s test/plan_selection_study/frontier_confirmation -p 'test_*.py' -v
+```

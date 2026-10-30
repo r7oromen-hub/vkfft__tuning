@@ -1,0 +1,7 @@
+{
+  "schema": "frontier-extension-cpu-validation/v1",
+  "suites": ["frontier_knobs", "frontier_confirmation"],
+  "purpose": "Formally validate frozen joint-knob controller and independent-confirmation tooling",
+  "gpu_execution": false,
+  "interpretation": "CPU parsing, mocked execution-flow, provenance and evidence-audit tests only; not CUDA compilation or GPU admission"
+}

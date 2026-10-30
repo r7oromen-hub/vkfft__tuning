@@ -1,6 +1,6 @@
 # Joint LUT and coalesced-memory prototype
 
-This independent prototype extends `frontier_search` requests with `--use-lut` and `--coalesced-memory`. It has not passed GPU admission and does not establish correctness or performance. The boost remains 1; the single-upload FP32 1D power-of-two C2C forward, out-of-place restrictions and all v2 table, stage, layout and compiled-resource checks remain. It does not implement or authorize a GPU runner.
+This independent prototype extends `frontier_search` requests with `--use-lut` and `--coalesced-memory`. The runner has not passed GPU admission and does not establish correctness or performance. The boost remains 1; the single-upload FP32 1D power-of-two C2C forward, out-of-place restrictions and all v2 table, stage, layout and compiled-resource checks remain.
 
 The generator reuses v2's isolated generated headers and rejection instrumentation. It changes only the generated benchmark's candidate-argument guard to allow these two knobs, and adds explicit requested-versus-resolved checks. The upstream planner still prepares LUT and split/layout state; v2's requested group is imposed during splitting. Actual descriptors, layout, resources and complete outputs must be checked for each combination. The generator records hashes of its source, parent generator, and generated benchmark before and after the change; the v2 provenance retains the hashes of generated files and underlying source.
 
@@ -34,3 +34,42 @@ python -m unittest discover -s test/plan_selection_study/frontier_knobs -p "test
 ```
 
 Use the `frontier_search` CMake targets for the generated benchmark and original-header target, with separate paths and hashes for each build. The generated original target must run without the radix/R/group environment overrides. Run formal CPU validation and all GPU admission only after freezing the new source and execution contract; old v2 evidence does not validate these new combinations.
+
+## Small guarded screen
+
+`make_manifest.py` expands only an explicitly supplied grid, with a maximum of 32 candidates. It refuses duplicates and static rejections, and creates the output exclusively. For example, save this input outside the tracked checkout:
+
+```json
+{"workload":{"n":256,"batch":16},
+ "plans":[{"radix":[16,16],"logical_registers":16,"grouped_batch":4}],
+ "lut_values":[-1,0,1],"coalesced_values":[0,16,32,64,128]}
+```
+
+```sh
+python3 test/plan_selection_study/frontier_knobs/make_manifest.py --spec /work/grid.json --output /work/knob_manifest.json
+```
+
+Build the two binaries from the frozen code, retain build logs and compile commands, and create a build attestation **before** the run declaration. The `code_commit` is the current source commit, which becomes the parent of `tools/run_experiment.py`'s declaration commit. This records a build association; it does not independently prove how the binaries were built.
+
+```sh
+python3 test/plan_selection_study/frontier_knobs/make_attestation.py \
+  --code-commit "$(git rev-parse HEAD)" --vkfft-commit "$(git -C VkFFT/vkFFT rev-parse HEAD)" \
+  --generated-provenance /work/knobs_generated/expanded_provenance.json \
+  --original /work/knobs_build/vkfft_frontier_original --expanded /work/knobs_build/vkfft_frontier_v2 \
+  --build-command 'record the actual generation, configuration and build commands here' --output /work/knob_build.json
+```
+
+After freezing the sources and a tracked protocol, use the experiment wrapper. The execution declaration's commit must contain only the wrapper's run record, and its parent must equal the attested code commit. The example uses the **same lock file as every other experiment on this GPU** and must not start while another GPU experiment is active. Preserve any build logs separately with the experiment evidence.
+
+```sh
+python3 tools/run_experiment.py --id knobs_admission --protocol test/plan_selection_study/frontier_knobs/README.md -- \
+  bash -c 'python3 test/plan_selection_study/frontier_knobs/runner.py \
+    --gpu GPU-REPLACE --original /work/knobs_build/vkfft_frontier_original \
+    --expanded /work/knobs_build/vkfft_frontier_v2 --manifest /work/knob_manifest.json \
+    --generated-provenance /work/knobs_generated/expanded_provenance.json --build-attestation /work/knob_build.json \
+    --output "$EXPERIMENT_ARTIFACT_DIR/rows.jsonl" --budget-ledger "$EXPERIMENT_ARTIFACT_DIR/budget.jsonl" \
+    --log "$EXPERIMENT_ARTIFACT_DIR/guard.jsonl" --incidents "$EXPERIMENT_ARTIFACT_DIR/incidents.jsonl" \
+    --lock /work/shared_gpu.lock --seconds 7200 --timeout 300'
+```
+
+Linux pidfd support, a single GPU UUID, a clean committed root/submodule, the live guard and the explicit shared lock are mandatory. The monotonic deadline starts before the guard idle check; an in-flight call can overrun. Existing evidence is not resumed automatically: any stop, failure or deadline exhaustion requires offline audit and a separately managed next run. A different ledger path does not enforce a global budget; a registered protocol and audit must prevent budget resets. An explicit numerical failure stops all further device work. A named injected scheduler rejection is recorded; unexpected errors stop the run. Guard sampling can miss interference between samples, and `guard_clean` alone is not an independent audit: retain the full guard, incident, child registration and budget chains. Three paired timings are exploratory screens and are not independent confirmation.
