@@ -1,0 +1,20 @@
+{
+  "schema": "historical-experiment-index/v1",
+  "id": "legacy-fccd00c69e40b4ee",
+  "execution_commit": null,
+  "archive_basis_commit": "b68cde195137e57158d3e1fa8cdb8a7122f07b04",
+  "provenance_status": "retrospective_evidence_index_not_execution_commit",
+  "status_description": "Manifest discovered; historical outcome/source correspondence not re-audited in this import",
+  "evidence": [
+    {
+      "path": "test/plan_tuning/results/controls_outofplace_graph_v2/manifest.json",
+      "bytes": 1643,
+      "sha256": "13de947fb0955e1f076df0059a6550842e42ff29e85f73ec13b6b7d1c267f4a0"
+    }
+  ],
+  "limitations": [
+    "Original run predates this experiment Git repository.",
+    "Current imported source is not asserted identical to historical executed source.",
+    "Local evidence paths and hashes do not imply raw data has been uploaded."
+  ]
+}
