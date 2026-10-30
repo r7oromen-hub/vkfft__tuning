@@ -1,4 +1,5 @@
 import hashlib
+import copy
 import importlib.util
 import json
 import os
@@ -99,6 +100,25 @@ class RunnerTests(unittest.TestCase):
                  mock.patch.object(evidence.search_controller,'source_signature',return_value='same'):
                 result=evidence.audit_screen(plan,paths,binaries)
                 self.assertEqual(result['cases'][0]['screen_ratio'],.9)
+                control=copy.deepcopy(plan);control['cases'][0]['role']='negative_control'
+                other_identity={'radix':[16,8],'logical_registers':16,'grouped_batch':1}
+                with mock.patch.object(evidence.frontier,'representable',return_value=(other_identity,None)):
+                    with self.assertRaisesRegex(ValueError,'role'):
+                        evidence.audit_screen(control,paths,binaries)
+                    slower=copy.deepcopy(rows)
+                    for row in slower:
+                        if row.get('phase')=='timing' and row['candidate_id']==cid:
+                            row['result']['exec_ms_samples']=[1.1];row['stdout']=json.dumps(row['result'])
+                        elif row.get('record_type')=='screen_pair':row['ratio']=1.1
+                        elif row.get('record_type')=='candidate_disposition':
+                            row['pair_ratios']=[1.1]*3;row['median_ratio']=1.1
+                    write(paths['rows'],slower)
+                    control['source_sha256']['rows']=evidence.frontier.sha(paths['rows'])
+                    result=evidence.audit_screen(control,paths,binaries)
+                    self.assertEqual((result['cases'][0]['role'],result['cases'][0]['screen_ratio']),('negative_control',1.1))
+                    control['cases'][0]['role']='winner'
+                    with self.assertRaisesRegex(ValueError,'role'):
+                        evidence.audit_screen(control,paths,binaries)
                 rows.pop();write(paths['rows'],rows)
                 plan['source_sha256']['rows']=evidence.frontier.sha(paths['rows'])
                 with self.assertRaisesRegex(ValueError,'disposition'):

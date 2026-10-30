@@ -80,6 +80,7 @@ def audit_session(rows, guard, incidents, ledger, plan, plan_sha256, gpu, execut
         cases = plan['cases']
         keys = [(c['n'], c['batch'], c['candidate_id']) for c in cases]
         need(cases and len(set(keys)) == len(keys), 'empty or duplicate confirmation plan')
+        need(all(c.get('role','winner') in ('winner','negative_control') for c in cases), 'invalid candidate role')
         need(end[0].get('candidate_count') == len(cases), 'session completion candidate count mismatch')
         need(set(screen_proofs) == set(keys), 'screen proof does not cover exact plan')
         starts_by_key = {}
@@ -122,9 +123,10 @@ def audit_session(rows, guard, incidents, ledger, plan, plan_sha256, gpu, execut
             need(min(result['raw_interval_ms_samples']) >= 2, 'calibration too short')
             graph = calibrations[-1]['workload']['graph_repeats']
             for case in (c for c in cases if (c['n'],c['batch']) == (n,batch)):
-                cid, request = case['candidate_id'], case['request']; key = (n,batch,cid)
+                cid, request = case['candidate_id'], case['request']; role=case.get('role','winner'); key = (n,batch,cid)
                 candidate = starts_by_key[key]; proof = screen_proofs[key]
                 need(candidate['request'] == request and proof['request'] == request and
+                     candidate.get('role','winner') == role == proof.get('role','winner') and
                      candidate['screen_candidate_signature_sha256'] == proof['screen_candidate_signature_sha256'] and
                      candidate['screen_original_signature_sha256'] == proof['screen_original_signature_sha256'] == original_hash,
                      'screen proof or original source signature mismatch')
@@ -159,11 +161,14 @@ def audit_session(rows, guard, incidents, ledger, plan, plan_sha256, gpu, execut
                 dispositions = [r for r in rows if r.get('record_type') == 'candidate_disposition' and
                                 (r['n'],r['batch'],r['candidate_id']) == key]
                 need(len(dispositions) == 1 and dispositions[0].get('status') == 'confirmation_complete' and
-                     dispositions[0].get('request') == request,
+                     dispositions[0].get('request') == request and dispositions[0].get('role','winner') == role,
                      'candidate incomplete or failed')
                 stats = audit_pairs.ten_round_session(times)
-                results.append({'n':n,'batch':batch,'candidate_id':cid,'request':request,
-                                'statistics':stats,'practical':audit_pairs.passes_session_criterion(stats)})
+                meets_threshold=audit_pairs.passes_session_criterion(stats)
+                results.append({'n':n,'batch':batch,'candidate_id':cid,'request':request,'role':role,
+                                'statistics':stats,'meets_practical_threshold':meets_threshold,
+                                'practical':role=='winner' and meets_threshold,
+                                'default_faster':role=='negative_control' and stats['geometric_mean_ratio']>1 and stats['ci95_low']>1})
         timing_rows = {r['guard_run_id'] for r in executions if r['phase'] == 'confirmation_timing'}
         need(timing_rows == used_timing_ids, 'orphan timing execution')
         need(len([r for r in executions if r['phase'] == 'identity']) == 3*len({(c['n'],c['batch']) for c in cases}),
@@ -179,7 +184,8 @@ def audit_session(rows, guard, incidents, ledger, plan, plan_sha256, gpu, execut
                 'first_session':contract.get('first_session'),
                 'guard_started_utc':guard[0]['utc'],'guard_completed_utc':guard[-1]['utc'],
                 'guard_run_ids':sorted(guard_ids),'results':results,
-                'guard_audit':guard_result,'scope':'single session, raw validated pairs; within-session log-t intervals'}
+                'guard_audit':guard_result,'scope':'single session, raw validated pairs; within-session log-t intervals',
+                'role_interpretation':'only winners can be practical; a negative control is default_faster when its candidate/default ratio and 95% CI lower bound exceed 1'}
     except (ValueError, KeyError, TypeError, IndexError, ZeroDivisionError) as error:
         return {'schema':'frontier-confirmation-session-audit/v1','status':'fail','errors':[f'{type(error).__name__}: {error}']}
 
@@ -204,15 +210,27 @@ def audit_two(first, second, first_evidence_sha256):
         results = []
         for k in sorted(a):
             need(a[k]['request'] == b[k]['request'], 'request changed between sessions')
-            results.append({'n':k[0],'batch':k[1],'candidate_id':k[2],'request':a[k]['request'],
+            role=a[k].get('role','winner')
+            need(role in ('winner','negative_control') and b[k].get('role','winner') == role, 'role changed between sessions')
+            first_meets=audit_pairs.passes_session_criterion(a[k]['statistics'])
+            second_meets=audit_pairs.passes_session_criterion(b[k]['statistics'])
+            both_practical=role=='winner' and a[k]['practical'] and b[k]['practical'] and first_meets and second_meets
+            results.append({'n':k[0],'batch':k[1],'candidate_id':k[2],'request':a[k]['request'],'role':role,
                             'first':a[k]['statistics'],'second':b[k]['statistics'],
-                            'first_practical':a[k]['practical'],'second_practical':b[k]['practical'],
+                            'first_meets_practical_threshold':first_meets,'second_meets_practical_threshold':second_meets,
+                            'first_practical':role=='winner' and a[k]['practical'] and first_meets,
+                            'second_practical':role=='winner' and b[k]['practical'] and second_meets,
                             'same_improvement_direction':a[k]['statistics']['geometric_mean_ratio'] < 1 and
                                                          b[k]['statistics']['geometric_mean_ratio'] < 1,
-                            'both_sessions_practical':a[k]['practical'] and b[k]['practical']})
+                            'both_sessions_practical':both_practical,'positive_confirmation':both_practical,
+                            'both_sessions_default_faster':role=='negative_control' and
+                                a[k]['statistics']['geometric_mean_ratio']>1 and a[k]['statistics']['ci95_low']>1 and
+                                b[k]['statistics']['geometric_mean_ratio']>1 and b[k]['statistics']['ci95_low']>1,
+                            'negative_control_unexpected_improvement':role=='negative_control' and first_meets and second_meets})
         return {'schema':'frontier-confirmation-two-session-audit/v1','status':'pass',
                 'gpu':first['gpu'],'plan_sha256':first['plan_sha256'],'results':results,
-                'scope':'two ordered independent guarded sessions on one GPU; no multiple-testing adjustment'}
+                'scope':'two ordered independent guarded sessions on one GPU; no multiple-testing adjustment',
+                'role_interpretation':'positive_confirmation is reserved for winners; negative controls report default-faster and unexpected-improvement outcomes separately'}
     except (KeyError, ValueError, TypeError) as error:
         return {'schema':'frontier-confirmation-two-session-audit/v1','status':'fail','errors':[f'{type(error).__name__}: {error}']}
 

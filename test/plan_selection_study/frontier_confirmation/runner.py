@@ -65,6 +65,7 @@ def run_session(args, ledger, contract, proof):
         orig_sig,orig_hash,graph=contexts[key]
         if orig_hash!=case['screen_original_signature_sha256']: raise ValueError('screen original signatures differ')
         emit(dict(record_type='candidate_start',n=n,batch=batch,candidate_id=cid,request=request,
+                  role=case.get('role','winner'),
                   screen_original_signature_sha256=orig_hash,
                   screen_candidate_signature_sha256=case['screen_candidate_signature_sha256']))
         for round_no in range(10):
@@ -82,7 +83,8 @@ def run_session(args, ledger, contract, proof):
             emit(dict(record_type='confirmation_pair',n=n,batch=batch,candidate_id=cid,round=round_no,
                       candidate_guard_run_id=rows['candidate']['guard_run_id'],original_guard_run_id=rows['original']['guard_run_id'],
                       candidate_ms=results['candidate'],original_ms=results['original']))
-        emit(dict(record_type='candidate_disposition',n=n,batch=batch,candidate_id=cid,request=request,status='confirmation_complete'))
+        emit(dict(record_type='candidate_disposition',n=n,batch=batch,candidate_id=cid,request=request,
+                  role=case.get('role','winner'),status='confirmation_complete'))
     emit(dict(record_type='session_complete',status='complete',candidate_count=len(proof['cases'])))
 
 

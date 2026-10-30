@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Freeze an explicit winner list only after re-auditing its screen evidence."""
+"""Freeze explicit winners and negative controls after re-auditing screen evidence."""
 import argparse
 import json
 from pathlib import Path
@@ -9,12 +9,14 @@ import evidence
 
 def build(spec, paths, binaries):
     if set(spec)!={'gpu','cases'}: raise ValueError('spec must contain exactly gpu and cases')
-    plan={'schema':'frontier-confirmation-plan/v1','gpu':spec['gpu'],'cases':spec['cases'],
+    cases=[dict(case,role=case.get('role','winner')) for case in spec['cases']]
+    plan={'schema':'frontier-confirmation-plan/v1','gpu':spec['gpu'],'cases':cases,
           'source_sha256':{name:evidence.frontier.sha(path) for name,path in paths.items()}}
     proof=evidence.audit_screen(plan,paths,binaries)
     plan['screen_execution_commit']=proof['screen_contract']['execution_commit']
     plan['screen_binaries']=proof['screen_contract']['binaries']
-    plan['screen_winners']=proof['cases']
+    plan['screen_winners']=[case for case in proof['cases'] if case['role']=='winner']
+    plan['screen_negative_controls']=[case for case in proof['cases'] if case['role']=='negative_control']
     return plan
 
 

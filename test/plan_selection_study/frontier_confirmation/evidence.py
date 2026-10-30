@@ -76,6 +76,8 @@ def audit_screen(plan, evidence_paths, binaries):
     seen=set(); verified=[]
     for case in cases:
         n,batch,cid,req=(case['n'],case['batch'],case['candidate_id'],case['request'])
+        role=case.get('role','winner')
+        require(role in ('winner','negative_control'), 'unknown confirmation role')
         key=(n,batch,cid); require(key not in seen and key in groups, 'candidate missing or duplicate in screen')
         seen.add(key)
         payload=json.dumps(req,sort_keys=True,separators=(',',':')).encode()
@@ -91,6 +93,7 @@ def audit_screen(plan, evidence_paths, binaries):
         require(identity is not None, 'screen default not representable: '+str(why))
         replay=validation.check(c['identity'],gpu,request=identity)
         require(validation.signature(default)==validation.signature(replay), 'screen identity replay mismatch')
+        if role=='negative_control': require(req!=identity, 'negative control must differ from the default identity')
         original_sig=search_controller.source_signature(original,original=True)
         descriptions=[r for r in segment if r.get('record_type')=='execution' and r['phase']=='describe']
         require(len(descriptions)==1 and descriptions[0]['candidate_id']==cid and
@@ -134,9 +137,11 @@ def audit_screen(plan, evidence_paths, binaries):
                 'screen pair summaries differ')
         disposition=[r for r in segment if r.get('record_type')=='candidate_disposition']
         require(len(disposition)==1 and disposition[0]['status']=='screen_complete' and disposition[0]['request']==req and
-                disposition[0]['pair_ratios']==ratios and math.isclose(disposition[0]['median_ratio'],statistics.median(ratios),rel_tol=1e-12) and
-                statistics.median(ratios)<1, 'screen winner disposition invalid or not faster')
-        verified.append(dict(n=n,batch=batch,candidate_id=cid,request=req,
+                disposition[0]['pair_ratios']==ratios and math.isclose(disposition[0]['median_ratio'],statistics.median(ratios),rel_tol=1e-12),
+                'screen disposition invalid')
+        require(statistics.median(ratios)<1 if role=='winner' else statistics.median(ratios)>1,
+                'screen ratio does not match the preselected role')
+        verified.append(dict(n=n,batch=batch,candidate_id=cid,request=req,role=role,
                              screen_candidate_signature_sha256=signature_hash(cand_sig),
                              screen_original_signature_sha256=signature_hash(original_sig),
                              screen_ratio=statistics.median(ratios)))

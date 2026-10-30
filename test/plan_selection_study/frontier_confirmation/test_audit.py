@@ -8,11 +8,12 @@ from unittest import mock
 import audit
 
 
-def case_fixture(root, kind='first'):
+def case_fixture(root, kind='first', role=None, ratio=.95):
     binaries = {'original':root/'original','expanded':root/'expanded'}
     for name,path in binaries.items(): path.write_text(name,encoding='utf8')
     request={'radix':[8,16],'logical_registers':16,'grouped_batch':1}
     case={'n':128,'batch':16,'candidate_id':'candidate','request':request}
+    if role is not None: case['role']=role
     plan={'schema':'frontier-confirmation-plan/v1','gpu':'GPU-test','source_sha256':{'rows':'screen'},'cases':[case]}
     proofs={(128,16,'candidate'):{**case,'screen_candidate_signature_sha256':'cand','screen_original_signature_sha256':'orig'}}
     commit='a'*40; phash='b'*64
@@ -27,7 +28,7 @@ def case_fixture(root, kind='first'):
     def emit(row): rows.append(dict(row,contract=contract,session_id=sid,guard_id=gid))
     def execution(phase,name,round_no=0,order=0):
         rid=gid+':'+str(sum(r.get('record_type')=='execution' for r in rows))
-        result={'raw_interval_ms_samples':[2.5],'exec_ms_samples':[1.0 if name=='original' else .95],
+        result={'raw_interval_ms_samples':[2.5],'exec_ms_samples':[1.0 if name=='original' else ratio],
                 'warmup_actual':5,'warmup_wall_ms':1000}
         work={'n':128,'batch':16,'pattern':'random','seed':42,'graph_repeats':64}
         row={'record_type':'execution','phase':phase,'candidate_id':name,'round':round_no,'order':order,
@@ -50,7 +51,7 @@ def case_fixture(root, kind='first'):
             ids[name]=execution('confirmation_timing','original' if name=='original' else 'candidate',r,ix)
         emit({'record_type':'confirmation_pair','n':128,'batch':16,'candidate_id':'candidate','round':r,
               'original_guard_run_id':ids['original'],'candidate_guard_run_id':ids['candidate'],
-              'original_ms':1.0,'candidate_ms':.95})
+              'original_ms':1.0,'candidate_ms':ratio})
     emit({'record_type':'candidate_disposition',**case,'status':'confirmation_complete'})
     emit({'record_type':'session_complete','status':'complete','candidate_count':1})
     guard=[{'guard_id':gid,'utc':'2026-10-31T00:00:00+00:00' if kind=='first' else '2026-10-31T01:00:00+00:00'},
@@ -99,6 +100,56 @@ class AuditTests(unittest.TestCase):
             wrong_binding=copy.deepcopy(two); wrong_binding['first_session']['evidence_sha256']['rows']='changed'
             self.assertEqual(audit.audit_two(one,wrong_binding,hashes)['status'],'fail')
             two['guard_id']=one['guard_id']; self.assertEqual(audit.audit_two(one,two,hashes)['status'],'fail')
+
+    def test_negative_controls_are_reported_separately_from_winners(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
+            root=Path(tmp); hashes={'rows':'r','guard':'g','incidents':'i','budget':'b'}
+            one=self.check(case_fixture(root,'first','negative_control',1.05))
+            two=self.check(case_fixture(root,'second','negative_control',1.05))
+            self.assertEqual(one['status'],'pass',one); self.assertEqual(two['status'],'pass',two)
+            self.assertEqual(one['results'][0]['role'],'negative_control')
+            self.assertTrue(one['results'][0]['default_faster'])
+            combined=audit.audit_two(one,two,hashes)
+            self.assertEqual(combined['status'],'pass',combined)
+            result=combined['results'][0]
+            self.assertEqual(result['role'],'negative_control')
+            self.assertTrue(result['both_sessions_default_faster'])
+            self.assertFalse(result['both_sessions_practical']); self.assertFalse(result['positive_confirmation'])
+            changed=copy.deepcopy(two); changed['results'][0]['role']='winner'
+            self.assertEqual(audit.audit_two(one,changed,hashes)['status'],'fail')
+
+    def test_explicit_winner_can_be_confirmed_twice(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
+            root=Path(tmp); hashes={'rows':'r','guard':'g','incidents':'i','budget':'b'}
+            one=self.check(case_fixture(root,'first','winner',.95))
+            two=self.check(case_fixture(root,'second','winner',.95))
+            self.assertEqual(one['status'],'pass',one); self.assertEqual(two['status'],'pass',two)
+            result=audit.audit_two(one,two,hashes)['results'][0]
+            self.assertEqual(result['role'],'winner')
+            self.assertTrue(result['both_sessions_practical']); self.assertTrue(result['positive_confirmation'])
+            self.assertFalse(result['both_sessions_default_faster'])
+
+    def test_faster_negative_control_never_becomes_positive_winner(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
+            root=Path(tmp); hashes={'rows':'r','guard':'g','incidents':'i','budget':'b'}
+            fixture=case_fixture(root,'first','negative_control',.95)
+            one=self.check(fixture); two=self.check(case_fixture(root,'second','negative_control',.95))
+            self.assertEqual(one['status'],'pass',one); self.assertEqual(two['status'],'pass',two)
+            self.assertTrue(one['results'][0]['meets_practical_threshold'])
+            self.assertFalse(one['results'][0]['practical'])
+            result=audit.audit_two(one,two,hashes)['results'][0]
+            self.assertTrue(result['negative_control_unexpected_improvement'])
+            self.assertTrue(result['first_meets_practical_threshold'])
+            self.assertFalse(result['positive_confirmation']); self.assertFalse(result['both_sessions_practical'])
+            self.assertFalse(result['both_sessions_default_faster'])
+            altered=copy.deepcopy(fixture)
+            next(r for r in altered[0] if r.get('record_type')=='candidate_start')['role']='winner'
+            self.assertEqual(self.check(altered)['status'],'fail')
+
+    def test_unknown_role_is_rejected(self):
+        with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
+            result=self.check(case_fixture(Path(tmp),role='unknown'))
+            self.assertEqual(result['status'],'fail')
 
 
 if __name__ == '__main__': unittest.main()

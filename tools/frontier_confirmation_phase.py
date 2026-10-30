@@ -1,4 +1,4 @@
-"""Freeze measured winners, then run two fresh guard sessions in one experiment commit."""
+"""Freeze screened winners and explicit negative controls for two guard sessions."""
 import argparse
 import json
 import os
@@ -11,9 +11,45 @@ ROOT=Path(__file__).resolve().parents[1]
 GPU='GPU-3559ec6b-6278-8f93-0706-5f8a85c4911b'
 
 
+def select_cases(rows, negative_controls):
+    """Pick per-workload winners and exactly the negative controls specified before confirmation."""
+    identities={(r['n'],r['batch']):r['request'] for r in rows
+                if r.get('record_type')=='workload_status' and r.get('status')=='identity_passed'}
+    completed={}; best={}
+    for row in rows:
+        if row.get('record_type')!='candidate_disposition' or row.get('status')!='screen_complete':continue
+        workload=(row['n'],row['batch']);key=(*workload,row['candidate_id'])
+        if key in completed:raise ValueError('duplicate screened candidate disposition')
+        completed[key]=row
+        if workload not in identities:raise ValueError('screened workload lacks identity evidence')
+        if row['request']==identities[workload]:continue
+        if row['median_ratio']<1 and (workload not in best or
+                (row['median_ratio'],row['candidate_id'])<(best[workload]['median_ratio'],best[workload]['candidate_id'])):
+            best[workload]=row
+    winners=sorted(best.values(),key=lambda r:(r['median_ratio'],r['n'],r['batch'],r['candidate_id']))
+    selected=[dict({k:row[k] for k in ('n','batch','candidate_id','request')},role='winner') for row in winners]
+    seen=set()
+    for text in negative_controls:
+        pieces=text.split(':')
+        if (len(pieces)!=3 or not pieces[0].isdigit() or not pieces[1].isdigit() or
+                len(pieces[2])!=64 or any(c not in '0123456789abcdef' for c in pieces[2])):
+            raise ValueError('negative control must be N:BATCH:lowercase_candidate_sha256')
+        key=(int(pieces[0]),int(pieces[1]),pieces[2])
+        if key in seen:raise ValueError('duplicate negative control')
+        seen.add(key);row=completed.get(key)
+        if (row is None or not row['median_ratio']>1 or
+                row['request']==identities.get((key[0],key[1]))):
+            raise ValueError('negative control must be a completed non-identity candidate slower than default')
+        selected.append(dict({k:row[k] for k in ('n','batch','candidate_id','request')},role='negative_control'))
+    if not selected:raise ValueError('no screened winner or selected negative control to confirm')
+    return selected
+
+
 def main():
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--source-run',required=True)
+    p.add_argument('--negative-control',action='append',default=[],metavar='N:BATCH:CANDIDATE_ID',
+                   help='explicitly include a screened candidate slower than the default; may be repeated')
     args=p.parse_args()
     if not args.source_run.startswith('frontier-20261031-') or any(c not in 'abcdefghijklmnopqrstuvwxyz0123456789-' for c in args.source_run):
         raise ValueError('invalid source run ID')
@@ -28,17 +64,7 @@ def main():
         paths={k:source/'search'/(k+'.jsonl') for k in ('rows','guard','incidents','budget')}
     rows=[json.loads(x) for x in paths['rows'].read_text().splitlines()]
     if not rows or rows[0]['contract']['gpu']!=GPU:raise ValueError('source GPU differs')
-    identities={(r['n'],r['batch']):r['request'] for r in rows if r.get('record_type')=='workload_status' and r.get('status')=='identity_passed'}
-    best={}
-    for r in rows:
-        if r.get('record_type')!='candidate_disposition' or r.get('status')!='screen_complete':continue
-        key=r['n'],r['batch']
-        if r['request']==identities.get(key):continue
-        if r['median_ratio']<1 and (key not in best or (r['median_ratio'],r['candidate_id'])<(best[key]['median_ratio'],best[key]['candidate_id'])):
-            best[key]=r
-    selected=sorted(best.values(),key=lambda r:(r['median_ratio'],r['n'],r['batch'],r['candidate_id']))
-    if not selected:raise ValueError('no faster non-identity candidate to confirm')
-    spec={'gpu':GPU,'cases':[{k:r[k] for k in ('n','batch','candidate_id','request')} for r in selected]}
+    spec={'gpu':GPU,'cases':select_cases(rows,args.negative_control)}
     specpath=output/'selection.json';specpath.write_text(json.dumps(spec,indent=2)+'\n')
     start=json.loads((prior/'campaign_start.json').read_text())
     first=json.loads((prior/'budget.jsonl').read_text().splitlines()[0])['state']

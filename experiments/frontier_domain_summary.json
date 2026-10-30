@@ -1,0 +1,5 @@
+{
+  "schema": "frontier-domain-analysis/v1",
+  "gpu_execution": false,
+  "purpose": "Count old and expanded finite request domains across all 28 core workloads, cross-check ordered radix enumeration with independent composition recurrence; no performance claims"
+}
