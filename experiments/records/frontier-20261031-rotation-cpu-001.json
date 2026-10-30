@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-rotation-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-30T17:13:43.977682+00:00",
   "parent_code_commit": "0fecc7f9e223daf3ee292fe3d5787b629369e1d1",
   "protocol": {
@@ -21,6 +21,26 @@
     "-v"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "1f3ab46d33ced04af843286adbbbd62d3f10e959",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-30T17:13:44.254919+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-30T17:13:46.870245+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-rotation-cpu-001/execution.json",
+      "bytes": 925,
+      "sha256": "fe99f11dc98e901c84ac8bf493b0416578fb15e7931c4c1b2b6f653f9eabbae3"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-rotation-cpu-001/stderr.log",
+      "bytes": 2831,
+      "sha256": "51089463a1f7b56434533d96fb51a73fbbb42f2334237b38ec73f5a5827c5baa"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-rotation-cpu-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
