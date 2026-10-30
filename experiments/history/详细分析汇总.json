@@ -1,0 +1,73 @@
+{
+  "scope": "2026-10-30 round only; equal workload weights; hot-address execution; observed best with default fallback; not global optimum",
+  "two_session_aggregation": "geometric mean of two session geometric latency ratios; descriptive point estimate, no pooled confidence interval",
+  "metrics": {
+    "screen_all_28": {
+      "workloads": 28,
+      "geometric_mean_speedup": 1.0113251537253896,
+      "arithmetic_mean_latency_reduction": 0.010605720458781498
+    },
+    "two_session_9_plus_default_19": {
+      "workloads": 28,
+      "geometric_mean_speedup": 1.0113575590310795,
+      "arithmetic_mean_latency_reduction": 0.010637703299757995
+    },
+    "practical_3_plus_default_25": {
+      "workloads": 28,
+      "geometric_mean_speedup": 1.0098365757822076,
+      "arithmetic_mean_latency_reduction": 0.00914114907040564
+    },
+    "only_9_improved": {
+      "workloads": 9,
+      "geometric_mean_speedup": 1.035760020985478,
+      "arithmetic_mean_latency_reduction": 0.03309507693258018
+    },
+    "only_3_practical": {
+      "workloads": 3,
+      "geometric_mean_speedup": 1.0956627613142575,
+      "arithmetic_mean_latency_reduction": 0.08531739132378668
+    }
+  },
+  "inputs": [
+    {
+      "file": "search_local_distribution.json",
+      "bytes": 66165,
+      "sha256": "bd547baf700e0b880ddf1730ce37c7c6d2057c11372c96a366b271222c352c67"
+    },
+    {
+      "file": "two_session_local_combined.json",
+      "bytes": 21208,
+      "sha256": "d44f21bc054334abcdd070eec789bd467eae8276555e0593aff30cdaec4c064d"
+    },
+    {
+      "file": "search_local_independent_audit.json",
+      "bytes": 10249,
+      "sha256": "cb4f0eca33f724530e575f3e20038df6eea49f7c272fc6b3be1f0c4dde0199fb"
+    },
+    {
+      "file": "confirmation_local_chain.json",
+      "bytes": 34885,
+      "sha256": "857ab7e4ece756472e733911ed65c740a88f06e79feb24f842cb3ba17b3481a5"
+    },
+    {
+      "file": "confirmed_local_structures.json",
+      "bytes": 37879,
+      "sha256": "c6e7dc77724129d40aa0ab99f234ed2dd3b7626d97217104670906581a28163b"
+    },
+    {
+      "file": "expanded_provenance_v2.json",
+      "bytes": 2644,
+      "sha256": "e33afb4140d217ec05881ddf52d0d5aa05a805f949bcbf1b900ea5e84bbe7947"
+    },
+    {
+      "file": "budget_final_snapshot.jsonl",
+      "bytes": 20835011,
+      "sha256": "596b746fbddb3bccf03e5d5cc4257c1c159866947b5e6319f820a3a8b62330d0"
+    },
+    {
+      "file": "rotation_uncovered_local_audit.json",
+      "bytes": 6097,
+      "sha256": "f25b730528691baf3e7ec37fe9aa3c2b64e95a74d463b9eed842624214fb9e18"
+    }
+  ]
+}
