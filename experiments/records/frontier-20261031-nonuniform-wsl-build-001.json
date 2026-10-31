@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-nonuniform-wsl-build-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T12:13:22.539182+00:00",
   "parent_code_commit": "431f3e3c946b2f1e93f5e87a8dca2bfe5e57e3db",
   "protocol": {
@@ -22,6 +22,531 @@
     "/usr/local/cuda"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "eb5bca2222a66b7644a8543e33941da6cb1a6aec",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T12:13:22.834168+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T12:15:17.172270+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/cmake_install.cmake",
+      "bytes": 1726,
+      "sha256": "9eec0fa047bbd225bf95aa654e24e04eca7b447408d59dc84d0f53280713a876"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeCache.txt",
+      "bytes": 29527,
+      "sha256": "1f60ef719c5aedf9ca5313292076485de8c0db5a4fbac1d6388365f5f3cccce7"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/3.28.3/CMakeCXXCompiler.cmake",
+      "bytes": 5539,
+      "sha256": "12aa7c8bbf1cab72086c6cf13c49e3efb595ce9a89e3a1cbc73bf019b660bd12"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/3.28.3/CMakeDetermineCompilerABI_CXX.bin",
+      "bytes": 15992,
+      "sha256": "879b5d31eac14d7b0ca6cd3b96320041ad8d87b538fea24a17e8707f0656bc96"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/3.28.3/CMakeSystem.cmake",
+      "bytes": 466,
+      "sha256": "09bf7e437107cc23857ba07248638cba4bf43966a69e8571b27558d218365ac6"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/3.28.3/CompilerIdCXX/a.out",
+      "bytes": 16096,
+      "sha256": "a3d366f5f634a9cc0d9340115704a2d978e930f75ce0aceac02d7177849a8a1a"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/3.28.3/CompilerIdCXX/CMakeCXXCompilerId.cpp",
+      "bytes": 26804,
+      "sha256": "9b1ebe4919c111011dba043f743e42ada0f1e3804b211e42191d773e7043282c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/cmake.check_cache",
+      "bytes": 85,
+      "sha256": "a26189e394421da57f45706a07713c5720acd200a41711b0c0c590c3c63371c4"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/CMakeConfigureLog.yaml",
+      "bytes": 37908,
+      "sha256": "2625b9d517e6a70c551378488340fbabcf3e9af4e8c024493df52a703c41da9b"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/CMakeDirectoryInformation.cmake",
+      "bytes": 725,
+      "sha256": "7862662e922bb12965ad8d11248f06b206a78e42f732002c093de589457c425f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/Makefile.cmake",
+      "bytes": 6835,
+      "sha256": "0c74b92cbe4cdcd48ea4a26d2babff6f32c8dd20f7bfcee70d385568c9dd5c07"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/Makefile2",
+      "bytes": 7786,
+      "sha256": "9bb3c9835676e96cd537c347e1ee34928bae2b62cf8ed9be7793c1c379133932"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/progress.marks",
+      "bytes": 2,
+      "sha256": "06e9d52c1720fca412803e3b07c4b228ff113e303f4c7ab94665319d832bbfb7"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/TargetDirectories.txt",
+      "bytes": 733,
+      "sha256": "9f5f77b40150b062ed74809d440547deae809dee765c6c22312bfed8f899c47a"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/build.make",
+      "bytes": 5869,
+      "sha256": "c8b6a6112c908be81835a3a84b4e450810569c887078c116b962efc033f2051d"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/cmake_clean.cmake",
+      "bytes": 392,
+      "sha256": "549d85551b6a79aa532c79c4578913e23d04a2b6d034913bd9706d44e9f9ae5d"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/compiler_depend.make",
+      "bytes": 128,
+      "sha256": "151801f37f7b7179736512962975fbad52eb3a1682d360bed8dacd0ca2a034af"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/compiler_depend.ts",
+      "bytes": 132,
+      "sha256": "c8a9ee817da64fcc6b2b25ed0914a4f339c95d4f320b2b3aa4841b2846d75c0c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/depend.make",
+      "bytes": 109,
+      "sha256": "22983c943ed307731a56f36bf52ed8a846572a3438ac905da41926d4542038a8"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/DependInfo.cmake",
+      "bytes": 806,
+      "sha256": "ab5333e5fd32481803c99808ce4ab08bb4ccd6f7caac743e74fba57a3bc1e5d7"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/flags.make",
+      "bytes": 276,
+      "sha256": "a4020c7ce91ba9f7a638d6bcce1dc1d94d540802e9c7f43316a03ce2d7272ae8"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/link.txt",
+      "bytes": 118,
+      "sha256": "f744c87497372c3cd711b9811f0deb1cd9ecb7d1eec7c8adcfbfa682ed58157a"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/progress.make",
+      "bytes": 43,
+      "sha256": "c06e644090b09d41eaddf59d10bcf03c6db6499eb51fa0d03e5128e5a165cc3c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/test_candidate.cpp.o",
+      "bytes": 44168,
+      "sha256": "eb4a99769feade28cedead6f3779028e4dd7101e23953634ac0e496c96d1f072"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/test_nonuniform_candidate.dir/test_candidate.cpp.o.d",
+      "bytes": 10106,
+      "sha256": "96a9b0299fb5f8a951ace6c41120c869ff4c256fcc6142c6c5a2a67ca660f80f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/build.make",
+      "bytes": 7838,
+      "sha256": "06e5588d0557c9bad6d3255715d14f54ad795f8b3333e50da628220e8d7a97d6"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/cmake_clean.cmake",
+      "bytes": 589,
+      "sha256": "2b63cf9897b245c411716de2f1915b6ddf6672868839ee741cf1ebe63630ab97"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/compiler_depend.make",
+      "bytes": 129,
+      "sha256": "22462a03d962542168673a8a4ffb80073c7caccf94f3d3c7b887c701024ac99e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/compiler_depend.ts",
+      "bytes": 133,
+      "sha256": "923bbb2b4fe0115ad459cef09cd81c11a40b1cbeaaa9c1e7b9096bca0564a411"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/depend.make",
+      "bytes": 110,
+      "sha256": "959b4c732fc99640e44587f3ffb2cee2afa7944a2e289c8410a0e7b72e85978e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/DependInfo.cmake",
+      "bytes": 1035,
+      "sha256": "cbb39a43f591f3f181326d97278abc78e15d5a508ae0397a38979f059e84d04f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/flags.make",
+      "bytes": 508,
+      "sha256": "c3b82d9e9fe35096ed9465ed088b5a846376cfed565e2a109bf882faab2de77a"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/link.txt",
+      "bytes": 460,
+      "sha256": "a4a84d28cae272650637dd1fd68091bab1d69ad1a491905b5273fc7c3202ac79"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/mnt/f/vkfft_demo/experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/expanded_benchmark.cpp.o",
+      "bytes": 1266672,
+      "sha256": "f643114499b0c066deb723c78f6eb1fb1a1fcbd5c78f5628e40a8e7d72f8ebc0"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/mnt/f/vkfft_demo/experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/expanded_benchmark.cpp.o.d",
+      "bytes": 22673,
+      "sha256": "aa48a5a7f2baac70d43e9f489af7112b12f9d1797370fe1d12f434f0f80a83fa"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_candidate.dir/progress.make",
+      "bytes": 43,
+      "sha256": "2c0c69e4af70b4caed2b8e1bd9f161f3ee9eb525d5f041631eee6d0661e5a02f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/build.make",
+      "bytes": 7792,
+      "sha256": "422884d8d34027a5ada4db6ec72f74cdda0e11ff5c30e5643ba856235ec299b5"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/cmake_clean.cmake",
+      "bytes": 584,
+      "sha256": "bfd4d4de326c345f6dc3f04803488eb4d6bafa1d2ce2aff64fd2b83777882fa3"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/compiler_depend.make",
+      "bytes": 128,
+      "sha256": "0ab9d3679c53c8ef1a2c7e58911306363b973cf922a0f4485abf89544ec97434"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/compiler_depend.ts",
+      "bytes": 132,
+      "sha256": "e669b745307b1e8dae820147ae4258796eaf7ac1fc1df258c15d6669498a3f60"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/depend.make",
+      "bytes": 109,
+      "sha256": "534ecd8778098cc9532c2a6e0efbaef7d0cb467742e743aed2853cd34b12af6e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/DependInfo.cmake",
+      "bytes": 1033,
+      "sha256": "64269f689b397532117be875ff6efc81ee64deb8a419fbf827caf2a78a0d8f19"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/flags.make",
+      "bytes": 571,
+      "sha256": "28e748b7d029aae2fc4389f07c55b710e81e9182f67ca51276eede99b0860d33"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/link.txt",
+      "bytes": 458,
+      "sha256": "9dfbb399fdb753a8c38176e12baf0cee6c6114f1fe1b420feacb81fd2633d98c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/mnt/f/vkfft_demo/experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/expanded_benchmark.cpp.o",
+      "bytes": 1185688,
+      "sha256": "5a52e402ff3fad54a2be0e90a2bf89ebba0f8ed0c723840160581782578f916b"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/mnt/f/vkfft_demo/experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/expanded_benchmark.cpp.o.d",
+      "bytes": 19477,
+      "sha256": "2163d4ab3e3f78d7361cf41d82c3f0c0dfb0838428f98782d7a98350f5264ef3"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CMakeFiles/vkfft_nonuniform_original.dir/progress.make",
+      "bytes": 43,
+      "sha256": "a3194f88ef5ae65b7a30877bdb3f7ab384e043aa110d7219d72f1e666ac6246b"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/compile_commands.json",
+      "bytes": 2743,
+      "sha256": "ded784c923cd276c5cfe001fc508e2c3f5f77875c34a3297f0f6c8d0d9e0fa2d"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/CTestTestfile.cmake",
+      "bytes": 1173,
+      "sha256": "43114a7bb883afebbd25daaa0b19598017f77bfb6fc957009cd22bfb4e18b474"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/Makefile",
+      "bytes": 11052,
+      "sha256": "db70f8d86ec8fb62b158101c523514289428b40cd2cbd3dbe0d85be5d1361be1"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/test_nonuniform_candidate",
+      "bytes": 44144,
+      "sha256": "2a497e7696b246a6dc940fc03f9528b2198fac4820f63776f0882cb30618a3d2"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/vkfft_nonuniform_candidate",
+      "bytes": 975816,
+      "sha256": "4dc4e25b21d1451f741c4311dc4597c5bfe6d43520850ac5e089d20ba6e586eb"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/build/vkfft_nonuniform_original",
+      "bytes": 926984,
+      "sha256": "4e5a33e636094270ee05ab0ed5a0353079c74aec9e31510e1c4a35d3c28a314d"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/execution.json",
+      "bytes": 1087,
+      "sha256": "d38fa66b2322d48684ae702d4355fd4a050257dd50e79eff0a00f50a2e846ceb"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/expanded_benchmark.cpp",
+      "bytes": 60572,
+      "sha256": "2b5a8e249bd5362d877e3b9dd54364b6cccac1614311cd8543064406ac90b5f2"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/expanded_provenance.json",
+      "bytes": 3176,
+      "sha256": "826481cd8cb3a5904490bf883fef095e3299f00ec7b44f8b5a72104a049a3aa6"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/header_provenance.json",
+      "bytes": 1825,
+      "sha256": "b42e6f31e8457ed4d7a9f9536047cc70a13ffddc035510f55ca900c35043983f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/candidate.hpp",
+      "bytes": 7649,
+      "sha256": "98170f3092bcce72e92eb2fd1f3e11b2942860ac35853a803b30bc2540d6a3aa"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/trace.hpp",
+      "bytes": 14930,
+      "sha256": "730f83145cbfb1af00af7cba6b38268b3f20c62c371d53048e291e4eded53b1b"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_AppManagement/vkFFT_DeleteApp.h",
+      "bytes": 12880,
+      "sha256": "fbe314288ff4339b37198c57d13eca6e9c54d799aca451dfc20ee6e93e65dec2"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_AppManagement/vkFFT_InitializeApp.h",
+      "bytes": 94649,
+      "sha256": "6887dd62add4c5e57eb5bf14108190f8158fb58b4cbb68b2fca22a1fa88afb81"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_AppManagement/vkFFT_RunApp.h",
+      "bytes": 45336,
+      "sha256": "cd21f2a4b24a510289948b9292509b557fbc4378d017eb29a442f1be7913c1c3"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_KernelStartEnd.h",
+      "bytes": 15994,
+      "sha256": "0fbb9544bdd7e7041c3f08494bd0ee2557a69d899cda555d89bf30ab6d6771e0"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_KernelUtils.h",
+      "bytes": 13188,
+      "sha256": "29455acbf013ac0eec4a4383e9607063fb3af7caaa83a1b6940f2444b30e3868"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_MemoryManagement/vkFFT_MemoryInitialization/vkFFT_Constants.h",
+      "bytes": 9706,
+      "sha256": "d4f15159c353c2f01a365d931eee11cb86a410d97530ff994d04f43edd4b2ecb"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_MemoryManagement/vkFFT_MemoryInitialization/vkFFT_InputOutput.h",
+      "bytes": 14865,
+      "sha256": "16ac2df9c1e5f6a5875f7f41715a5ec86d690755cae8fbb8986c641a279b6790"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_MemoryManagement/vkFFT_MemoryInitialization/vkFFT_InputOutputLayout.h",
+      "bytes": 6950,
+      "sha256": "3b6e0ad6c2a1ad0b534dbd80058f34b6eab302b9eaf824485fc5ce993978776d"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_MemoryManagement/vkFFT_MemoryInitialization/vkFFT_PushConstants.h",
+      "bytes": 4459,
+      "sha256": "9096269f549ff1562bf6aa843654b0ed43dc915eee0f9719ef75178672dd6ba4"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_MemoryManagement/vkFFT_MemoryInitialization/vkFFT_Registers.h",
+      "bytes": 24609,
+      "sha256": "95215306359129e992b7882e9afb025b6dcaa39f6b846aa60adca226c0b6a7a4"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_MemoryManagement/vkFFT_MemoryInitialization/vkFFT_SharedMemory.h",
+      "bytes": 15781,
+      "sha256": "7307abb08d812f50b921f64c90bff1383607fb3a6d28e0df25e6f3e60f106847"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_MemoryManagement/vkFFT_MemoryTransfers/vkFFT_Transfers.h",
+      "bytes": 23721,
+      "sha256": "8553a8bf18a63976c6421443c7876ccde5cfd7711e57d9e90463f96ecbf2f831"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_Zeropad.h",
+      "bytes": 7890,
+      "sha256": "17c4e79d40865ecb62ef2a9adc7d087b0b5ff3b85abac8f0d9b8153a78d301da"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/PrePostProcessing/vkFFT_4step.h",
+      "bytes": 5874,
+      "sha256": "3e5cf54924a5a09c350ec5798d440466d71aa5a1d3083da0697be654a2ac5425"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/PrePostProcessing/vkFFT_Bluestein.h",
+      "bytes": 11823,
+      "sha256": "ce1849b1ac54d4f135e3aa999054fdbca69e2faad43b4d1adc64a408f088ce6e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/PrePostProcessing/vkFFT_Convolution.h",
+      "bytes": 19968,
+      "sha256": "f8f2811e2d4d2e0b790438f0038fb7e16229e826c9222c21e38cfea88d9dacb6"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/PrePostProcessing/vkFFT_R2C.h",
+      "bytes": 23551,
+      "sha256": "797c0682a85576923a0f7ef46745e60f569206202eabe839e4913be27511647f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/PrePostProcessing/vkFFT_R2R.h",
+      "bytes": 145949,
+      "sha256": "fa2de31642d38999a7775610b0e51894f1777df9151a4dec8e658f39a44eba1b"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_RaderKernels.h",
+      "bytes": 94045,
+      "sha256": "5db1ebe78b2dd2a89af1aba55d5ce4c0de9644aa0077408783f5bdc77c6b46c7"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_RadixKernels.h",
+      "bytes": 105976,
+      "sha256": "958a8047a214496026affe09808fd9aa6f9f86dbf131794ac522c69d3a02fbd9"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_RadixShuffle.h",
+      "bytes": 36644,
+      "sha256": "1e22021ff0503c4d6d600de1fce4aef2948703d14f25a720b2bb4d5c525468b4"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_RadixStage.h",
+      "bytes": 28768,
+      "sha256": "fd17a425296a0b4695c54db8136c230b7f40d4ffda1afad37001cd11f1ef08be"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_ReadWrite.h",
+      "bytes": 86028,
+      "sha256": "ece3e9629d8212bb6c3d163f74b2e8eb559ff6ffad0a8ef93d538daf05ce1470"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_RegisterBoost.h",
+      "bytes": 6518,
+      "sha256": "613b53d19ce1e3a23b073b088748d1e0daf88fe2ef9b754eb64bc8414aaf8397"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel2/vkFFT_FFT.h",
+      "bytes": 13133,
+      "sha256": "35e29df1fe15535a4d2f107d1279cb5f890d84028b2605aefc0a1ba7ef11a733"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel2/vkFFT_R2C_even_decomposition.h",
+      "bytes": 9852,
+      "sha256": "a448ed3d9fb64b59c101b8154031c73c7e9a80dbbd962ef8c4c005df023db6f2"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_MathUtils/vkFFT_MathUtils.h",
+      "bytes": 118742,
+      "sha256": "55f341ebf4939235570b37680dc9f893bd1a7690d9fbe7d181f4f31991836229"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_CodeGen/vkFFT_StringManagement/vkFFT_StringManager.h",
+      "bytes": 1754,
+      "sha256": "09ee3a0cc01f8760fe5b2bf34b3cbdcf2a9bc511162cdfdcac4b536c0b2503cf"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_API_handles/vkFFT_CompileKernel.h",
+      "bytes": 36060,
+      "sha256": "598c8e5d9f5d9bb55990e3bb85df46944d0eb5ebe5c9a4e8a2f6a1596fd57323"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_API_handles/vkFFT_DeletePlan.h",
+      "bytes": 5153,
+      "sha256": "3791f4cb31861b0ddc3a0c84e54ea96538639df363a233964ab882d4a38c4c52"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_API_handles/vkFFT_DispatchPlan.h",
+      "bytes": 27382,
+      "sha256": "da2c0e421bbdf9512d13b62d91ecca728d061d24b5581c3e96a2717a4092c763"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_API_handles/vkFFT_InitAPIParameters.h",
+      "bytes": 27916,
+      "sha256": "9a660d68809492c6241fc8b07ec8229dfa4bec00099337cf4fb80ff41ef2b768"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_API_handles/vkFFT_ManageMemory.h",
+      "bytes": 16813,
+      "sha256": "43229133e0569fb290033f4f94b4bf2a6e6c0f5d281b6219a72023929f48c219"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_API_handles/vkFFT_UpdateBuffers.h",
+      "bytes": 81966,
+      "sha256": "f96966d80a3eb100e8cbc1100b3394ca34bf1a12f9fdae29b2e808ffd707f455"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_AxisBlockSplitter.h",
+      "bytes": 38983,
+      "sha256": "2560e724df6abb88328489a39fa57a482610b99c082be3d6cf5165a3144f2055"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_ManageLUT.h",
+      "bytes": 110947,
+      "sha256": "785736fb8d22e449528dc6906e61c961df1d8a73e7ac138edee717fa56d3e4bb"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_RecursiveFFTGenerators.h",
+      "bytes": 75157,
+      "sha256": "b15a1a9bd8203a9904a6b65c05455c1807304b8182c7252a446a3570304164cb"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_Scheduler.h",
+      "bytes": 149579,
+      "sha256": "3aee9fbfcaf83f38319226c244d6c13a271ffd26542f68fd6ac75048b6bae692"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_Plans/vkFFT_Plan_FFT.h",
+      "bytes": 55200,
+      "sha256": "0d69d95383208eb02fbae44f1f29402bd72bafc20dae4a2f602bbadd42c181b5"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_Plans/vkFFT_Plan_R2C.h",
+      "bytes": 17816,
+      "sha256": "bbdea9085159453139f345d3ee44ba60b5df28f544bdd808d0433ccaf57b9d5e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT/vkFFT_Structs/vkFFT_Structs.h",
+      "bytes": 59265,
+      "sha256": "ebad9918fb5ba52386cf9a89d156726d1b2706209ee8510213a7d05c06b90596"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkFFT.h",
+      "bytes": 3303,
+      "sha256": "26ad346ee211737c26581cb0e94aa80e9b6c91e082771f3a1d46d39e8dc9cee4"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/generated/include/vkfft_trace_source_metadata.hpp",
+      "bytes": 122,
+      "sha256": "f02bc22b1893c24430776a8952845d2d56151363a5c90a68702cfe88aacfefb7"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001/stdout.log",
+      "bytes": 3014,
+      "sha256": "5815eb008d77c7834871203ee65fb6804fca1e567110466e3dda1d220fdb8413"
+    }
+  ]
 }
