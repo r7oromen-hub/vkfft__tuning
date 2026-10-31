@@ -1,0 +1,20 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-monitor-active-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T06:10:12.228816+00:00",
+  "parent_code_commit": "f638e631b4e20205610331911993cd4fcdb6adcc",
+  "protocol": {
+    "path": "experiments/frontier_monitor_query.json",
+    "bytes": 260,
+    "sha256": "c6e3aba051e6bf6000a1b019bf02059b8c141663ead8e2113f16dd9fbf7bb9aa"
+  },
+  "command": [
+    "python3",
+    "-c",
+    "import os,json,pathlib,subprocess; root=pathlib.Path.cwd(); prior=root/'experiments/artifacts/frontier-20261031-returned-breadth-002'; cmd=json.loads((prior/'defaults/command.json').read_text()); out=pathlib.Path(os.environ['EXPERIMENT_ARTIFACT_DIR']); clean=[]; i=0\nwhile i<len(cmd):\n if cmd[i]=='--manifest':i+=2;continue\n if cmd[i] in ('--output','--log','--incidents','--budget-ledger'):\n  clean.extend([cmd[i],str(out/{'--output':'rows.jsonl','--log':'guard.jsonl','--incidents':'incidents.jsonl','--budget-ledger':'budget.jsonl'}[cmd[i]])]);i+=2;continue\n if cmd[i]=='--seconds':clean.extend([cmd[i],'660']);i+=2;continue\n clean.append(cmd[i]);i+=1\nclean.extend(['--manifest',str(prior/'defaults_manifests/n128_b1.manifest.jsonl')]);r=subprocess.run(clean);raise SystemExit(r.returncode)"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
