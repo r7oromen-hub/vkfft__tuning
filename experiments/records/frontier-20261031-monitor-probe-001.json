@@ -1,0 +1,21 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-monitor-probe-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T06:03:58.424197+00:00",
+  "parent_code_commit": "b221c11d29de399a521fa3b7ed95b34afa19c695",
+  "protocol": {
+    "path": "experiments/frontier_monitor_query.json",
+    "bytes": 260,
+    "sha256": "c6e3aba051e6bf6000a1b019bf02059b8c141663ead8e2113f16dd9fbf7bb9aa"
+  },
+  "command": [
+    "python3",
+    "tools/frontier_monitor_probe.py",
+    "--gpu",
+    "GPU-4c8e177a-5a3a-3e0f-61b7-fb666002e0ec"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
