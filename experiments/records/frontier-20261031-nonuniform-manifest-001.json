@@ -1,0 +1,19 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-nonuniform-manifest-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T12:10:12.712159+00:00",
+  "parent_code_commit": "a74c36dc93227d7177f5630a0ea04c14009cf273",
+  "protocol": {
+    "path": "experiments/research/nonuniform_register_admission_contract.json",
+    "bytes": 15212,
+    "sha256": "72a9cf2ea2a41323febcf4df57c8d16a2f6762d945c26b17e02f423f988d2243"
+  },
+  "command": [
+    "F:/anaconda/python.exe",
+    "test/plan_selection_study/nonuniform_search/prepare_admission_manifest.py"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
