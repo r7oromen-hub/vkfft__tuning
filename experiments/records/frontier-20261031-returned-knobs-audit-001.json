@@ -1,0 +1,41 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-returned-knobs-audit-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T10:44:26.187564+00:00",
+  "parent_code_commit": "843da25ac9a5d2a78d5d06975e73ecd7c66dade7",
+  "protocol": {
+    "path": "experiments/frontier_20261031_returned_protocol.json",
+    "bytes": 3690,
+    "sha256": "9297eb67f0ec103c7128541bbf30d24e461ee6da95ff3542cc83402a5eea258d"
+  },
+  "command": [
+    "python",
+    "test/plan_selection_study/frontier_knobs/audit.py",
+    "--gpu",
+    "GPU-4c8e177a-5a3a-3e0f-61b7-fb666002e0ec",
+    "--rows",
+    "experiments/artifacts/frontier-20261031-returned-knobs-001/rows.jsonl",
+    "--guard",
+    "experiments/artifacts/frontier-20261031-returned-knobs-001/guard.jsonl",
+    "--incidents",
+    "experiments/artifacts/frontier-20261031-returned-knobs-001/incidents.jsonl",
+    "--budget",
+    "experiments/artifacts/frontier-20261031-returned-knobs-001/budget.jsonl",
+    "--manifest",
+    "experiments/artifacts/frontier-20261031-returned-knobs-001/manifest.json",
+    "--original",
+    "experiments/artifacts/frontier-20261031-returned-knobs-001/build/vkfft_frontier_original",
+    "--expanded",
+    "experiments/artifacts/frontier-20261031-returned-knobs-001/build/vkfft_frontier_v2",
+    "--generated-provenance",
+    "experiments/artifacts/frontier-20261031-returned-knobs-001/generated/expanded_provenance.json",
+    "--build-attestation",
+    "experiments/artifacts/frontier-20261031-returned-knobs-001/build_attestation.json",
+    "--output",
+    "experiments/artifacts/frontier-20261031-returned-knobs-audit-001/audit.json"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
