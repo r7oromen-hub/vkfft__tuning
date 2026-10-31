@@ -1,0 +1,121 @@
+{
+  "schema": "frontier-resource-constraints/v1",
+  "purpose": "只读审计现有原型的必要预筛条件；不是 VkFFT 或硬件的一般极限，也不授权修改正在执行的实验。",
+  "scope": {
+    "domain": "FP32 1D C2C forward out-of-place，power-of-two N、单 upload、无 Rader/Bluestein、uniform logical R、registerBoost=1；以候选配置实际满足为前提。",
+    "source_commit_bound": "returned-admission-001 execution commit 74312eb116f108094cd95b171292126472050ab4；新的正式实验需重新绑定实际提交、生成头、设备、驱动和解析配置。"
+  },
+  "device_evidence": {
+    "path": "experiments/artifacts/frontier-20261031-returned-admission-001/admission.jsonl",
+    "sha256": "2019c940fdaf4f928accca086f90b4c3bcd9f298d2cb1c36356a4bda17c966c4",
+    "line_2": {
+      "result.gpu.uuid": "GPU-4c8e177a-5a3a-3e0f-61b7-fb666002e0ec",
+      "result.gpu.name": "NVIDIA GeForce RTX 4090",
+      "result.cuda_driver_version": 13020,
+      "result.cuda_runtime_version": 13000,
+      "result.nvrtc_version": "13.0",
+      "result.upstream_commit": "066a17c",
+      "result.resolved_config.maxThreadsNum": 1024,
+      "result.resolved_config.sharedMemorySize": 101376,
+      "result.resolved_config.sharedMemorySizeStatic": 49152,
+      "result.resolved_config.registerBoost": 1
+    },
+    "lines_191_193": "N8192/B1 原始默认、实验默认、identity 的资源相关解析配置 sharedMemorySize、maxThreadsNum 和 registerBoost 一致；keepShaderCode 等诊断设置并不完全相同。三者均记录单 upload、radix [32,32,8]、R32、G1、localSize [256,1,1]、dynamic_shared_bytes 69632。",
+    "limitations": "sharedMemorySize 是该次 VkFFT 解析后配置，static=49152 是另一字段；maxComputeWorkGroupSize X/Y/Z、SM 注册文件容量和单线程寄存器硬限额未在这些结果字段提供，不用外部规格推测。各函数 cuda_max_threads_per_block 和 compiled cuda_num_regs 是逐函数结果，不等于设备配置 maxThreadsNum。"
+  },
+  "source_paths": {
+    "initialization": {
+      "path": "VkFFT/vkFFT/vkFFT/vkFFT_AppManagement/vkFFT_InitializeApp.h",
+      "lines": "560-565, 585-614, 1227, 1339-1344",
+      "finding": "CUDA 分别查询 maxThreads/block、block各维度、默认和 opt-in shared；输入配置可覆盖 maxThreadsNum 和 sharedMemorySize，另有设备特例。"
+    },
+    "plan": {
+      "path": "experiments/artifacts/frontier-20261031-returned-admission-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_Plans/vkFFT_Plan_FFT.h",
+      "sha256": "089ca532a71f21edaf7320063ffe897e702920d6b1028c803195f2cffe37b90e",
+      "lines": "107-137, 467-469, 487-490",
+      "finding": "FP32 complexSize=8；allowedSharedMemory 取配置 sharedMemorySize，有 useRaderMult 时需扣减，再传给 splitter；最终工作组各维另行检查。"
+    },
+    "splitter": {
+      "path": "experiments/artifacts/frontier-20261031-returned-admission-001/generated/include/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_AxisBlockSplitter.h",
+      "sha256": "76392a18679fff064b2b32e6978517341afa29e4b78e77c98e86b3da1597e50c",
+      "lines": "27-32, 262-267, 291-292, 349-380",
+      "finding": "非显式 groupedBatch 路径 maxThreadNum=配置 maxThreadsNum；实验注入依次验证 G/批量、工作组维度、axisBlock[0]=N/R、线程乘积和共享内存，再写回 G；随后可能交换工作组轴。"
+    },
+    "instrumentation": {
+      "path": "test/plan_selection_study/frontier_search/rejection_instrumentation.py",
+      "lines": "71-93, 101-106",
+      "finding": "为原型分支将检查拆分为 first-failure 标签；splitter_shared_memory_limit 和 splitter_thread_limit 均以 VKFFT_ERROR_UNSUPPORTED_FFT_LENGTH 返回。上游枚举 3002 定义在 VkFFT/vkFFT/vkFFT/vkFFT_Structs/vkFFT_Structs.h:418；并非所有 3002 都是该标签。"
+    },
+    "seed_and_manifest": [
+      {
+        "path": "test/plan_selection_study/frontier_search/candidate.hpp",
+        "lines": "31-51, 80-85"
+      },
+      {
+        "path": "test/plan_selection_study/frontier_search/manifest.py",
+        "lines": "17-39",
+        "finding": "清单当前仅静态拒绝 R>N 和 max(radix)>R；G 是 batch 的二次幂因子，不读取设备资源。静态 pending 不等于调度或硬件通过。"
+      }
+    ]
+  },
+  "necessary_prefilter": {
+    "preconditions": [
+      "同一生成源码和输入配置，单轴/单 upload、boost=1、无 Rader，N=实际 fftDim，R 正整数且整除 N，候选未被更早检查拒绝。",
+      "从同设备、同驱动和实际解析配置取得 S=sharedMemorySize、T=maxThreadsNum；GPU、配置或计划路径改变则重新验证。"
+    ],
+    "definitions": {
+      "N": "该 upload 实际 fftDim",
+      "R": "uniform logical registers 请求，不是物理寄存器数量",
+      "G": "请求 grouped batch",
+      "S": "传入 splitter 的 allowedSharedMemory 字节；无 Rader 才等于解析配置 sharedMemorySize",
+      "T": "解析配置 maxThreadsNum",
+      "M": "floor(S/8)，为 splitter 的 maxSequenceLengthSharedMemory，非实际 kernel 分配量"
+    },
+    "conditions": [
+      {
+        "kind": "shared",
+        "necessary": "G <= floor(M/N)，等价于 8*N*G <= S",
+        "dependency": "给定 N、S 和当前路径时独立于有序 radix 与 R；依赖 N 和 G。",
+        "scope_limit": "这是实验注入的保守判断，不是证明所有 FFT 实现或所有 VkFFT 计划必须占用 8*N*G 字节。"
+      },
+      {
+        "kind": "threads",
+        "necessary": "axisBlock[0] 必须等于 N/R，且 G <= floor(T/(N/R))，等价于 G*(N/R) <= T",
+        "dependency": "给定配置时直接依赖 N、R、G，不依赖 radix 顺序；scheduler 若修改 R 或更早失败则可能不会到此检查。",
+        "scope_limit": "尚需 N/R 非零且通过调度器的 x 维截断/等值检查；swap 之后最终 localSize 各维及实际编译资源还须验证。"
+      },
+      {
+        "kind": "other",
+        "necessary": "G 是 batch 因子且不超过 batch 和实际 maxComputeWorkGroupSize[1]；注入前 N/R 须通过 x 维裁剪后的等值检查；最终 swap 后还需检查三个工作组维度。",
+        "dependency": "按批量、实际轴/配置和完整计划变化；无设备各轴限额实证时数值未知。"
+      }
+    ],
+    "usage": "相同配置下可在生成候选清单/运行初始化前将已证明违反条件的请求标为原型条件预拒，并保留理由和分母；不能称为 VkFFT 全局不支持。一次可执行文件构建不等于每个候选的 JIT 编译，实际可节约哪些阶段须按执行路径计时。",
+    "non_sufficiency": "通过两个代数条件并不保证 scheduler、轴交换后的维度、代码生成、NVRTC、函数资源、执行或数值通过；有序 radix 和完整计划仍可改变代码/寄存器/共享内存等。"
+  },
+  "worked_example": {
+    "n": 8192,
+    "batch": 16,
+    "logical_R": 32,
+    "group": 2,
+    "radix": [
+      32,
+      32,
+      8
+    ],
+    "conditional_inputs": {
+      "S_bytes": 101376,
+      "complex_bytes": 8,
+      "T_threads": 1024
+    },
+    "derivation": "M=floor(101376/8)=12672；floor(M/8192)=1，G=2 超出。N/R=256，G*(N/R)=512<=1024，线程乘积本身可过；检查顺序之前的条件仍可能先失败。",
+    "possible_pruning": "若目标 B16 的解析配置和此源码路径经确认与准入记录相同，则原型 B16 的二次幂分组 {2,4,8,16} 可提前标记不通过此共享内存注入检查；G1 仍须全部后续验证。不能将 admission B1 的记录直接当作对 B16 配置的独立验证。",
+    "live_observation": "主代理报告 breadth004 对此请求的 first-failure 为 splitter_shared_memory_limit；本次未访问远端或核验该原始行，正式引用前须取得并审计证据。",
+    "allocation_caveat": "本地 B1 默认核的 dynamic_shared_bytes=69632，说明简单乘积不是实际分配字节；不能用 65536 推导其确切资源使用。"
+  },
+  "limits": [
+    "当前7项准入候选均 screen_complete，并无 scheduler-rejected 反例，不能用作各种 G 的设备合法性证明。",
+    "保留每个预筛请求及数量、公式和依据；先不声称全局覆盖、最优或真实速度收益。",
+    "原始 static/pending、调度拒绝、编译/资源失败和数值失败应保留为不同类别；不得重写既有运行的 disposition。"
+  ]
+}
