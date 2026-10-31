@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-nonuniform-count-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T12:07:23.059224+00:00",
   "parent_code_commit": "b7c578917f54793a56f7600edf7620002e286060",
   "protocol": {
@@ -14,6 +14,31 @@
     "test/plan_selection_study/nonuniform_search/run_cpu_checks.py"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "770ab08590741ae008e7c626e6a59eefab2bc477",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T12:07:23.353887+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T12:07:26.833832+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-count-cpu-001/candidate_cpu.exe",
+      "bytes": 2915052,
+      "sha256": "0844aee3f7c1f7a9964eb5b3fbe82308dc05a58dad9b02adeee10629ae9cd2db"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-count-cpu-001/execution.json",
+      "bytes": 881,
+      "sha256": "97d34480302641096f8d3230bc1817b21bf6f4745e27dc88fab0b57c4413b785"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-count-cpu-001/stderr.log",
+      "bytes": 9028,
+      "sha256": "03ae3d9434aba79fa3a7658f04ca06d0aafa9a0234040e59e373bc76b2a35aad"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-count-cpu-001/stdout.log",
+      "bytes": 541,
+      "sha256": "ca15b811213a8cc7102a95071a2cf0a2e922bca3f21429b7cf83f3a63843eafc"
+    }
+  ]
 }
