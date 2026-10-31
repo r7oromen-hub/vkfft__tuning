@@ -1,0 +1,5 @@
+{
+  "schema": "frontier-postscreen-cpu-validation/v1",
+  "gpu_execution": false,
+  "purpose": "Validate registration, source provenance and fail-closed orchestration of offline coverage and analysis"
+}
