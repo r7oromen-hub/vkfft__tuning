@@ -1,0 +1,43 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-returned-aggregate-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T10:26:40.017637+00:00",
+  "parent_code_commit": "880f1b3539d6eb3dfddf865cee155a13658b05ab",
+  "protocol": {
+    "path": "experiments/frontier_20261031_returned_protocol.json",
+    "bytes": 3826,
+    "sha256": "08ff2a6d196160755a257f9a966e8ff335845e9a6a1244e44f9b1a2b755314dc"
+  },
+  "command": [
+    "F:\\anaconda\\python.exe",
+    "test/plan_selection_study/frontier_analysis/aggregate_confirmed.py",
+    "--coverage",
+    "experiments/artifacts/frontier-20261031-returned-postscreen-001/search_coverage.json",
+    "--rows",
+    "experiments/artifacts/frontier-20261031-returned-breadth-004/search/rows.jsonl",
+    "--confirmation-audit",
+    "experiments/artifacts/frontier-20261031-returned-confirmation-001/two_session_audit.json",
+    "--plan",
+    "experiments/artifacts/frontier-20261031-returned-confirmation-001/plan.json",
+    "--screen-guard",
+    "experiments/artifacts/frontier-20261031-returned-breadth-004/search/guard.jsonl",
+    "--screen-incidents",
+    "experiments/artifacts/frontier-20261031-returned-breadth-004/search/incidents.jsonl",
+    "--screen-budget",
+    "experiments/artifacts/frontier-20261031-returned-breadth-004/search/budget.jsonl",
+    "--first-dir",
+    "experiments/artifacts/frontier-20261031-returned-confirmation-001/first",
+    "--second-dir",
+    "experiments/artifacts/frontier-20261031-returned-confirmation-001/second",
+    "--original",
+    "experiments/artifacts/frontier-20261031-returned-admission-001/build/vkfft_frontier_original",
+    "--expanded",
+    "experiments/artifacts/frontier-20261031-returned-admission-001/build/vkfft_frontier_v2",
+    "--output",
+    "experiments/artifacts/frontier-20261031-returned-aggregate-001/aggregate.json"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
