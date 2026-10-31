@@ -91,11 +91,19 @@ N     batch   候选 radix / R / G      热地址两 session    轮换单 sessio
 
 此前 returned-rotation-001 在原设备上的 rotation_calibration 阶段失败：原始记录报告 graph_build 中通过 CUDA Runtime API 查询由 Driver API 加载内核的图节点参数时出现 invalid device function；失败、guard 中止及其证据均保留在 experiments/artifacts/frontier-20261031-returned-rotation-001/ 和对应运行记录中，不能作为时延结果。修复后的 GPU0 轮换经审计通过，但设备和环境已经改变，不构成原主机上修复原因的因果证明，也不等于原失败被重跑通过。
 
+六附二、GPU0 的 N=128、batch=1 预算截断搜索
+
+GPU0 上该负载的请求域清单已完整枚举并通过覆盖审计：数学请求 488 项，静态拒绝 183 项，静态支持并选中 305 项；其中 71 项完成筛选、1 项部分完成、233 项尚未启动，scheduler 和资源拒绝均为 0。运行正常结束于预算拒绝，不代表 305 个静态支持请求已全部执行，更不代表已枚举所有 VkFFT 实现。
+
+在 71 个完成筛选点中，3/71（4.23%）相对同设备原始默认更快，2/71（2.82%）至少快 2%；实际默认为 radix=[8,8,2]、R=8、G=1，其独立身份对照通过，但该请求在搜索清单中未启动；故上述 71 项均为非默认请求。该比例并非对全域均匀抽样的成功概率。最佳筛选比值为 0.9349763949159408（候选/默认），请求 radix=[4,2,4,4]、统一 R=4、G=1；实际 stageRadix=[4,2,4,4]、localSize=[32,1,1]，编译诊断为每线程 33 个物理寄存器、local bytes=0。该结果是三轮配对筛选中位数，未在此 GPU0 搜索后独立确认；其他设备对同一请求的确认不能替代本轮确认。未测点及部分点不是失败或慢点，不能以筛选最优外推全域性能上限。
+
+此 GPU0 搜索的账本从起始至最后一次预算拒绝为 3,273.396 秒，其中记录 work 3,242.422 秒、间隙 30.975 秒；work 中 validation 2,130.688 秒、timing 1,069.040 秒。它涵盖对应子进程、JIT、guard 和记录等，不是纯 kernel 或纯编译时间；构建、manifest 准备、部分 guard 前后工作及独立确认可能位于该账本区间外，不应与完整 campaign 墙钟等同。
+
 七、成本与限制
 
 搜索账本从首条开始至末条完成或拒绝的观测区间为 10,188.726 秒（约 2.83 小时）：有记录 work 10,115.025 秒，间隙 73.702 秒。work 中 validation 4,910.955 秒、timing 4,593.636 秒、describe 264.316 秒、拒绝后控制 192.711 秒、identity 72.163 秒、calibration 81.243 秒。work 包含子进程、JIT、guard、记录和调度，不能解释为纯编译或纯内核时间；账本区间不包括全部构建、准备、后处理和确认，因此不是整个研究总墙钟，也不能直接推算线上调优摊销。
 
-尚未覆盖非 uniform 的 per-radix 寄存器表、非 2 次幂混合 radix、boost>1、多 upload、每个同 radix stage 独立寄存器、其他精度或方向、不同布局和冷缓存。放宽白名单不足以正确支持这些路径，必须在依赖计划生成前注入并重新计算布局、资源与代码生成，再单独数值准入。推荐优先完成预注册的旧/新等预算多次比较和独立设备及多 session 的轮换复现；再以非 uniform per-radix 寄存器作为受控扩展，单独评估 2/3/5-smooth 单 upload 工作负载；boost 与多 upload 应建立独立计划契约和端到端验证。以上均为建议，不是已测结果。GPU0 的 N=128、batch=1 剩余搜索仍在运行，结果待完成和审计，本报告不预支其结论。
+尚未完成 GPU 准入的扩展包括非 uniform 的 per-radix 寄存器表；当前已测空间也未覆盖非 2 次幂混合 radix、boost>1、多 upload、每个同 radix stage 独立寄存器、其他精度或方向、不同布局和冷缓存。放宽白名单不足以正确支持这些路径，必须在依赖计划生成前注入并重新计算布局、资源与代码生成，再单独数值准入。推荐优先完成预注册的旧/新等预算多次比较和独立设备及多 session 的轮换复现；再以非 uniform per-radix 寄存器作为受控扩展，单独评估 2/3/5-smooth 单 upload 工作负载；boost 与多 upload 应建立独立计划契约和端到端验证。以上均为建议，不是已测结果。GPU0 的 N=128、batch=1 搜索已终止并完成覆盖、分析与成本审计，具体未测边界见六附二。
 
 八、证据与版本
 
@@ -106,11 +114,13 @@ N     batch   候选 radix / R / G      热地址两 session    轮换单 sessio
 - 确认执行 commit d80bc2c226ccae4a3498131ae7136fcbc12ce735；原始两 session、plan 和审计见 experiments/artifacts/frontier-20261031-returned-confirmation-001/first/、second/、plan.json、two_session_audit.json。
 - 带重新审计确认数据的汇总：experiments/artifacts/frontier-20261031-returned-aggregate-001/aggregate.json，执行 commit 9b61c1fddcffc707962f2a46215279269f6fad37。此文件优先于 post-screen 阶段尚无确认的 aggregate.json。
 - 旋钮审计：experiments/artifacts/frontier-20261031-returned-knobs-audit-001/audit.json；原始记录、manifest、二进制及生成溯源见 experiments/artifacts/frontier-20261031-returned-knobs-001/。旋钮运行执行 commit d194cf60531a6cda87831abe8ade5947fbede774，审计执行 commit 8fa6ffde189b7d9e287e5499f671658e685b9b2b。
-- GPU0 双 session 确认汇总与运行记录：experiments/artifacts/frontier-transfer-20261031/gpu0_summaries/frontier-20261031-gpu0-confirmation-001/ 的 two_session_audit.json 和 record.json；记录中的执行 commit 为 ed8ee29a1cde010e279963661cd3c81224090e84，汇总 SHA-256 为 5897d3adf0cd1386102be1653c481e3fb95c78627b18a88f6a3bcdb6871170e7。GPU0 轮换审计汇总与记录在同一 gpu0_summaries 下 frontier-20261031-gpu0-rotation-audit-001/ 的 audit.json 和 record.json；记录中的审计执行 commit 为 202ef764d07265642e00502fe686c6111249150a，汇总 SHA-256 为 fd931cfc11860c9b260e7466ce2e4a9f698c604e74782586100db986ec677564。两个本地汇总哈希与记录匹配；当前本地仅有 GPU0 的这些汇总和记录，完整原始数据备份须待计时任务结束后回传和核验，不能视作已全部在本地。
+- GPU0 双 session 确认汇总与运行记录：experiments/artifacts/frontier-transfer-20261031/gpu0_summaries/frontier-20261031-gpu0-confirmation-001/ 的 two_session_audit.json 和 record.json；记录中的执行 commit 为 ed8ee29a1cde010e279963661cd3c81224090e84，汇总 SHA-256 为 5897d3adf0cd1386102be1653c481e3fb95c78627b18a88f6a3bcdb6871170e7。GPU0 轮换审计汇总与记录在同一 gpu0_summaries 下 frontier-20261031-gpu0-rotation-audit-001/ 的 audit.json 和 record.json；记录中的审计执行 commit 为 202ef764d07265642e00502fe686c6111249150a，汇总 SHA-256 为 fd931cfc11860c9b260e7466ce2e4a9f698c604e74782586100db986ec677564。
+- GPU0 的 N=128、batch=1 搜索原始 rows、guard、budget 和 manifest 位于 experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/；搜索执行 commit 5641ca7994c3752464ea25836b21df785c8d91a6，原始 rows SHA-256 为 b67c85d06e474f4d95b1dd072e0e1068b907d3bfd870ebc69f0d09c7bff58531。覆盖、分析和成本输出分别为 experiments/artifacts/frontier-20261031-gpu0-exhaust128-coverage-001/coverage.json、experiments/artifacts/frontier-20261031-gpu0-exhaust128-analysis-001/analysis.json、experiments/artifacts/frontier-20261031-gpu0-exhaust128-costs-001/costs.json；执行 commit 分别为 4ffc2d923a9ff5abfb8a99b798bc6ab6ea843192、492190c50df292ccfdbda457a34dce443f3efa32、7da3a8d0009784543cb1691dc2822183b2d29613。
+- GPU0 的 9 次运行、共 179 个文件已完成本地哈希核验与规范 artifacts 目录复制，核验记录为 experiments/artifacts/frontier-transfer-20261031/gpu0-local-backup-verification.json；提取副本位于同目录 gpu0-backup-extracted/。本地压缩原始证据 gpu0-backup.tar.gz 的 SHA-256 为 b5561455a97701e4fcdef18b28e596697508d234eff410f87b31f113b8303b18；主仓库 bundle gpu0-backup.bundle 为 aa5969a6beae3edef032fee53277bfa691779e3d54d5043b8c563f8c7a6bd5d2；VkFFT 子模块 bundle gpu0-backup-vkfft.bundle 为 035a78e0c360ebbfc20f7ae596023423b58afd4bbdaf108dd29f93f84a473518。三个文件均位于 experiments/artifacts/frontier-transfer-20261031/，大小、来源与哈希另见该目录 gpu0-backup-metadata.json。
 - 原设备失败的 returned-rotation-001 运行记录在 experiments/records/frontier-20261031-returned-rotation-001.json，执行 commit d080678a2fc42ea3ba37b29c89c0e4f6f683ba23，status=failed；其原始失败证据位于 experiments/artifacts/frontier-20261031-returned-rotation-001/。
 - 各次命令、状态、文件大小和 SHA-256 索引在 experiments/records/ 的同名 JSON；固定约束与待覆盖路径的源码审查见 experiments/research/frontier_uncovered_parameters.json。
 
-experiments/artifacts/ 和 JSONL 被 .gitignore 排除；Git/GitHub 中的运行记录或哈希只是索引，不等同于原始数据已在 GitHub 或其他云端备份。本地回传原始证据仍须另行保全并验证哈希，不能仅凭本报告推断其他位置的备份状态。
+experiments/artifacts/ 和 JSONL 被 .gitignore 排除；Git/GitHub 中的运行记录或哈希只是索引，不等同于原始数据已在 GitHub。上述 GPU0 的 9 次运行已有经哈希核验的本地备份；不能由此推断其他位置的备份状态，仍应保全这些本地文件及其索引。
 
 九、文献联系与下一阶段应验证的假设
 
@@ -132,4 +142,6 @@ Using hardware performance counters to speed up autotuning convergence on GPUs�
 
 另以已归档的 returned-breadth-004/defaults/rows.jsonl 验证新校验器与真实旧默认记录的兼容性；输入大小和 SHA-256 先与已完成运行记录核对。frontier-20261031-nonuniform-archived-defaults-001 共检查 184 条执行记录，0 失败，跳过 57 条非目标记录；执行 commit 为 7aaaa5e681ebae7d9a00d78d68327191325764a2，结果 commit 为 79583b752de4448d6e5220711a974ab5d1e6e9c2。输出位于同名 artifacts 目录的 audit.json。原始二进制的实际 NVRTC 选项未被捕获，只能比较受限原始编译路径的预期选项与插桩二进制的实测选项；校验器明确保留这一限制。
 
-截至本节更新，专用准入控制器仍在实现，尚未完成新层的 CUDA 编译、GPU 身份对照、五种输入乘三个随机种子的全输出验证及独立审计。当前统计中的已验证搜索空间和收益均不包含这一非均匀寄存器扩展，也不能用 CPU 测试通过宣称调优上限已扩大或取得新增加速。
+专用非均匀寄存器正确性准入控制器现已实现：接受显式候选清单，保存身份、结构、守卫、预算与数值证据；所有单 session 检查通过的候选仍标记为等待独立审计。frontier-20261031-nonuniform-admission-cpu-001 因旧组件导入污染导致 unittest 发现错误而失败，执行 commit 为 2d3b68c6ab8c556d0cd2a1f9f8afe5b740602bcf，失败日志予以保留；隔离导入后独立实验 frontier-20261031-nonuniform-admission-cpu-002 的执行 commit 为 ecdf3f4dd0f780595aed28a40e077e17339b7813，38 项 Python CPU 检查及 C++ 请求测试通过。详见 experiments/records/ 下对应记录和同名 artifacts 的 stdout.log、stderr.log。
+
+这些 CPU 检查包括合成记录和 mock，不构成新层 CUDA 编译、GPU 身份对照或五种输入乘三个随机种子的设备全输出验证。非均匀寄存器扩展的独立 guard/ledger/原始证据审计也尚未实现；当前统计中的已验证搜索空间和收益均不包含此扩展，不能用 CPU 测试通过宣称调优上限已扩大或取得新增加速。
