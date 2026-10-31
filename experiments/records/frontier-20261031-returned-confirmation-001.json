@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-returned-confirmation-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T09:28:35.674861+00:00",
   "parent_code_commit": "46427a5ba4e09bbf99ce0dbd93566b0310734492",
   "protocol": {
@@ -26,6 +26,91 @@
     "128:1:9d98077caa1e4d56d69b12501962c307779c7a9d078046a896e7047500ce1241"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "d80bc2c226ccae4a3498131ae7136fcbc12ce735",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T09:28:35.703461+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T09:57:16.980049+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/execution.json",
+      "bytes": 1323,
+      "sha256": "c5ce7d36ff1ad469e5ea2e5eb3018052fd26b76de8b233687cc65d35793ff59c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/first/budget.jsonl",
+      "bytes": 2441726,
+      "sha256": "4a4afadc5e44220b01ad60acf1850d82186a9bbfaaf350a66ab048318d8092f9"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/first/command.json",
+      "bytes": 2664,
+      "sha256": "fe7d022af202e6544d0c9b0d136b0edee2f548a600e6bd74aed585ba5868b8a2"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/first/guard.jsonl",
+      "bytes": 3120882,
+      "sha256": "2b7fb5aa077a0be2462c28ec426f79295c3233b2d08fc4d1e96c346268375e74"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/first/incidents.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/first/rows.jsonl",
+      "bytes": 15403074,
+      "sha256": "cdc484a407ef5dec0b6533854facb6a9a291b589ae9ce9ffdac8c6edf2bae6cd"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/plan.json",
+      "bytes": 14946,
+      "sha256": "decb055aff75d3be2ce912aaa77c2ae8e183b236253b0450313073004a1e08ac"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/second/budget.jsonl",
+      "bytes": 2800610,
+      "sha256": "3a7bfe2d1fca08b9311bc6a87e86dfb0c0493278e443b3acb9598b163c8c2243"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/second/command.json",
+      "bytes": 3249,
+      "sha256": "6a4c381fe18d2e980ff6159df1937f063d102530a7eed6a81d5b47d231b7bb84"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/second/guard.jsonl",
+      "bytes": 3097872,
+      "sha256": "142be7d45f2b38106eadc18eebeefc5660fb8f454059687ca58f68885c3ecc5d"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/second/incidents.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/second/rows.jsonl",
+      "bytes": 15649819,
+      "sha256": "6590b23ed2b109cf9b4d1af885ec3656abf1f9f3e4f1a3c3f9f7836a20df6c6c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/selection.json",
+      "bytes": 5126,
+      "sha256": "62cb3073610696948fb84b26edeb1a4eec8258b7310fdb75bc82a325f8c03942"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/stdout.log",
+      "bytes": 130576,
+      "sha256": "712bc2ea1902f1310d576eac54681c42496564f0f88d1b057607971d0fe182d3"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-confirmation-001/two_session_audit.json",
+      "bytes": 161596,
+      "sha256": "cb4e9cdc223d874ce7e0c8a7f92ac7dd6ca821e0fe6ff6e248a468666c9e97ac"
+    }
+  ]
 }
