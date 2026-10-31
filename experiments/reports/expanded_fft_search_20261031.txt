@@ -175,3 +175,5 @@ N       统一 R 兼容域    新域去 profile 重复并集
 frontier-20261031-nonuniform-wsl-build-001 在执行 commit eb5bca2222a66b7644a8543e33941da6cb1a6aec 下成功生成隔离头文件，并编译、链接 vkfft_nonuniform_candidate、vkfft_nonuniform_original 和 CPU 请求测试程序；结果 commit ca8b56a115a2c4739b4764df8c52cfdce8b8ae0a。生成树、compile_commands.json、对象依赖文件、二进制及日志均在同名 artifacts 目录，并列入运行记录的大小和 SHA-256 清单。
 
 此次只执行头文件生成、CMake 配置与宿主 C++ 构建，没有执行这些程序，没有调用 VkFFT 规划器，也没有运行 GPU 内核。VkFFT 在运行时生成 CUDA kernel 并交给 NVRTC，因此本次成功不证明任何非均匀候选的 CUDA kernel 已完成 JIT 编译或数值验证；仍遵守仅离线工作、不追加 GPU 预算的约束。
+
+随后在同一 WSL 环境单独执行纯 CPU 回归实验 frontier-20261031-nonuniform-wsl-cpu-001：57 项 Python 检查及重新编译的 C++ 请求测试均通过，执行 commit 1c9b316d95a2a8e1196378db9643cb867f1a2fb7，结果 commit 24ce9634880c99a156d21b613dd43796f0833bc0。该实验只运行 CPU 测试程序，不执行 FFT harness；它补充了 Linux 平台证据，不能替代真实 GPU 的调度、内存访问与数值准入。
