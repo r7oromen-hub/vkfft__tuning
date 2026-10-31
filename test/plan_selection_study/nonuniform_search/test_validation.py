@@ -37,6 +37,7 @@ def make_row(request=None, *, role='candidate', describe=False):
             'localSize': local[:], 'axisBlock': raw_axis_block,
             'axisSwapped': int(group > 1), 'useRader': 0, 'useBluesteinFFT': 0,
             'performR2C': 0, 'performDCT': 0, 'performDST': 0,
+            'inverse': 0, 'actualInverse': 0, 'precision': 0,
             'dynamic_shared_bytes': 4096, 'readToRegisters': 0, 'writeFromRegisters': 0,
             'axis': 0, 'upload': 0}
     canonical = copy.deepcopy(desc)
@@ -61,13 +62,15 @@ def make_row(request=None, *, role='candidate', describe=False):
                    'checked_elements': n * batch,
                    'reference': 'independent_double_mixed_radix_235_fft_plus_exact_dyadic_batch_linearity',
                    'criterion': 'criterion_v2', 'l2_scaled_error_threshold': 1e-5,
-                   'linf_input_scaled_error_threshold': 1e-4}
+                   'linf_input_scaled_error_threshold': 1e-4,
+                   'worst_batch_l2_scaled_error': 1e-7, 'worst_l2_batch': 0,
+                   'worst_batch_linf_input_scaled_error': 2e-7, 'worst_linf_batch': batch - 1}
     repeats, graph = 31, 2048
     work = {'n': n, 'batch': batch, 'seed': 42, 'pattern': 'random', 'graph_repeats': graph,
             'repeats': repeats, 'warmup': 5, 'warmup_ms': 1000,
             'study_mode': 'describe' if describe else 'execute', 'config': {}}
     original = role == 'original'
-    result = {'status': 'ok', 'gpu': {'uuid': GPU, 'cuda_visible_devices': GPU},
+    result = {'status': 'ok', 'gpu': {'uuid': GPU, 'cuda_visible_devices': GPU, 'compute_capability': '8.9'},
               'n': n, 'batch': batch, 'seed': 42, 'pattern': 'random',
               'backend': 'CUDA_NVRTC', 'precision': 'complex_fp32', 'placement': 'outofplace',
               'forward_direction': -1,
@@ -79,10 +82,12 @@ def make_row(request=None, *, role='candidate', describe=False):
               'input_unchanged': True, 'single_forward_input_unchanged': True,
               'correctness': copy.deepcopy(correctness), 'single_forward_correctness': copy.deepcopy(correctness),
               'structural_features': {'numAxisUploads': 1, 'kernels': [kernel]},
-              'compiled_diagnostics': [] if describe else [
-                  {'upload': 0, 'cuda_num_regs': 54, 'cuda_local_bytes': 0,
-                   'cuda_static_shared_bytes': 0, 'cuda_max_threads_per_block': threads * group}],
-              'graph_repeats': graph, 'graph_kernel_count': graph, 'graph_event_record_count': 2,
+              'compiled_diagnostics': [{'upload': 0, 'cuda_num_regs': None if describe else 54,
+                  'cuda_local_bytes': None if describe else 0, 'cuda_static_shared_bytes': None if describe else 0,
+                  'cuda_max_threads_per_block': None if describe else threads * group}],
+              'graph_repeats': graph, 'graph_expected_kernel_count': graph, 'timing_mode': 'graph',
+              'graph_kernel_count': graph, 'graph_event_record_count': 2,
+              'warmup': 5, 'warmup_ms_requested': 1000, 'warmup_actual': 7, 'warmup_wall_ms': 1000.25,
               'exec_ms_samples': [.0005] * repeats, 'raw_interval_ms_samples': [1.024] * repeats,
               'init_trace': {'available': False} if original else {
                   'counters': {'nvrtc_compile': 0 if describe else 1, 'module_load': 0 if describe else 1,
@@ -188,6 +193,26 @@ class ValidationTests(unittest.TestCase):
             with self.subTest(describe_path=path), self.assertRaises((ValueError, KeyError, TypeError)):
                 validation.check_describe(changed(make_row(req, describe=True), path, value), GPU, req)
 
+    def test_synchronous_scope_spoofing_is_not_a_valid_forward_plan(self):
+        req = make_request()
+        for field in ('performR2C', 'performDCT', 'performDST', 'inverse', 'actualInverse',
+                      'axis', 'upload', 'precision'):
+            for describe in (False, True):
+                row = make_row(req, describe=describe)
+                snapshot = row['result']['precompile_kernels'][0]
+                for key in ('precodegen_raw_descriptor', 'raw_descriptor', 'canonical_descriptor'):
+                    snapshot[key][field] = 1
+                pair = row['result']['descriptor_validation']['pairs'][0]
+                pair['precompile_canonical'][field] = pair['postinit_canonical'][field] = 1
+                with self.subTest(field=field, describe=describe), self.assertRaises(ValueError):
+                    if describe:
+                        validation.check_describe(row, GPU, req)
+                    else:
+                        validation.check(row, GPU, request=req)
+        default = make_row(req, role='default')['result']
+        default['precompile_kernels'][0]['raw_descriptor']['inverse'] = 1
+        self.assertIsNone(identity.representable(default)[0])
+
     def test_source_options_and_compiled_resource_checks(self):
         req = make_request(); row = make_row(req); p = ('result', 'precompile_kernels', 0)
         cases = [
@@ -197,6 +222,9 @@ class ValidationTests(unittest.TestCase):
             (p + ('compiler_input', 'source_sha256'), 'c' * 64),
             (p + ('compiler_input', 'function'), 'wrong_kernel'),
             (p + ('compiler_input', 'original_compile_header_sha256'), 'bad'),
+            (p + ('compiler_input', 'architecture_option'), '--gpu-architecture=sm_90'),
+            (p + ('compiler_input', 'backend'), 0),
+            (('result', 'gpu', 'compute_capability'), '9.0'),
             (p + ('actual_compiler_options',), ['--wrong']),
             (p + ('compiler_options_match',), False),
             (('result', 'compiled_diagnostics', 0, 'cuda_num_regs'), None),
@@ -232,6 +260,8 @@ class ValidationTests(unittest.TestCase):
             (('result', 'correctness', 'reference'), 'not-independent'),
             (('result', 'correctness', 'l2_scaled_error_threshold'), .1),
             (('result', 'graph_kernel_count'), 1),
+            (('result', 'graph_expected_kernel_count'), 1),
+            (('result', 'timing_mode'), 'direct'),
             (('result', 'raw_interval_ms_samples'), [.01] * 31),
             (('result', 'exec_ms_samples'), [float('nan')] * 31),
             (('workload', 'warmup_ms'), 0),
@@ -239,6 +269,64 @@ class ValidationTests(unittest.TestCase):
         for path, value in cases:
             with self.subTest(path=path), self.assertRaises((ValueError, KeyError, TypeError)):
                 validation.check(changed(row, path, value), GPU, request=req, timing=True)
+        for field in ('graph_expected_kernel_count', 'timing_mode'):
+            missing = copy.deepcopy(row); missing['result'].pop(field)
+            with self.subTest(missing_graph_field=field), self.assertRaises(ValueError):
+                validation.check(missing, GPU, request=req, timing=True)
+        too_many = copy.deepcopy(row)
+        too_many['workload']['graph_repeats'] = 2049
+        too_many['result']['graph_repeats'] = too_many['result']['graph_kernel_count'] = 2049
+        too_many['result']['graph_expected_kernel_count'] = 2049
+        with self.assertRaises(ValueError):
+            validation.check(too_many, GPU, request=req, timing=True)
+
+    def test_normwise_actual_errors_and_worst_batch_indices(self):
+        req = make_request(); row = make_row(req)
+        for correctness_field in ('correctness', 'single_forward_correctness'):
+            for metric, index, threshold in (
+                    ('worst_batch_l2_scaled_error', 'worst_l2_batch', 1e-5),
+                    ('worst_batch_linf_input_scaled_error', 'worst_linf_batch', 1e-4)):
+                for field in (metric, index):
+                    missing = copy.deepcopy(row); missing['result'][correctness_field].pop(field)
+                    with self.subTest(kind=correctness_field, missing=field), self.assertRaises(ValueError):
+                        validation.check(missing, GPU, request=req)
+                for value in (-1, float('nan'), float('inf'), threshold * 1.01):
+                    with self.subTest(kind=correctness_field, metric=metric, value=value), self.assertRaises(ValueError):
+                        validation.check(changed(row, ('result', correctness_field, metric), value), GPU, request=req)
+                for value in (-1, req['workload']['batch'], 1.5, True):
+                    with self.subTest(kind=correctness_field, index=index, value=value), self.assertRaises(ValueError):
+                        validation.check(changed(row, ('result', correctness_field, index), value), GPU, request=req)
+        # failed_elements is a pointwise diagnostic, not the normwise pass rule.
+        pointwise = copy.deepcopy(row)
+        pointwise['result']['correctness']['failed_elements'] = 7
+        pointwise['result']['correctness']['pointwise_passed'] = False
+        self.assertEqual(validation.check(pointwise, GPU, request=req), pointwise['result'])
+
+    def test_actual_warmup_is_present_finite_and_meets_requested_minimum(self):
+        req = make_request(); row = make_row(req)
+        for field in ('warmup_actual', 'warmup_wall_ms'):
+            missing = copy.deepcopy(row); missing['result'].pop(field)
+            with self.subTest(missing=field), self.assertRaises(ValueError):
+                validation.check(missing, GPU, request=req, timing=True)
+        cases = [
+            ('warmup_actual', 0), ('warmup_actual', 4), ('warmup_actual', 5.0),
+            ('warmup_actual', float('nan')), ('warmup_actual', True),
+            ('warmup_wall_ms', 0), ('warmup_wall_ms', 999.9),
+            ('warmup_wall_ms', float('nan')), ('warmup_wall_ms', float('inf')),
+            ('warmup_ms_requested', 999), ('warmup', 4),
+        ]
+        for field, value in cases:
+            with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                validation.check(changed(row, ('result', field), value), GPU, request=req, timing=True)
+        # Actual values must satisfy a request stricter than the minimum too.
+        strict_count = copy.deepcopy(row)
+        strict_count['workload']['warmup'] = strict_count['result']['warmup'] = 8
+        with self.assertRaises(ValueError):
+            validation.check(strict_count, GPU, request=req, timing=True)
+        strict_time = copy.deepcopy(row)
+        strict_time['workload']['warmup_ms'] = strict_time['result']['warmup_ms_requested'] = 1001
+        with self.assertRaises(ValueError):
+            validation.check(strict_time, GPU, request=req, timing=True)
 
 
 class IdentityTests(unittest.TestCase):
@@ -263,6 +351,14 @@ class IdentityTests(unittest.TestCase):
         replay = make_row(req, role='candidate')['result']
         proof = identity.compare_three(original, default, replay)
         self.assertIsInstance(proof, dict)
+        all_wrong = [copy.deepcopy(x) for x in (original, default, replay)]
+        all_wrong[0]['postinit_source_kernels'][0]['expected_compiler_input']['options'] = ['--wrong']
+        for result in all_wrong[1:]:
+            snap = result['precompile_kernels'][0]
+            snap['compiler_input']['options'] = ['--wrong']
+            snap['actual_compiler_options'] = ['--wrong']
+        with self.assertRaises(ValueError):
+            identity.compare_three(*all_wrong)
         mutations = [
             ('original', ('postinit_source_kernels', 0, 'source_sha256'), 'c' * 64),
             ('original', ('postinit_source_kernels', 0, 'expected_compiler_input', 'options'), ['wrong']),

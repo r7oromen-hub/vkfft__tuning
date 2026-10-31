@@ -4,6 +4,7 @@ This checks records, not the guard ledger, a 15-case matrix, binary provenance o
 independent timing confirmation. A controller and an evidence audit must bind those.
 """
 import math
+import re
 
 import candidate
 
@@ -36,6 +37,19 @@ def positive(value):
 
 def nonnegative_int(value):
     return type(value) is int and value >= 0
+
+
+def nonnegative_number(value):
+    return type(value) in (int, float) and math.isfinite(value) and value >= 0
+
+
+def expected_architecture_option(gpu):
+    """Derive the restricted compiler option from the recorded CUDA capability."""
+    capability = gpu.get('compute_capability')
+    need(type(capability) is str and re.fullmatch(r'[1-9][0-9]*\.(?:0|[1-9][0-9]*)', capability) is not None,
+         'invalid GPU compute capability')
+    major, minor = capability.split('.')
+    return '--gpu-architecture=sm_' + major + minor
 
 
 def _one(items, description):
@@ -77,7 +91,7 @@ def _common(row, gpu, original, request, describe):
     return r, w, kernel
 
 
-def _source(snapshot, kernel, original=False, describe=False):
+def _source(snapshot, kernel, gpu, original=False, describe=False):
     source = snapshot.get('source_sha256')
     need(snapshot.get('axis') == 0 and snapshot.get('upload') == 0 and
          digest(source) and type(snapshot.get('source_bytes')) is int and snapshot['source_bytes'] > 0,
@@ -89,8 +103,11 @@ def _source(snapshot, kernel, original=False, describe=False):
          digest(compiler.get('original_compile_header_sha256')),
          'compiler input/source fingerprint mismatch')
     options = compiler.get('options')
-    need(type(options) is list and options and all(type(x) is str and x for x in options),
-         'missing compiler options')
+    expected = expected_architecture_option(gpu)
+    need(options == [expected], 'compiler options disagree with GPU capability')
+    if not original:
+        need(compiler.get('architecture_option') == expected and type(compiler.get('backend')) is int and
+             compiler['backend'] == 1, 'instrumented compiler architecture or backend mismatch')
     actual = snapshot.get('actual_compiler_options', 'missing')
     if original or describe:
         need(actual is None, 'unexpected actual compiler options')
@@ -101,7 +118,7 @@ def _source(snapshot, kernel, original=False, describe=False):
 
 def _snapshots(result, kernel, request, describe):
     snapshot = _one(result.get('precompile_kernels'), 'missing precompile snapshot')
-    _source(snapshot, kernel, describe=describe)
+    _source(snapshot, kernel, result['gpu'], describe=describe)
     pre, post, canonical = (snapshot[k] for k in ('precodegen_raw_descriptor', 'raw_descriptor', 'canonical_descriptor'))
     pair = _one(result['descriptor_validation'].get('pairs'), 'missing post-initialization descriptor pair')
     need(result['descriptor_validation'].get('all_match') is True and pair.get('equal') is True and
@@ -110,8 +127,25 @@ def _snapshots(result, kernel, request, describe):
     for field in ('fftDim', 'FFTdim', 'complexSize', 'numAxisUploads', 'numStages', 'stageRadix',
                   'registers_per_radix', 'min_logical_registers_per_thread', 'logical_registers_per_thread',
                   'registerBoost', 'groupedBatch', 'localSize', 'axisBlock', 'axisSwapped',
-                  'useRader', 'useBluesteinFFT'):
+                  'useRader', 'useBluesteinFFT', 'performR2C', 'performDCT', 'performDST',
+                  'inverse', 'actualInverse', 'axis', 'upload', 'precision'):
         need(field in pre and field in post and pre[field] == post[field], 'pre/post-codegen plan differs: ' + field)
+    for field in ('FFTdim', 'fftDim', 'complexSize', 'numAxisUploads', 'useRader', 'useBluesteinFFT',
+                  'performR2C', 'performDCT', 'performDST', 'inverse', 'actualInverse', 'axis', 'upload', 'precision'):
+        need(type(pre[field]) is int and type(post[field]) is int and type(canonical.get(field)) is int and
+             canonical[field] == post[field],
+             'post-codegen/canonical scope mismatch: ' + field)
+    for field in ('numStages', 'min_logical_registers_per_thread', 'logical_registers_per_thread',
+                  'registerBoost', 'groupedBatch'):
+        need(all(type(item.get(field)) is int for item in (pre, post, canonical, kernel)),
+             'invalid integral planning field: ' + field)
+    for desc in (pre, post, canonical):
+        need(type(desc.get('registers_per_radix')) is list and len(desc['registers_per_radix']) == 33 and
+             all(type(x) is int for x in desc['registers_per_radix']) and
+             type(desc.get('stageRadix')) is list and all(type(x) is int for x in desc['stageRadix']),
+             'invalid table or stage representation')
+    need(type(kernel.get('stageRadix')) is list and all(type(x) is int for x in kernel['stageRadix']),
+         'invalid final stage representation')
     swap, local = post['axisSwapped'], post['localSize']
     block = post['axisBlock']
     need(type(swap) is int and swap in (0, 1) and type(local) is list and len(local) == 3 and
@@ -138,6 +172,8 @@ def _snapshots(result, kernel, request, describe):
         need(post['FFTdim'] == 1 and post['fftDim'] == n and post['complexSize'] == 8 and
              post['numAxisUploads'] == 1 and post['registerBoost'] == 1 and
              post['useRader'] == 0 and post['useBluesteinFFT'] == 0 and
+             all(post[field] == 0 for field in ('performR2C', 'performDCT', 'performDST',
+                                                'inverse', 'actualInverse', 'axis', 'upload', 'precision')) and
              post['numStages'] == len(request['radix']) and post['stageRadix'] == request['radix'] and
              post['registers_per_radix'] == request['register_table'] and
              post['min_logical_registers_per_thread'] == derived['min_registers'] and
@@ -187,8 +223,15 @@ def _check(row, gpu, original, request, timing):
              math.isclose(result['l2_scaled_error_threshold'], 1e-5, rel_tol=1e-12) and
              math.isclose(result['linf_input_scaled_error_threshold'], 1e-4, rel_tol=1e-12),
              'numerical check failed')
+        for metric, threshold, index in (
+                ('worst_batch_l2_scaled_error', 'l2_scaled_error_threshold', 'worst_l2_batch'),
+                ('worst_batch_linf_input_scaled_error', 'linf_input_scaled_error_threshold', 'worst_linf_batch')):
+            need(nonnegative_number(result.get(metric)) and result[metric] <= result[threshold] and
+                 type(result.get(index)) is int and 0 <= result[index] < w['batch'],
+                 'invalid normwise worst-batch evidence')
     graph = w['graph_repeats']
-    need(type(graph) is int and graph > 0 and r.get('graph_repeats') == graph and
+    need(type(graph) is int and 1 <= graph <= 2048 and r.get('timing_mode') == 'graph' and
+         r.get('graph_repeats') == graph and r.get('graph_expected_kernel_count') == graph and
          r.get('graph_kernel_count') == graph and r.get('graph_event_record_count') == 2, 'graph mismatch')
     samples, raw = r['exec_ms_samples'], r['raw_interval_ms_samples']
     need(type(w['repeats']) is int and w['repeats'] > 0 and type(samples) is list and type(raw) is list and
@@ -196,13 +239,20 @@ def _check(row, gpu, original, request, timing):
          all(math.isclose(x, y / graph, rel_tol=2e-6, abs_tol=1e-9) for x, y in zip(samples, raw)),
          'invalid timing samples')
     if timing:
-        need(w['repeats'] == 31 and w['warmup'] >= 5 and w['warmup_ms'] >= 1000 and min(raw) >= .5,
-             'timing protocol mismatch')
+        warmup, warmup_ms = w['warmup'], w['warmup_ms']
+        actual, elapsed = r['warmup_actual'], r['warmup_wall_ms']
+        need(w['repeats'] == 31 and type(warmup) is int and warmup >= 5 and
+             positive(warmup_ms) and warmup_ms >= 1000 and
+             type(r.get('warmup')) is int and r['warmup'] == warmup and
+             positive(r.get('warmup_ms_requested')) and r['warmup_ms_requested'] == warmup_ms and
+             type(actual) is int and actual >= warmup and actual >= 5 and
+             positive(elapsed) and elapsed >= warmup_ms and elapsed >= 1000 and min(raw) >= .5,
+             'timing protocol or actual warmup mismatch')
     if original:
         need(r['init_trace']['available'] is False and r.get('precompile_kernels') == [], 'original trace mismatch')
         snapshot = _one(r.get('postinit_source_kernels'), 'missing original retained-source snapshot')
         need(snapshot.get('snapshot_stage') == 'post_initialize_retained_source', 'original snapshot stage mismatch')
-        _source(snapshot, kernel, original=True)
+        _source(snapshot, kernel, r['gpu'], original=True)
     else:
         _snapshots(r, kernel, request, False)
     _compiled(r, kernel, request)

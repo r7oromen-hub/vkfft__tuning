@@ -7,6 +7,7 @@ functions take benchmark result objects; they do not manufacture or alter rows.
 import copy
 
 import candidate
+import validation
 
 
 def _need(condition, message):
@@ -35,11 +36,13 @@ def representable(default):
         raw = snapshots[0]['raw_descriptor']
         n, batch = default['n'], default['batch']
         radix, table, group = kernel['stageRadix'], raw['registers_per_radix'], kernel['groupedBatch']
-        if raw['registerBoost'] != 1:
+        if type(raw['registerBoost']) is not int or raw['registerBoost'] != 1:
             return None, 'register_boost_not_one'
-        if (raw['FFTdim'] != 1 or raw['numAxisUploads'] != 1 or raw['fftDim'] != n or
-                raw['complexSize'] != 8 or raw['useRader'] != 0 or raw['useBluesteinFFT'] != 0 or
-                raw['performR2C'] != 0 or raw['performDCT'] != 0 or raw['performDST'] != 0):
+        expected_scope = {'FFTdim': 1, 'numAxisUploads': 1, 'fftDim': n, 'complexSize': 8,
+                          'useRader': 0, 'useBluesteinFFT': 0, 'performR2C': 0, 'performDCT': 0,
+                          'performDST': 0, 'inverse': 0, 'actualInverse': 0, 'axis': 0,
+                          'upload': 0, 'precision': 0}
+        if any(type(raw[field]) is not int or raw[field] != value for field, value in expected_scope.items()):
             return None, 'outside_restricted_scope'
         if (kernel['stageRadix'] != raw['stageRadix'] or raw['numStages'] != len(radix) or
                 raw['groupedBatch'] != group or kernel['localSize'] != raw['localSize']):
@@ -63,7 +66,7 @@ def representable(default):
                 raw['logical_registers_per_thread'] != derived['max_registers'] or
                 kernel['min_logical_registers_per_thread'] != derived['min_registers'] or
                 kernel['logical_registers_per_thread'] != derived['max_registers'] or
-                kernel['registerBoost'] != 1):
+                type(kernel['registerBoost']) is not int or kernel['registerBoost'] != 1):
             return None, 'register_envelope_mismatch'
         swap, local = raw['axisSwapped'], raw['localSize']
         if (type(swap) is not int or swap not in (0, 1) or type(local) is not list or len(local) != 3 or
@@ -123,10 +126,14 @@ def _common(result, *, original):
         _need(isinstance(snap.get('actual_compiler_options'), list) and
               snap['actual_compiler_options'] == compiler.get('options'), 'actual compiler options missing')
     options = compiler.get('options')
-    _need(isinstance(options, list) and options and all(isinstance(x, str) and x for x in options) and
+    expected = validation.expected_architecture_option(result['gpu'])
+    _need(options == [expected] and
           compiler.get('source_sha256') == snap['source_sha256'] and
           compiler.get('function') == shape['kernels'][0].get('function') and
           _sha(compiler.get('original_compile_header_sha256')), 'compiler input evidence missing')
+    if not original:
+        _need(compiler.get('architecture_option') == expected and type(compiler.get('backend')) is int and
+              compiler['backend'] == 1, 'compiler architecture or backend mismatch')
     return {'shape': shape, 'diagnostics': diagnostics, 'config': config,
             'descriptor': snap['canonical_descriptor'], 'source_sha256': snap['source_sha256'],
             'source_bytes': snap['source_bytes'], 'compiler_options': options,
