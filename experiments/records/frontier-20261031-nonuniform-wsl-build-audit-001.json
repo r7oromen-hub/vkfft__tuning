@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-nonuniform-wsl-build-audit-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T12:19:22.941820+00:00",
   "parent_code_commit": "b0dcb6e9ce5ceb29653bacce5f026b64f1f78e45",
   "protocol": {
@@ -22,6 +22,31 @@
     "/mnt/f/vkfft_demo/experiments/artifacts/frontier-20261031-nonuniform-wsl-build-audit-001/audit.json"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "d1e635d254544fe9a5234342863dd98b323d2a0d",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T12:19:23.253593+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T12:19:43.881080+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-audit-001/audit.json",
+      "bytes": 1003,
+      "sha256": "272340f778fbd23b7ec72918af433974a94f90a026fb0a6da2d2beb4109c7f28"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-audit-001/execution.json",
+      "bytes": 1142,
+      "sha256": "50084c2c484539cf6361af3bfb07372663cab06d827c1345c3441906e77d5c3f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-audit-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-build-audit-001/stdout.log",
+      "bytes": 953,
+      "sha256": "3e83d77c8ae4bc2e49b0c21af2a77f6179a507d3a9bee5982b411900e3b94307"
+    }
+  ]
 }
