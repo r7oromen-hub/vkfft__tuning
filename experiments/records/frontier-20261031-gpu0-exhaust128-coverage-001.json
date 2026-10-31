@@ -1,0 +1,37 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-gpu0-exhaust128-coverage-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T11:53:27.346018+00:00",
+  "parent_code_commit": "b12d871bec0ba3328f3a75f4159794e271dc07d4",
+  "protocol": {
+    "path": "experiments/frontier_20261031_gpu0_protocol.json",
+    "bytes": 2561,
+    "sha256": "efda60bde9f27c345834720eafc3c0afa112f2662c82f0fb20a13111999dda8f"
+  },
+  "command": [
+    "/usr/bin/python3",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/test/plan_selection_study/frontier_confirmation/coverage_audit.py",
+    "--rows",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/rows.jsonl",
+    "--guard",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/guard.jsonl",
+    "--incidents",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/incidents.jsonl",
+    "--budget",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/budget.jsonl",
+    "--original",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-admission-001/build/vkfft_frontier_original",
+    "--expanded",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-admission-001/build/vkfft_frontier_v2",
+    "--manifest",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/manifests/n128_b1.manifest.jsonl",
+    "--gpu",
+    "GPU-0ea68ffa-f744-7d3d-d02b-972424534597",
+    "--output",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-coverage-001/coverage.json"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
