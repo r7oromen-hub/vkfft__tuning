@@ -41,6 +41,22 @@ The original candidate-level fractions use completed selected candidates (includ
 
 The screen mean is present only when all 28 workloads have both observed default evidence and at least one complete nondefault candidate; for each workload its best compares those nondefault candidates with the default ratio 1, excluding identity timing noise. The fallback policy uses a candidate only when both confirmation sessions meet the practical criterion, and otherwise uses an observed default. Its all-28 mean is absent if any workload lacks an observed default. Thus fallback is a deployment-policy estimate, not evidence that an untested workload has zero tuning potential. The arithmetic mean latency reduction is `mean(1-ratio)`; geometric mean speedup is `exp(-mean(log(ratio)))`. Both weight the 28 workloads equally. Neither is a global optimum or a cross-device claim.
 
+## Screen ledger wall-clock costs
+
+After a screen finishes and its coverage audit passes, run:
+
+```sh
+python3 test/plan_selection_study/frontier_analysis/search_costs.py \
+  --coverage /path/coverage.json --rows /path/search/rows.jsonl \
+  --budget /path/search/budget.jsonl --output /path/search_costs.json
+```
+
+The tool binds both raw files to distinct hashes in the passing coverage report, verifies the GPU and execution commit, and checks the ledger boot, contract, monotonic event order, work identities, terminal denial and in-flight state against the raw executions. The coverage report is a trusted audit input, not a cryptographic signature; preserve its hash and use a report from a formally registered run. It does not re-run the full coverage audit or authenticate who wrote a report.
+
+`interval` covers ledger start to its final logged finish or budget denial. It partitions that span into paired work intervals and all intervening gaps. `phase_seconds` separates identity, calibration, describe, validation, timing and post-rejection. Candidate records report their own work and, only where a unique matching `screen_pair` proves it, the paired original-default timing; unpaired originals remain in `unattributed`. A unique post-rejection control is assigned to its rejected candidate. Work intervals include the guard, process launch, any JIT/compilation, validation, output and scheduling: they are **not** pure compilation or GPU kernel time.
+
+The candidate `observed_span` runs from its first to last attributable completed work interval, including any intervening gaps; it omits time before the first work and after the last work, and is not the exact candidate-start-to-disposition time. A candidate not started before the budget boundary has unknown costs, not a measured zero. Intervals may exclude binary build, manifest and other preparation, device-lock wait, initial/final guard activity, log tail, cleanup, and independent confirmation. The ledger span is therefore neither whole-experiment wall time nor the entire GPU budget. Separate formally recorded phase timings would be needed to cover those stages. No online search gain is inferred from these accounting records.
+
 ```sh
 python3 -m unittest discover -s test/plan_selection_study/frontier_analysis -p 'test_*.py' -v
 ```
