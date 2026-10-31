@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-returned-rotation-001",
-  "status": "declared",
+  "status": "failed",
   "declared_at": "2026-10-31T10:36:23.122267+00:00",
   "parent_code_commit": "2e497775f5ae36fa881741f095887b368221d040",
   "protocol": {
@@ -84,6 +84,46 @@
     "3300"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "d080678a2fc42ea3ba37b29c89c0e4f6f683ba23",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T10:36:23.155188+00:00",
+  "returncode": 1,
+  "finished_at": "2026-10-31T10:37:05.370667+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-rotation-001/budget.jsonl",
+      "bytes": 170056,
+      "sha256": "4732e3d32202c4902d705ff7b93d70b565437330cbe1ea150141877bbcbacae3"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-rotation-001/execution.json",
+      "bytes": 5350,
+      "sha256": "7dfae96dd4ebd8caa7aa877a3b19776dc873158dffc523017d45400e2538574d"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-rotation-001/guard.jsonl",
+      "bytes": 30185,
+      "sha256": "e72b160de8e553a69160281ddd4150c0af5274ddf90b62856979fb0cdccbe16f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-rotation-001/incidents.jsonl",
+      "bytes": 590,
+      "sha256": "bcea5f0edddc4c2d1dce38288228fd5879ebb84349c572a5d0b09b392f3dd94c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-rotation-001/rows.jsonl",
+      "bytes": 411729,
+      "sha256": "6681493087a6e4d47b448294f7b99a02390cbc198602f0f21302560a0e541602"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-rotation-001/stderr.log",
+      "bytes": 966,
+      "sha256": "f8b24b09ae6f0dc48179999f715d62c4eb161537633c54e61f0a8a1a99a441fe"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-rotation-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
