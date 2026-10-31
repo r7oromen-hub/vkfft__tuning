@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-gpu0-confirmation-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T10:49:22.252127+00:00",
   "parent_code_commit": "b42aa3c4772d56db1e676e1aad35ae6a0e4ec4c8",
   "protocol": {
@@ -22,6 +22,91 @@
     "experiments/evidence/frontier-20261031-gpu0-admission-gate.json"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "ed8ee29a1cde010e279963661cd3c81224090e84",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T10:49:22.268703+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T10:54:34.472559+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/execution.json",
+      "bytes": 1092,
+      "sha256": "5985ae202e8195998e22a8cd071c856aa91c12a5b7d989c0ec1f9a4b80c13be7"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/first/budget.jsonl",
+      "bytes": 508779,
+      "sha256": "69b3f4a8efc930e29b693cfe5192745547d2197ebd98e5ae469f74a8fb2516a8"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/first/command.json",
+      "bytes": 2747,
+      "sha256": "e8b954e43ffe27574bf03d99c81d4370380b705fc306c390aa2d1e9fcf11ede4"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/first/guard.jsonl",
+      "bytes": 593855,
+      "sha256": "58fc4c94d0f706880e6909bd4fb8d894cf623349c189e73dafb54b15da66b2d5"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/first/incidents.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/first/rows.jsonl",
+      "bytes": 3146623,
+      "sha256": "1139972bdf6d903fd5be86e79bc71c0e4464e9e624cd832e834afc0a14fd68bb"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/plan.json",
+      "bytes": 3601,
+      "sha256": "48ec7765cf595dadaf612dc5cf238662bf95cced42d19d8d83f0510a984a6cde"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/second/budget.jsonl",
+      "bytes": 584099,
+      "sha256": "d9c666e3ee5982e235f8e6e3261764c35cdd730fc3d02b9d9b27c8a41cb33a39"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/second/command.json",
+      "bytes": 3352,
+      "sha256": "73a75b4fc1e492c097e8272191386ff9313ab6ef88ec3697d6d29c7de9fe5052"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/second/guard.jsonl",
+      "bytes": 590363,
+      "sha256": "9e9876bc6106b4f2766f50fa6a3e780c2eaf3091511a73db9a97119752b4677c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/second/incidents.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/second/rows.jsonl",
+      "bytes": 3202242,
+      "sha256": "c0361729a9118044108fef42fa56b83e60bd04e1f7d821747e2fed23f6c6fc07"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/selection.json",
+      "bytes": 1032,
+      "sha256": "375cbbde7a18ff84232b01b759338b0eba1face75f24f6f38a10f254f8f3c1da"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/stdout.log",
+      "bytes": 33032,
+      "sha256": "ccd0b4b20b519c5b2ccfbd804cee6c70d516e8a8ef416c83b634a56b6076f02b"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-confirmation-001/two_session_audit.json",
+      "bytes": 39722,
+      "sha256": "5897d3adf0cd1386102be1653c481e3fb95c78627b18a88f6a3bcdb6871170e7"
+    }
+  ]
 }
