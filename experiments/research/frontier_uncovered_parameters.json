@@ -1,0 +1,47 @@
+{
+  "schema": "frontier-uncovered-parameters/v1",
+  "evidence_type": "read-only source audit; no GPU admission or performance evidence",
+  "upstream_commit": "066a17c17068c0f11c9298d848c2976c71fad1c1",
+  "prototype_source_commit": "7780efc12f6d68a2bcd38c946278e7b80d490595",
+  "current_scope": "FP32 1D C2C forward out-of-place; single upload; boost=1; ordered radix 2/4/8/16/32; one uniform logical R through 256; power-of-two grouped batch; N through 8192",
+  "prototype_limits": [
+    "frontier_search/candidate.hpp:30-47 accepts one R and restricts radix, N, R and G; :70-88 requires boost=1 and derives layout from N/R and G.",
+    "expanded_search/prepare_headers.py:33-67 replaces register selection before dependent planning, requires one upload and no Rader/Bluestein, and disables the min-R stage reorder.",
+    "These are experimental prototype restrictions, not a proof of VkFFT or hardware limitations."
+  ],
+  "uncovered": [
+    {
+      "parameter": "nonuniform registers per radix",
+      "finding": "VkFFT indexes registers_per_thread_per_radix by radix value. Different radix values may have different logical register counts; repeated equal radix values share an entry.",
+      "sources": ["VkFFT/vkFFT/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_RadixStage.h:52", "VkFFT/vkFFT/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_RadixShuffle.h:70", "test/plan_selection_study/frontier_search/candidate.hpp:50"],
+      "required_work": "Inject a full per-radix table before deriving min/max R, stages, thread layout, stage shuffles and first/last IO. Revisit the prototype's disabled min-R reorder; record requested and actual order. Validate all outputs and input immutability independently.",
+      "priority": "First candidate for extending layout choices on the existing power-of-two workload matrix; no claimed speedup."
+    },
+    {
+      "parameter": "mixed radix single upload",
+      "finding": "The current independent CPU reference already supports factors 2/3/5, but the frontier request model does not. Factor 7 is not supported by that reference.",
+      "sources": ["test/plan_selection_study/instrumentation/cpu_reference.hpp:29", "test/plan_selection_study/frontier_search/candidate.hpp:45"],
+      "required_work": "Start with 2/3/5-smooth lengths whose observed original plans use no Rader/Bluestein. Generalize divisibility and register tables, handle scheduler radix merging, and recompute all dependent planning. Merely relaxing the whitelist is insufficient. Keep large-prime Rader/Bluestein in a separate domain.",
+      "priority": "Useful next workload-domain extension, sharing register-table infrastructure with the preceding item."
+    },
+    {
+      "parameter": "registerBoost greater than one",
+      "finding": "Boost interacts with split selection, appended stages, logical storage and block layout. Requested configuration and effective boost need not agree.",
+      "required_work": "Express boost before pass/split selection; validate full resulting stage sequence and effective boost. Replace current boost=1-only N/R and shared-memory assumptions with path-correct derivations. Re-admit generated code and numerical behavior.",
+      "priority": "After a consistent register-table planning contract; higher implementation risk."
+    },
+    {
+      "parameter": "multiple uploads",
+      "finding": "The current one-kernel candidate model cannot describe a full multi-pass plan.",
+      "required_work": "Specify and validate split products before scheduling, then represent per-pass radix/R/G. Record and verify temporary buffers, reorder, stride and inter-pass layout relationships; measure the complete execution sequence and validate end-to-end outputs.",
+      "priority": "Higher engineering cost; prioritize earlier if large-N workloads are the research target."
+    },
+    {
+      "parameter": "independent registers for repeated equal-radix stages",
+      "finding": "This differs from the existing per-radix table: stageRadix indexing cannot distinguish two occurrences of the same radix.",
+      "required_work": "Change the data model and all dependent code generation, storage allocation, shuffle and first/last IO consumers. Do not represent this as a simple configuration override.",
+      "priority": "Highest implementation risk among these extensions."
+    }
+  ],
+  "reporting_rule": "Budgeted search results concern only the measured prototype domain. Neither no improvement nor an observed best candidate proves a global VkFFT optimum. These extensions remain unmeasured until separate correctness admission and independently confirmed performance experiments."
+}
