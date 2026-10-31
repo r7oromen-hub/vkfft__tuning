@@ -1,0 +1,95 @@
+{
+  "schema": "proposed-nonuniform-register-admission-contract/v1",
+  "status": "proposed_unimplemented",
+  "evidence": "read-only source audit; no implementation, device admission, GPU correctness or performance evidence for this proposed contract",
+  "upstream_vkfft_commit": "066a17c17068c0f11c9298d848c2976c71fad1c1",
+  "purpose": "Define a constrained first admission for ordered FFT radix decompositions with one logical register value per distinct radix; do not equate static checks with valid GPU plans.",
+  "existing_work": {
+    "reuse": [
+      "experiments/research/frontier_uncovered_parameters.json",
+      "test/plan_selection_study/expanded_search/GENERATOR.md",
+      "test/plan_selection_study/frontier_execution/runner.py:243-279",
+      "test/plan_selection_study/instrumentation/trace.hpp:113-120"
+    ],
+    "scope_warning": "expanded_search/GENERATOR.md documents its older uniform R<=64 prototype. The later frontier_search/manifest.py:16 and frontier_search/candidate.hpp:30-48 allow uniform R<=256. Neither implementation admits this nonuniform contract; do not attribute frontier GPU evidence to the proposed domain."
+  },
+  "candidate_contract": {
+    "version": "new explicit version, distinct from the uniform scalar-R request and candidate ID",
+    "workload": "CUDA, FP32, one-dimensional complex-to-complex forward, out-of-place, power-of-two N in 2..8192, batch in 1..65536, one upload and one kernel, effective registerBoost=1, no Rader, Bluestein, convolution, DCT, DST or R2C",
+    "fields": {
+      "radix": "ordered nonempty list of at most 32 entries, each in 2,4,8,16,32, with overflow-checked product exactly N",
+      "register_table": "exactly 33 integer slots indexed by radix 0..32; request identity and serialized canonical form include the complete table",
+      "grouped_batch": "positive power-of-two G dividing batch; actual block dimensions are scheduler-derived, not freely requested"
+    },
+    "table_profiles": {
+      "nonuniform_active_only": "each distinct active radix has one positive value and all inactive slots are exactly zero",
+      "uniform_compatibility": "if all active values equal the same R, a separate explicit profile may reproduce current frontier's exact 33-slot table: supported radix 2,4,8,16,32 dividing R get R and all other slots zero, including unused supported slots as in frontier_search/candidate.hpp:51-59",
+      "reason": "Freeze profile as part of the request and hash. No silent normalization between profiles: inactive nonzero entries may influence scheduling or recorded identity. An observed default outside either profile is unsupported identity, not a fabricated replay."
+    },
+    "active_rules": [
+      "For every distinct radix r in radix, R[r] is one of 2,4,8,16,32,64,128,256; r<=R[r]<=N, R[r] is divisible by r and N is divisible by R[r].",
+      "Compute minR and maxR over active stage entries, and require N divisible by minR and maxR divisible by each active R. In this proposed power-of-two profile the latter follows from the value set but must be checked explicitly.",
+      "Repeated occurrences of the same radix always use the same table slot and value; requests for different values for repeated equal-radix stages are unrepresentable and must be rejected.",
+      "The canonical candidate hash includes workload identity, ordered stages, profile, all 33 table slots and G, with a frozen unambiguous serialization."
+    ],
+    "interpretation": "These are conservative first-version constraints, not a necessary-and-sufficient characterization of VkFFT validity or hardware support. Logical R is not the physical CUDA register count."
+  },
+  "scheduler_dependency_closure": {
+    "injection": "Replace the register-selection call at VkFFT/vkFFT/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_Scheduler.h:3015-3022 using the same exact-anchor, separate-generated-header technique as test/plan_selection_study/expanded_search/prepare_headers.py:31-50. Before downstream planning, derive the complete table, active multipliers and active min/max from the frozen request; preserve original unmodified path when no request is enabled.",
+    "freeze_order": "First contract uses exact requested stage order. Suppress only the existing prototype's optimizer radix merges and min-R first-stage reorder for this path, retaining dependent usedLocRegs and non-power-of-two state derivation; compare requested and effective full sequence. If later upstream reorder is enabled, it is a separate contract with explicitly recorded effective order and fresh admission, not silent drift.",
+    "updates_to_audit": [
+      "VkFFT/vkFFT/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_Scheduler.h:3101-3120 may scale min/max and all nonzero table entries to satisfy thread limits; reject any resulting difference from the frozen table rather than silently timing another request.",
+      "VkFFT/vkFFT/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_Scheduler.h:1958-1975 and :2001-2014 can merge multipliers and replace entries; :3200-3205 runs the optimizer and copies the table; :3230-3237 constructs stages.",
+      "VkFFT/vkFFT/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_Scheduler.h:2164-2203 MinMaxRegisterCheck reads nonzero active entries and updates min/max; it does not modify the table and does not itself reject a zero active entry. The call at :3256-3270 recomputes final min/max. Explicitly reject missing or zero active entries before it.",
+      "VkFFT/vkFFT/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_Scheduler.h:3281-3294 can move a minimum-R stage to the front. The existing expanded injection suppresses that change; exact-order admission must test both first- and last-stage IO consequences."
+    ],
+    "required_migrations": [
+      "test/plan_selection_study/frontier_search/candidate.hpp:30-93: replace scalar parser, table seeding, consistency and layout assumptions with explicit versioned table checks",
+      "test/plan_selection_study/frontier_search/manifest.py:16-47: enumerate only the declared table profiles and hash the complete new candidate contract",
+      "test/plan_selection_study/frontier_execution/runner.py:171-188 and test/plan_selection_study/expanded_search/identity.py:5-28: use table-aware representability; unsupported defaults remain unsupported",
+      "test/plan_selection_study/expanded_search/validation.py:9-12,48-68,82-99: remove scalar equality and N/R layout assumptions; check the full table, active min/max and effective geometry",
+      "test/plan_selection_study/expanded_search/prepare_headers.py:53-67,78-116,129-140,170-187 and instrumentation/trace.hpp:113-120: retain requested and observed tables, pre-codegen and post-initialization descriptors and compiled resource evidence"
+    ]
+  },
+  "codegen_and_layout_dependencies": {
+    "fft_threads": "In the restricted boost=1, N%minR=0 path, planned FFT thread dimension is N/minR, not N/maxR. VkFFT/vkFFT/vkFFT/vkFFT_PlanManagement/vkFFT_HostFunctions/vkFFT_AxisBlockSplitter.h:261-266 uses min_registers_per_thread and can clamp; reject a clamped or otherwise mismatched actual dimension for this first contract.",
+    "block": "Allow the original splitter to derive axisSwapped and group layout; check G divisibility, block product and per-dimension device limits before launch. Validate pre-codegen localSize against the then-current axisSwapped, and final normalized dispatch axisBlock separately after swap reset. Preserve actual values, not predicted layout as evidence.",
+    "radix_stage_and_allocation": "VkFFT/vkFFT/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_RadixStage.h:52-56,134 and :317-320 use table[current radix] for stage storage and index mapping. VkFFT/vkFFT/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_MemoryManagement/vkFFT_MemoryInitialization/vkFFT_Registers.h:44-49 allocates from max registers_per_thread times boost.",
+    "shuffle": "VkFFT/vkFFT/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel2/vkFFT_FFT.h:227-233 passes neighboring radices. vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_RadixShuffle.h:70-96,124-128,157-186,218-251 and :384-399,473-534 uses current and next R, logical groups, barriers, shared strides and real localSize. Exercise both rising and falling R transitions and repeated radix; accepting divisibility alone does not prove index bounds.",
+    "first_last_io": "VkFFT/vkFFT/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel2/vkFFT_FFT.h:99-102 derives IO behavior before allocating registers; vkFFT_CodeGen/vkFFT_KernelsLevel1/vkFFT_ReadWrite.h:34-48,111-134 depends on first and last radix table entries and localSize. Record and check actual readToRegisters/writeFromRegisters and both endpoints.",
+    "shared_memory": "VkFFT/vkFFT/vkFFT/vkFFT_CodeGen/vkFFT_KernelsLevel0/vkFFT_MemoryManagement/vkFFT_MemoryInitialization/vkFFT_SharedMemory.h:48-51,78-99,161-171 computes padded stride and usedSharedMemory for actual geometry. G*N*complexSize is only a preliminary limit, not a proof of shared index bounds. Preserve planner/codegen derivation and verify actual compiled dynamic and static shared memory; an independent memory checking tool is needed for additional access-bound evidence."
+  },
+  "reject_conditions": [
+    "Malformed, missing, duplicate or ambiguous fields, integer overflow, unsupported workload/mode, conflicting old and new request interfaces, product not N, or noncanonical table profile.",
+    "Any unsupported radix, missing/zero active table entry, value outside the stated conservative domain, R[r] not divisible by r, N not divisible by required R or invalid repeated-radix per-stage override.",
+    "G not a power-of-two divisor of batch; predicted or actual thread/block geometry not matching the declared contract, an unsupported axis swap/dispatch normalization, device per-dimension or total block limit exceeded, or source-plan/actual-plan drift.",
+    "Unintended scheduler scale, table change, optimizer merge, stage-order change, active min/max mismatch, unsupported identity, source or compilation-option mismatch for an identity replay, or missing full requested/observed descriptors.",
+    "Compilation failure; dynamic shared memory exceeds function limit; dynamic plus static shared memory exceeds device limit; launch threads exceed device or compiled-function limit; execution failure or any numerical/reference/input-immutability check fails. Retain each rejection as a failure, not a latency observation.",
+    "Physical register pressure or local-memory spill alone is not an automatic numerical rejection: record compiled CUDA registers, local bytes and function limits, and require actual resource and correctness checks."
+  ],
+  "proposed_admission_matrix": {
+    "cpu_only": [
+      "Test parser and canonical hash with ordered radix, complete tables and profile; reject missing, conflicting, malformed, zero, unsupported, overflow, product mismatch and impossible G; identical table with different stage order hashes differently.",
+      "Test min/max on active entries and explicit inactive profiles; assert repeated same radix cannot receive distinct values; check injected table, exact stage order and both pre-codegen/post-initialization actual descriptors, rejecting scheduler scaling or drift and changed upstream anchors.",
+      "Uniform compatibility profile must replay existing frontier uniform tables, including R=128/256 where N permits, and compare full descriptor, stages, geometry, generated-source hash and compiler inputs/options; this CPU comparison is not device correctness."
+    ],
+    "same_device_gpu_prerequisite": "Compare original default, new binary default and representable identity replay on the same device, full structure/table/source/options and resources; if unrepresentable, mark unsupported. Use GPU guard and independent original control without treating a failed identity as an admitted candidate.",
+    "nonuniform_cases": [
+      {"n": 128, "batch": 16, "radix_orders": [[8, 8, 2], [2, 8, 8], [8, 2, 8]], "active_table": {"2": 4, "8": 8}, "groups": [1, 2], "expected_min": 4, "expected_max": 8, "planned_fft_threads": 32, "coverage": "minimum R at tail, head and middle; repeated radix; rising and falling adjacent R"},
+      {"n": 256, "batch": 16, "radix_orders": [[16, 8, 2]], "active_table": {"2": 4, "8": 8, "16": 16}, "groups": [1, 2], "expected_min": 4, "expected_max": 16, "planned_fft_threads": 64, "coverage": "three active R values and larger max/min ratio"}
+    ],
+    "case_qualification": "These requests are proposed coverage examples, not assertions of scheduler acceptance, actual axis swap, compiled validity or numerical success. Actual eligible G and path coverage must be checked on the target device; add cases if desired IO/swap branches were not observed.",
+    "per_case_correctness": "After resource admission, use zero, impulse, constant, quarter-tone and random inputs for seeds 42,53,71; initialize output to NaN poison; verify input unchanged, single-forward and final output against an independent CPU reference for all batches and elements, including nonfinite and failure counts. Record effective stage order, complete table, min/max, localSize, axisSwapped, normalized axisBlock, group, read/write flags, shared bytes, source hash, compiler options, physical registers and local memory.",
+    "performance": "Only independently admitted exact requests may enter paired timing. Freeze the default comparator and candidate selection before timing, retain rejected and omitted points, and independently confirm selected winners; a correctness matrix is not performance evidence."
+  },
+  "counterexamples": [
+    {"request": "N=128, stages=[8,8,2], table={2:4,8:8}, G=1, claimed FFT threads=16", "reason": "Wrong: minR=4 so the restricted planned thread dimension is 128/4=32, not 128/maxR=16; reject mismatched actual layout."},
+    {"request": "N=128, stages=[8,8,2], table={2:4,8:4}", "reason": "R[8] is below radix 8 and not divisible by it."},
+    {"request": "N=128, stages=[8,8,2], table={2:0,8:8}", "reason": "An active table entry is zero; MinMaxRegisterCheck would skip it and cannot be relied upon to reject it."},
+    {"request": "N=128, stages=[8,8,2], table={2:6,8:8}", "reason": "R[2]=6 is outside the proposed power-of-two value profile; rejection is a conservative contract choice."},
+    {"request": "N=128, stages=[8,8,2], separate stage values for the two radix-8 stages of 8 and 16", "reason": "One table entry is indexed by radix; distinct stage-specific values cannot be represented."},
+    {"request": "N=128, batch=16, stages=[8,8,2], G=3", "reason": "G is not a power-of-two batch divisor in the proposed contract."},
+    {"request": "A valid request whose effective table is scaled by scheduler or whose order changes despite exact-order policy", "reason": "Reject the effective-plan mismatch and record it; do not label the modified plan as the requested candidate."}
+  ],
+  "limitations": "No source modifications, tests or GPU admission have been performed for this proposed contract. Exact-order suppression must itself be revalidated; support for mixed primes, boost>1, multi-upload or independently tuned equal-radix stages requires a separate model and admission."
+}
