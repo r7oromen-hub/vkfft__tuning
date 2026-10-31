@@ -78,11 +78,24 @@ N     batch  完成  筛选      确认      回退      结构/状态
 
 两计划的 coalesced=0 均解析为 32，LUT=-1 的实际 LUT 均为 0。每个固定计划的 15 个请求仅有两种不同的 canonical descriptor、source SHA-256、source bytes 和 compiler input 四元组：LUT=-1 或 0 的十项同一组，LUT=1 的五项同一组；16/64/128 请求的 resolved coalesced 数值仍不同，所以这只证明上述记录项相同，不证明所有运行状态相同。结论限于这两个计划和一个负载。
 
+六附、另一设备 GPU0 的热地址确认与多地址轮换
+
+另一台设备 GPU-0ea68ffa-f744-7d3d-d02b-972424534597 对三个预选候选重新进行双 session 热地址配对确认，再做单个 session 的多地址轮换。两个审计汇总均为 pass。下表的热地址列是两个独立 session 各自 10 对的几何平均比值，再对两 session 等权取几何平均；没有对这个两 session 合并值构造置信区间。轮换列是另一个单 session 的 10 对几何平均比值及其 session 内 95% 配对区间，不是两次轮换确认。比值均为候选/同设备原始默认，越小越快：
+
+N     batch   候选 radix / R / G      热地址两 session    轮换单 session       轮换 95% CI
+128    4096   [8,8,2] / 8 / 16        0.963451769134      1.013252188434        [1.013131884214, 1.013372506939]
+256    4096   [16,16] / 16 / 1        0.891099941056      1.010119177751        [1.009979676421, 1.010258698350]
+1024    256   [8,4,4,8] / 16 / 1      0.936340274034      0.969654700912        [0.969414371328, 0.969895090076]
+
+三项在热地址两 session 中均达到原实用标准。轮换时前两项从候选快于默认反转为候选慢于默认，第三项仍快于默认但幅度变小。轮换每项输入池 128 MiB、输出池 128 MiB，合计 256 MiB，设备报告 L2 为 72 MiB；依次访问多个地址的工作集大于 L2 并不能证明冷缓存，也没有直接测量缓存未命中率。轮换只测一次 session，不能把其区间称作独立 session 间置信区间，也不能将热/轮换差异简单归因于缓存。
+
+此前 returned-rotation-001 在原设备上的 rotation_calibration 阶段失败：原始记录报告 graph_build 中通过 CUDA Runtime API 查询由 Driver API 加载内核的图节点参数时出现 invalid device function；失败、guard 中止及其证据均保留在 experiments/artifacts/frontier-20261031-returned-rotation-001/ 和对应运行记录中，不能作为时延结果。修复后的 GPU0 轮换经审计通过，但设备和环境已经改变，不构成原主机上修复原因的因果证明，也不等于原失败被重跑通过。
+
 七、成本与限制
 
 搜索账本从首条开始至末条完成或拒绝的观测区间为 10,188.726 秒（约 2.83 小时）：有记录 work 10,115.025 秒，间隙 73.702 秒。work 中 validation 4,910.955 秒、timing 4,593.636 秒、describe 264.316 秒、拒绝后控制 192.711 秒、identity 72.163 秒、calibration 81.243 秒。work 包含子进程、JIT、guard、记录和调度，不能解释为纯编译或纯内核时间；账本区间不包括全部构建、准备、后处理和确认，因此不是整个研究总墙钟，也不能直接推算线上调优摊销。
 
-尚未覆盖非 uniform 的 per-radix 寄存器表、非 2 次幂混合 radix、boost>1、多 upload、每个同 radix stage 独立寄存器、其他精度或方向、不同布局和冷缓存。放宽白名单不足以正确支持这些路径，必须在依赖计划生成前注入并重新计算布局、资源与代码生成，再单独数值准入。推荐优先完成预注册的旧/新等预算多次比较和独立设备复现；再以非 uniform per-radix 寄存器作为受控扩展，单独评估 2/3/5-smooth 单 upload 工作负载；boost 与多 upload 应建立独立计划契约和端到端验证。以上均为建议，不是已测结果。GPU0 的新增确认仍在运行，结果待完成和审计，本报告不预支其结论。
+尚未覆盖非 uniform 的 per-radix 寄存器表、非 2 次幂混合 radix、boost>1、多 upload、每个同 radix stage 独立寄存器、其他精度或方向、不同布局和冷缓存。放宽白名单不足以正确支持这些路径，必须在依赖计划生成前注入并重新计算布局、资源与代码生成，再单独数值准入。推荐优先完成预注册的旧/新等预算多次比较和独立设备及多 session 的轮换复现；再以非 uniform per-radix 寄存器作为受控扩展，单独评估 2/3/5-smooth 单 upload 工作负载；boost 与多 upload 应建立独立计划契约和端到端验证。以上均为建议，不是已测结果。GPU0 的 N=128、batch=1 剩余搜索仍在运行，结果待完成和审计，本报告不预支其结论。
 
 八、证据与版本
 
@@ -93,6 +106,8 @@ N     batch  完成  筛选      确认      回退      结构/状态
 - 确认执行 commit d80bc2c226ccae4a3498131ae7136fcbc12ce735；原始两 session、plan 和审计见 experiments/artifacts/frontier-20261031-returned-confirmation-001/first/、second/、plan.json、two_session_audit.json。
 - 带重新审计确认数据的汇总：experiments/artifacts/frontier-20261031-returned-aggregate-001/aggregate.json，执行 commit 9b61c1fddcffc707962f2a46215279269f6fad37。此文件优先于 post-screen 阶段尚无确认的 aggregate.json。
 - 旋钮审计：experiments/artifacts/frontier-20261031-returned-knobs-audit-001/audit.json；原始记录、manifest、二进制及生成溯源见 experiments/artifacts/frontier-20261031-returned-knobs-001/。旋钮运行执行 commit d194cf60531a6cda87831abe8ade5947fbede774，审计执行 commit 8fa6ffde189b7d9e287e5499f671658e685b9b2b。
+- GPU0 双 session 确认汇总与运行记录：experiments/artifacts/frontier-transfer-20261031/gpu0_summaries/frontier-20261031-gpu0-confirmation-001/ 的 two_session_audit.json 和 record.json；记录中的执行 commit 为 ed8ee29a1cde010e279963661cd3c81224090e84，汇总 SHA-256 为 5897d3adf0cd1386102be1653c481e3fb95c78627b18a88f6a3bcdb6871170e7。GPU0 轮换审计汇总与记录在同一 gpu0_summaries 下 frontier-20261031-gpu0-rotation-audit-001/ 的 audit.json 和 record.json；记录中的审计执行 commit 为 202ef764d07265642e00502fe686c6111249150a，汇总 SHA-256 为 fd931cfc11860c9b260e7466ce2e4a9f698c604e74782586100db986ec677564。两个本地汇总哈希与记录匹配；当前本地仅有 GPU0 的这些汇总和记录，完整原始数据备份须待计时任务结束后回传和核验，不能视作已全部在本地。
+- 原设备失败的 returned-rotation-001 运行记录在 experiments/records/frontier-20261031-returned-rotation-001.json，执行 commit d080678a2fc42ea3ba37b29c89c0e4f6f683ba23，status=failed；其原始失败证据位于 experiments/artifacts/frontier-20261031-returned-rotation-001/。
 - 各次命令、状态、文件大小和 SHA-256 索引在 experiments/records/ 的同名 JSON；固定约束与待覆盖路径的源码审查见 experiments/research/frontier_uncovered_parameters.json。
 
 experiments/artifacts/ 和 JSONL 被 .gitignore 排除；Git/GitHub 中的运行记录或哈希只是索引，不等同于原始数据已在 GitHub 或其他云端备份。本地回传原始证据仍须另行保全并验证哈希，不能仅凭本报告推断其他位置的备份状态。
