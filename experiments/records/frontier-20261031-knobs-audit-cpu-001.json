@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-knobs-audit-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T10:36:07.386205+00:00",
   "parent_code_commit": "e107a9fe87d1a6aa247ce84ef5a4b4c78ba6d6fa",
   "protocol": {
@@ -20,6 +20,26 @@
     "test_audit.py"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "48edd5ed74cb080b9443c632586bcda6643d3500",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T10:36:07.676850+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T10:36:08.183614+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-knobs-audit-cpu-001/execution.json",
+      "bytes": 919,
+      "sha256": "df19371aa5e364830cb72f0a9a15fa643172f8905440b7b52e2eca0f3cb76a6e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-knobs-audit-cpu-001/stderr.log",
+      "bytes": 109,
+      "sha256": "26271a32847b08f3fd50277b545fd6b2d61ca485528257fa7b1f3aa9a83b907d"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-knobs-audit-cpu-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
