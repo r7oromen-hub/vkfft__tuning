@@ -67,3 +67,16 @@ Compilation and describe mode do not prove numerical correctness. The existing f
 controllers understand scalar R and cannot safely be reused unchanged for this request
 schema; a new guarded controller must validate the full request, observed descriptors,
 identity, numerical results and preserved evidence before any timed GPU experiment.
+
+`validation.check` and `check_describe` perform table-aware checks on individual guarded
+execution records, including exact request telemetry and pre-codegen, post-codegen and
+normalized post-initialization structure. Execute checks the full numerical result and
+compiled resources; describe explicitly does not invent compiled observations.
+`identity.representable` extracts only an exact supported profile from an observed
+instrumented default; `compare_three` compares already-validated original, instrumented
+default and replay results. For the unmodified original, actual NVRTC options were not
+captured: only the restricted path's expected options and compiler-header hash can be
+compared with the instrumented binaries' actual options. These functions do not audit a
+guard ledger, bind a binary to a full campaign, or establish 15-case coverage: a separate
+guarded controller and independent audit must enforce those requirements. The synthetic
+tests are CPU logic checks and are not device evidence.
