@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-gpu0-exhaust128-coverage-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T11:53:27.346018+00:00",
   "parent_code_commit": "b12d871bec0ba3328f3a75f4159794e271dc07d4",
   "protocol": {
@@ -32,6 +32,31 @@
     "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-coverage-001/coverage.json"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "4ffc2d923a9ff5abfb8a99b798bc6ab6ea843192",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T11:53:27.361860+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T11:53:28.604643+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-coverage-001/coverage.json",
+      "bytes": 131538,
+      "sha256": "dcf7748ba18a29421ba4f4599970a6029de78b849ae833b264b042eb0ad2bc48"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-coverage-001/execution.json",
+      "bytes": 2162,
+      "sha256": "68e6e42d69aa56410b23c30659bc235e4c95ed8866c603b74a06607cb119a303"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-coverage-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-coverage-001/stdout.log",
+      "bytes": 89666,
+      "sha256": "5f946cfcbd9acace7d3aac7b247c0bc0af976d08d5a795f43c1b4d2a44fac819"
+    }
+  ]
 }
