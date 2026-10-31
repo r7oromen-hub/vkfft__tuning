@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-postscreen-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T08:14:33.578084+00:00",
   "parent_code_commit": "e8b643c780b152e58df4989f410655f04f447a7e",
   "protocol": {
@@ -21,6 +21,26 @@
     "-v"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "ae773243dcaa457d2a3e03eb82e102969be16589",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T08:14:33.849689+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T08:14:34.957123+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-postscreen-cpu-001/execution.json",
+      "bytes": 942,
+      "sha256": "14a9ec07605cdb247dd4303cb891da7f3c988503cff7e93a1fc5583485e9d05f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-postscreen-cpu-001/stderr.log",
+      "bytes": 1013,
+      "sha256": "faad253752156173812df15d2804756c6abd8d04c7ca2c626370cd1ce78eba13"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-postscreen-cpu-001/stdout.log",
+      "bytes": 158,
+      "sha256": "156b31dea701d91121e1b6b798c1bcad42900523fabae55cd27b391c48850bb5"
+    }
+  ]
 }
