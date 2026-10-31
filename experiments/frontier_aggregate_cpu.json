@@ -1,0 +1,12 @@
+{
+  "schema": "frontier-fixed-matrix-aggregation/v1",
+  "gpu_execution": false,
+  "purpose": "Validate a fixed 28-workload aggregate with unknown coverage preserved and confirmation re-audited from raw evidence",
+  "matrix": {"n": [128, 256, 512, 1024, 2048, 4096, 8192], "batch": [1, 16, 256, 4096]},
+  "estimator": "For each frozen winner use exp((log(first-session geometric candidate/default ratio)+log(second-session geometric candidate/default ratio))/2); never choose the better session",
+  "workload_weighting": "Equal weight across all 28 workloads; arithmetic mean latency reduction and geometric mean speedup are distinct metrics",
+  "screen_coverage": "At least one completed non-identity candidate; identity-only is not explored nondefault space",
+  "unknowns": "Missing or unconfirmed measurements remain explicit; do not average only winners and label it a matrix average",
+  "fallback": "Separate deployment policy estimate uses a candidate only when both sessions pass the practical criterion, otherwise validated original default; unknown default prevents a complete-matrix aggregate",
+  "limitations": ["budget-limited search, not global optimality", "confirmation and fallback selection still have uncertainty", "no multiple-testing adjustment", "no inferred end-to-end application benefit"]
+}

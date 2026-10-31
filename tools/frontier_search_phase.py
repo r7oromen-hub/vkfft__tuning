@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
+import math
 import os
 from pathlib import Path
 import subprocess
@@ -23,9 +24,29 @@ def sha(path):
     return h.hexdigest()
 
 
-def available_seconds(phase_start, phase_budget, deadline, now):
+def parse_reserve(value):
+    """Accept only finite nonnegative campaign-reserve seconds."""
+    if isinstance(value, bool):
+        raise ValueError('reserve seconds must be finite and nonnegative')
+    try:
+        result = float(value)
+    except (TypeError, ValueError, OverflowError) as error:
+        raise ValueError('reserve seconds must be finite and nonnegative') from error
+    if not math.isfinite(result) or result < 0:
+        raise ValueError('reserve seconds must be finite and nonnegative')
+    return result
+
+
+def available_seconds(phase_start, phase_budget, deadline, now, reserve_seconds=7200):
     """Account for manifest construction before admitting another guarded run."""
-    return min(phase_budget - (now-phase_start), deadline-now-7200)
+    return min(phase_budget - (now-phase_start), deadline-now-parse_reserve(reserve_seconds))
+
+
+def initial_phase_seconds(phase, deadline, now, reserve_seconds=7200):
+    if phase not in ('exhaust128', 'breadth'):
+        raise ValueError('unknown phase')
+    return min(7200 if phase == 'exhaust128' else 10800,
+               deadline-now-parse_reserve(reserve_seconds))
 
 
 def prioritize_anchors(rows):
@@ -44,14 +65,15 @@ def main():
     p.add_argument('--protocol',type=Path,default=ROOT/campaign_inputs.DEFAULT_PROTOCOL)
     p.add_argument('--admission-run',default=campaign_inputs.DEFAULT_ADMISSION_RUN)
     p.add_argument('--gate',type=Path,default=ROOT/campaign_inputs.DEFAULT_GATE)
+    p.add_argument('--reserve-seconds',type=parse_reserve,default=7200.0,
+                   help='campaign wall-clock reserve for later phases (default: 7200 seconds)')
     args = p.parse_args()
     output = Path(os.environ['EXPERIMENT_ARTIFACT_DIR'])
     context=campaign_inputs.load_campaign(ROOT,args.protocol,args.admission_run,args.gate)
     previous=context['admission_dir'];gatepath=context['gate'];gpu=context['gpu']
     deadline=campaign_inputs.validate_clock(context)
-    remaining = deadline-time.monotonic()
-    # Reserve one hour for confirmation and one for the separate knob prototype.
-    seconds = min(7200 if args.phase=='exhaust128' else 10800,remaining-7200)
+    # The default reserves one hour each for confirmation and knob experiments.
+    seconds = initial_phase_seconds(args.phase,deadline,time.monotonic(),args.reserve_seconds)
     if seconds < 660: raise ValueError('campaign budget cannot start this phase')
     env = dict(os.environ)
     env['PATH']=context['cuda_root']+'/bin:'+env.get('PATH','')
@@ -93,13 +115,13 @@ def main():
     if args.phase=='exhaust128':
         path,header=manifest(128,1,None,[],1000000,output/'manifests')
         summaries.append(header)
-        search_seconds=available_seconds(phase_start,seconds,deadline,time.monotonic())
+        search_seconds=available_seconds(phase_start,seconds,deadline,time.monotonic(),args.reserve_seconds)
         if search_seconds<660:raise ValueError('no search budget after manifest generation')
         rows=run([path],output/'search',search_seconds)
     else:
         workloads=[(n,b) for b in (1,16,256,4096) for n in (128,256,512,1024,2048,4096,8192)]
         paths=[manifest(n,b,None,[],0,output/'defaults_manifests')[0] for n,b in workloads]
-        defaults_seconds=min(1800,available_seconds(phase_start,seconds,deadline,time.monotonic()))
+        defaults_seconds=min(1800,available_seconds(phase_start,seconds,deadline,time.monotonic(),args.reserve_seconds))
         if defaults_seconds<660:raise ValueError('no default-admission budget after manifest generation')
         baseline=run(paths,output/'defaults',defaults_seconds)
         identities={(r['n'],r['batch']):r['request'] for r in baseline if r.get('record_type')=='workload_status' and r.get('status')=='identity_passed'}
@@ -114,7 +136,7 @@ def main():
         for n,b in workloads:
             path,header=manifest(n,b,identities[n,b],historical.get((n,b),[]),128,output/'manifests')
             paths.append(path);summaries.append(header)
-        remaining_phase=available_seconds(phase_start,seconds,deadline,time.monotonic())
+        remaining_phase=available_seconds(phase_start,seconds,deadline,time.monotonic(),args.reserve_seconds)
         if remaining_phase<660:raise ValueError('no search budget after defaults')
         rows=run(paths,output/'search',remaining_phase,True)
     dispositions=[r for r in rows if r.get('record_type')=='candidate_disposition']
@@ -135,6 +157,7 @@ def main():
     status={'phase':args.phase,'gpu':gpu,'execution_commit':os.environ['EXPERIMENT_CODE_COMMIT'],
             'admission_run':context['admission_run'],'protocol_sha256':campaign_inputs.sha(context['protocol']),
             'phase_elapsed_seconds':time.monotonic()-phase_start,'budget_seconds':seconds,
+            'reserve_seconds':args.reserve_seconds,
             'selected_requests':sum(h['selected_count'] for h in summaries),
             'disposed_requests':len(dispositions),'screen_complete':complete,
             'budget_exhausted':any(r.get('record_type')=='budget_exhausted' for r in rows),

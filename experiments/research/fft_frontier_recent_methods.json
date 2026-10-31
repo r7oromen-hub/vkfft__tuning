@@ -1,0 +1,126 @@
+{
+  "schema": "fft-frontier-recent-methods/v1",
+  "verified_date": "2026-10-31",
+  "language": "zh-CN",
+  "purpose": "原始论文的离线方法调研；文献数字不是本仓库设备、代码或实验结果。",
+  "existing_sources_not_repeated": {
+    "path": "experiments/research/fft_search_method_sources.json",
+    "examples": [
+      "TurboFFT (arXiv:2412.05824v1 / PPoPP 2025)",
+      "Dotsenko et al. GPU FFT autotuning (2011)",
+      "2024 autotuning comparison methodology"
+    ],
+    "note": "已收录 TurboFFT 仍是近期最直接的 GPU FFT 参数生成与搜索参照之一；本文件不将其旧版或同一论文重复计为新增。"
+  },
+  "current_vkfft_scope": {
+    "source": "test/plan_selection_study/frontier_search/manifest.py",
+    "transform": "受限原型：单 GPU、1D power-of-two FP32 C2C forward out-of-place、single-upload、registerBoost=1。",
+    "request_axes": "有序 radix 分解、统一 logical_registers R∈{2,4,8,16,32,64,128,256}、grouped_batch 为 batch 的二次幂因子。当前清单静态拒绝 R>N 或 max(radix)>R，之后仍须 scheduler/device 和数值验证。",
+    "important_distinctions": [
+      "logical_registers 是生成器逻辑请求，不是编译器实际分配的 CUDA 物理寄存器数；请求 group/R 与实际线程布局或资源签名应分别记录。",
+      "所有 stage 共用一个 R、boost 固定为 1；并未穷尽 stage-specific R、所有布局、编译选项、其他上传方式或 VkFFT 全空间。",
+      "manifest 中 n/R × group × stage_count 是队列相对权重，不是校准的 GPU 性能或编译代价模型。静态可行不等于 GPU 可用。"
+    ]
+  },
+  "search_findings": {
+    "direct_match": "本次检索没有找到可核实的 2024–2026 原始论文，在同一 NVIDIA GPU 上公开评估与本项目完全同构的 ordered-radix × uniform logical R × grouped-batch、单 upload FP32 联合搜索，并提供等预算搜索比较。该结论仅限本次检索，不断言文献不存在。",
+    "recent_direct_fft": "SSFFT 是近期 NVIDIA GPU FFT 的线程/资源模型对照，Apple Metal 工作是近期单 GPU FP32 FFT 的 radix 与布局对照；二者都不是上述三个旋钮的联合调优基线。",
+    "closest_historical": "2019 Lift FFT 论文直接比较不同 radix 并用 ATF 调工作项和工作组，是补充 2011 Dotsenko 原论文的更近 GPU FFT 方法参照；其 OpenCL、多阶段和大型 FP64 实验并非可直接复现的同空间同硬件对照。",
+    "practical_baselines": [
+      "首要：固定原始默认和候选 binary 的哈希，在同一设备、同一候选清单上比较原始默认、固定种子均匀随机、现有分层队列、邻域/历史锚点；分别给候选数与包括生成、拒绝、编译、验证和计时的总墙钟预算。",
+      "用可穷尽的小型单工作负载子空间估计排序策略的漏检和 best-so-far；仅对该已测子空间有已知最佳，不外推全空间。纯离线重排不等于真实在线等时间实验。",
+      "再评估简单结构排序加保留随机探索，与纯随机等预算比较；如需拟合模型，按 workload 留出验证，使用候选排序与 regret、搜索开销和独立确认，而非把训练数据最小值当效果。",
+      "可参考 SSFFT 的 workload-aware 启发式生成一种线程/分组优先顺序；启发式只能排序，不得把未验证的推断当静态合法性硬约束。SSFFT 若未实际移植并在相同协议运行，仅是算法思路对照，不是已测量性能基线。"
+    ]
+  },
+  "sources": [
+    {
+      "title": "SSFFT: Energy-Efficient Selective Scaling for Fast Fourier Transform in Embedded GPUs",
+      "authors": [
+        "Dongwon Yang",
+        "Jaebeom Jeon",
+        "Minseong Gil",
+        "Junsu Kim",
+        "Seondeok Kim",
+        "Gunjae Koo",
+        "Myung Kuk Yoon",
+        "Yunho Oh"
+      ],
+      "year": 2025,
+      "publication": "LCTES 2025, DOI 10.1145/3735452.3735529",
+      "original_url": "https://junsu-kim0807.github.io/assets/pdf/ssfft_lctes2025.pdf",
+      "verified_date": "2026-10-31",
+      "paper_method": "以 FFT 长度、batch、共享内存与缓存构建 grid/block 规则，并选择常规、vector 或 merged FFT；给出不同 grid/block 的测量和 oracle 比较。",
+      "relation_to_vkfft": "论文针对 NVIDIA GPU FFT，但设备是 Jetson AGX Orin 嵌入式平台，与当前桌面 RTX 4090 并非匹配设备。长度和 batch 对线程与资源的影响可以启发同清单上的候选优先级和同预算对照；未实际移植运行前只能称方法思路对照。",
+      "limitations": "Jetson AGX Orin 嵌入式设备、能耗目标和独立 FFT 实现；没有证明联合搜索 VkFFT 有序 radix、uniform R、group，也非本协议的纯单 upload 等价性能结果。文中最优设置和收益不能直接转移到 RTX 4090。"
+    },
+    {
+      "title": "Beating vDSP: A 138 GFLOPS Radix-8 Stockham FFT on Apple Silicon via Two-Tier Register-Threadgroup Memory Decomposition",
+      "authors": [
+        "Mohamed Amine Bergach"
+      ],
+      "year": 2026,
+      "publication": "arXiv:2603.27569v1, 2026-03-29; preprint",
+      "original_url": "https://arxiv.org/html/2603.27569v1",
+      "verified_date": "2026-10-31",
+      "paper_method": "作者在 Apple M1 的 Metal FFT 中比较 radix-4、radix-8、线程组和 register/threadgroup memory 的两层数据组织，并讨论 batch 和内存访问模式。",
+      "relation_to_vkfft": "对同一类 FP32 单 GPU FFT，支持将 radix、实际线程布局与存储资源联合观察，而不是仅按 stage 数推断性能；可用匹配请求验证具体整计划差异。",
+      "limitations": "Apple M1/Metal、特定手写内核和 Apple vDSP 基线；该预印本不是 NVIDIA/VkFFT 的搜索实验，也未证明本项目候选空间或部署收益。文中硬件和性能结论是作者报告，未独立验证。"
+    },
+    {
+      "title": "Hardware-Aware Features for CUTLASS Kernel Selection",
+      "authors": [
+        "Shriram Chandran",
+        "Dominic Rinderer",
+        "Yakup Budanaz",
+        "Alexandru Calotoiu",
+        "Marcin Copik",
+        "Torsten Hoefler"
+      ],
+      "year": 2026,
+      "publication": "arXiv:2609.35587v1, 2026-09-28; preprint",
+      "original_url": "https://arxiv.org/html/2609.35587v1",
+      "verified_date": "2026-10-31",
+      "paper_method": "将候选配置映射为可静态计算的执行与资源相关特征，比较候选排序；对固定测量预算比较均匀采样、静态排序以及偏置与随机混合，并按问题形状分组验证。",
+      "relation_to_vkfft": "可借鉴 stage 数、N/R、group、预计线程/波次、已编译资源等作为候选级特征，比较随机、结构分层和启发式混合顺序；区分事前静态可得特征与须编译才能得到的资源。",
+      "limitations": "原论文对象为 CUTLASS GEMM（包括 BF16 和特定 GPU 架构），不是 FFT；候选集合、吞吐率和稀疏尾统计不能迁移。本项目尚无该模型训练结果，也不能把昂贵编译后的资源称作零成本静态特征。"
+    },
+    {
+      "title": "Automatic Generation of Mappings for Distributed Fourier Operations",
+      "authors": [
+        "Doru Thom Popovici",
+        "Botao Wu",
+        "John Shalf",
+        "Martin Kong"
+      ],
+      "year": 2025,
+      "publication": "SC 2025, DOI 10.1145/3712285.3759869",
+      "original_url": "https://doi.org/10.1145/3712285.3759869",
+      "verified_date": "2026-10-31",
+      "access_note": "核实 ACM 出版社搜索索引呈现的原论文文本与元数据；直接打开 DOI 时网页返回 403。",
+      "paper_method": "DiMage-DFT 将分布式 Fourier 分解、数据映射、执行顺序和内存约束编码为 SMT/非线性优化，并对通信进行结构化代价建模，报告求解开销。",
+      "relation_to_vkfft": "可以借鉴把合法性约束、结构代价和实际测量分层，并将构造、求解或编译时间计入总搜索预算；只把约束证明的拒绝当静态拒绝。",
+      "limitations": "论文主要针对多 GPU/分布式多维 DFT 和通信，局部调用 cuFFT；其求解空间和通信成本不是单 GPU 内部 radix/R/group，也不是可直接复刻的速度基线。"
+    },
+    {
+      "title": "Generating Efficient FFT GPU Code with Lift",
+      "authors": [
+        "Bastian Köpcke",
+        "Michel Steuwer",
+        "Sergei Gorlatch"
+      ],
+      "year": 2019,
+      "publication": "FHPNC 2019, DOI 10.1145/3331553.3342613",
+      "original_url": "https://steuwer.info/files/publications/2019/FHPNC-1-2019.pdf",
+      "verified_date": "2026-10-31",
+      "paper_method": "以 Lift 表达 FFT 并生成 OpenCL GPU 代码，生成不同 radix 方案；使用 ATF 调每个 kernel 的 work-items/work-groups，并披露每 kernel 一小时或连续 1000 次无改善的停止规则。",
+      "relation_to_vkfft": "虽不属近期，但比一般 kernel 搜索更接近有序分解与线程映射的 FFT 自动生成研究；可将其“不同 radix 方案 + 线程分配调参 + 可见预算”作为方法级基线，并报告其不同旋钮。",
+      "limitations": "论文不是当前 CUDA/VkFFT 实现，实验重点为大型 FP64 FFT、多 kernel/OpenCL 和旧 GPU；并未证明精确搜索相同 R/group 单 upload 空间，论文停止规则不能作为全局最优证明。"
+    }
+  ],
+  "interpretation_guardrails": [
+    "所有候选生成、合法性和硬件资源限制以当前源码、commit 与实测为准，论文是方法启发，不是当前实验结果。",
+    "相关特征、跨 stage 代价与资源变化是整计划层面观察；非完整匹配设计不构成 radix/R/group 独立因果或交互证明。",
+    "即使论文包含公开性能数字，也不可跨设备、精度、数据布局或测量协议直接比较；两个 2026 arXiv 版本只标为预印本。"
+  ]
+}

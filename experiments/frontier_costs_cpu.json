@@ -1,0 +1,7 @@
+{
+  "schema": "frontier-search-cost-validation/v1",
+  "gpu_execution": false,
+  "purpose": "Validate wall-clock accounting for a coverage-audited screen using raw execution rows and the matching single-boot budget ledger",
+  "requirements": ["bind input hashes, GPU and execution commit", "reject clock regressions, overlapping or unfinished work and inconsistent identities", "separate six execution phases and observed gaps", "attribute default timing to a candidate only with an unambiguous pair", "report partial and unstarted candidates explicitly"],
+  "interpretation": "Work intervals include process/JIT/guard overhead and are not pure compilation time. Ledger span excludes unobserved build, manifest and cleanup time and is not the whole reserved GPU budget. Full campaign cost must also use campaign and phase records."
+}

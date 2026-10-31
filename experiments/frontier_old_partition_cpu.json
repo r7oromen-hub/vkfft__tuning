@@ -1,0 +1,8 @@
+{
+  "schema": "frontier-old-partition-cpu-validation/v1",
+  "suites": ["frontier_analysis"],
+  "test_pattern": "test_old_space_partition.py",
+  "purpose": "Validate descriptive historical structural partition and evidence binding",
+  "gpu_execution": false,
+  "interpretation": "CPU synthetic evidence tests only; no CUDA admission or performance confirmation"
+}
