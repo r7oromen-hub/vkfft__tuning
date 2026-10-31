@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-nonuniform-space-count-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T12:07:43.193325+00:00",
   "parent_code_commit": "f8cc223297f76ea9b601cae64e3d2d8d4c6b84e8",
   "protocol": {
@@ -16,6 +16,31 @@
     "counts.json"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "ce4570cff062c979687493f36dcb43261471ddc0",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T12:07:43.474944+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T12:07:43.756630+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-space-count-001/counts.json",
+      "bytes": 17887,
+      "sha256": "07065b79655f6161c1d08c94d71e05ea4bf8af0b3e8e136c57f1adc50ad64072"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-space-count-001/execution.json",
+      "bytes": 917,
+      "sha256": "0b6fd507c0e37887a6db360c92dcb46f85c5bd1e7c45c746000ed6b9d8b8da01"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-space-count-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-space-count-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
