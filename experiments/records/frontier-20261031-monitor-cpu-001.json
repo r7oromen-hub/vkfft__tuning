@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-monitor-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T06:03:31.088301+00:00",
   "parent_code_commit": "cf15a0562ce50874637771540daa1471d6c1e0cd",
   "protocol": {
@@ -21,6 +21,26 @@
     "-v"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "9789c13bd0c26f828e1ae374895e87e1b245a809",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T06:03:31.367644+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T06:03:33.304141+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-cpu-001/execution.json",
+      "bytes": 923,
+      "sha256": "7453838de153308c752fb59489ce826e681ec31f31ec5c5e9970f081ec364c04"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-cpu-001/stderr.log",
+      "bytes": 2220,
+      "sha256": "58e20facd12f7ba60c51692cd3a6543a84142c8eb3abb983cabada37ecb0ba5c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-cpu-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
