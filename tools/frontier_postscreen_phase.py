@@ -142,6 +142,7 @@ def main(argv=None):
     paths = sessions['search']['paths']
     for name, script, extra in (
         ('analysis', 'analyze.py', []),
+        ('old_space_partition', 'old_space_partition.py', []),
         ('search_costs', 'search_costs.py', ['--budget', str(paths['budget'])]),
         ('aggregate', 'aggregate_confirmed.py', []),
     ):

@@ -151,6 +151,7 @@ class PostscreenTests(unittest.TestCase):
         rows = str(sessions['search']['paths']['rows'])
         for name, script, extra in (
                 ('analysis', 'analyze.py', []),
+                ('old_space_partition', 'old_space_partition.py', []),
                 ('search_costs', 'search_costs.py', ['--budget', str(sessions['search']['paths']['budget'])]),
                 ('aggregate', 'aggregate_confirmed.py', [])):
             expected.append(mock.call(self.output, name, [sys.executable, str(phase.ANALYSIS / script),
