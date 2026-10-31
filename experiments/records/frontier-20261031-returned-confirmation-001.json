@@ -1,0 +1,31 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-returned-confirmation-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T09:28:35.674861+00:00",
+  "parent_code_commit": "46427a5ba4e09bbf99ce0dbd93566b0310734492",
+  "protocol": {
+    "path": "experiments/frontier_20261031_returned_protocol.json",
+    "bytes": 3690,
+    "sha256": "9297eb67f0ec103c7128541bbf30d24e461ee6da95ff3542cc83402a5eea258d"
+  },
+  "command": [
+    "python3",
+    "tools/frontier_confirmation_phase.py",
+    "--source-run",
+    "frontier-20261031-returned-breadth-004",
+    "--protocol",
+    "experiments/frontier_20261031_returned_protocol.json",
+    "--admission-run",
+    "frontier-20261031-returned-admission-001",
+    "--gate",
+    "experiments/evidence/frontier-20261031-returned-admission-gate.json",
+    "--negative-control",
+    "8192:1:c2aff7982afd55e73d73718dac384cb6646369784b9be5950b79802ac2d02e75",
+    "--negative-control",
+    "128:1:9d98077caa1e4d56d69b12501962c307779c7a9d078046a896e7047500ce1241"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
