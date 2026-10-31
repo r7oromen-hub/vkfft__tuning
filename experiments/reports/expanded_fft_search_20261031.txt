@@ -167,3 +167,11 @@ N       统一 R 兼容域    新域去 profile 重复并集
 计数按有序分解中的不同 active radix 分配合法 R 集合，再将集合大小相乘；重复相同 radix 共享表项，不重复分配。小域 N=2..64 的直接枚举验证了总量、重叠和去重公式，含在 frontier-20261031-nonuniform-count-cpu-001 的 57 项 Python 检查与 C++ CPU 测试中。完整统计为 frontier-20261031-nonuniform-space-count-001/counts.json，执行 commit ce4570cff062c979687493f36dcb43261471ddc0，结果 commit 707313265f90f4e3b66c9d80cd2d89c78d95e92a；输出绑定候选模型、研究契约和计数脚本哈希。
 
 这些是受限请求契约的静态数量，不是数学上所有 FFT 算法数，也不是正确执行计划数或独特生成代码数。不同表仍可能生成相同代码，资源限制还会剔除部分请求；当前没有新域的 GPU 合法率或性能分布。因此约 80 倍空间扩张证明了枚举规模增长，不能推导速度提升 80 倍，更不能确定性能上限。
+
+十二、WSL 宿主程序编译验证
+
+用户指出 WSL 中存在工具链后，在本地 Ubuntu 发行版发现 CUDA Toolkit 13.4.59、GNU C++ 13.3.0 和 Python 3.12.3。此前只检查 Windows PATH 与标准目录，不能据此断言整个本机缺少 CUDA 工具链。
+
+frontier-20261031-nonuniform-wsl-build-001 在执行 commit eb5bca2222a66b7644a8543e33941da6cb1a6aec 下成功生成隔离头文件，并编译、链接 vkfft_nonuniform_candidate、vkfft_nonuniform_original 和 CPU 请求测试程序；结果 commit ca8b56a115a2c4739b4764df8c52cfdce8b8ae0a。生成树、compile_commands.json、对象依赖文件、二进制及日志均在同名 artifacts 目录，并列入运行记录的大小和 SHA-256 清单。
+
+此次只执行头文件生成、CMake 配置与宿主 C++ 构建，没有执行这些程序，没有调用 VkFFT 规划器，也没有运行 GPU 内核。VkFFT 在运行时生成 CUDA kernel 并交给 NVRTC，因此本次成功不证明任何非均匀候选的 CUDA kernel 已完成 JIT 编译或数值验证；仍遵守仅离线工作、不追加 GPU 预算的约束。
