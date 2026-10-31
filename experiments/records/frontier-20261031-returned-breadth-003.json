@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-returned-breadth-003",
-  "status": "declared",
+  "status": "failed",
   "declared_at": "2026-10-31T06:11:43.841606+00:00",
   "parent_code_commit": "c9420383bb29eb8521a216867d1b0ff952587d4d",
   "protocol": {
@@ -22,6 +22,191 @@
     "experiments/evidence/frontier-20261031-returned-admission-gate.json"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "659daa4c50dd416352664668c9a6b1fc1d38aebb",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T06:11:43.870825+00:00",
+  "returncode": 1,
+  "finished_at": "2026-10-31T06:15:42.128929+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults/budget.jsonl",
+      "bytes": 5188577,
+      "sha256": "bad832ff912e78dce82b508a8f67ba0e608622cf676204fffd853e1bd7d8ffac"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults/command.json",
+      "bytes": 6315,
+      "sha256": "ab8430d8de495134aeea586ab9eab8bab0a8df30599c0e696aee5749a9a4cdbf"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults/guard.jsonl",
+      "bytes": 1025875,
+      "sha256": "c753a00af9e8d661134456e6f012df7952d4b8ee164e0ab2e99ed759565dd2fb"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults/incidents.jsonl",
+      "bytes": 1341,
+      "sha256": "e049d7bb94b15a8b1832aec08c76945c49fe7c4397f6267460b1eb61489b5cd5"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults/rows.jsonl",
+      "bytes": 8413548,
+      "sha256": "bb583fce347c1be58679789e01ef1a171d12e67a0d738f9c76a8f239144dc766"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n1024_b1.manifest.jsonl",
+      "bytes": 1489257,
+      "sha256": "335aa242174f13c43b770dbded1193276549dd842077e74bf2337240acf15a41"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n1024_b16.manifest.jsonl",
+      "bytes": 7445940,
+      "sha256": "71015de3b2ccd77c93f6fbcf0a2031b65120923bcb44a6779a49ada16e7f1fcd"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n1024_b256.manifest.jsonl",
+      "bytes": 13421181,
+      "sha256": "cf8b3bf6195c59619ea1532f997ad103eaa402039b59b0868005c4a535336eb4"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n1024_b4096.manifest.jsonl",
+      "bytes": 19414984,
+      "sha256": "f4fd14c707eee14f584c6627bbeafba3878f8d175ce1603766b0eab0aec64f38"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n128_b1.manifest.jsonl",
+      "bytes": 194419,
+      "sha256": "44d82b0c8350561827c292fd12159b8d87b5b206f44ec68f7579987ddd940b16"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n128_b16.manifest.jsonl",
+      "bytes": 968407,
+      "sha256": "f93021fd1dfdde860302c7e69fd47ab4295a5036fc3e31162660886328945e00"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n128_b256.manifest.jsonl",
+      "bytes": 1744834,
+      "sha256": "b8f8b292ba543563e40926afcb1ef0f3f24dbf61c915c08017313cf76cae3a14"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n128_b4096.manifest.jsonl",
+      "bytes": 2523699,
+      "sha256": "00b6a26239c28d4aebbf74295cb9fda08b903f86551826f73d1c3e35821b111b"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n2048_b1.manifest.jsonl",
+      "bytes": 2940154,
+      "sha256": "448b62dd62a1167b1eea66035602ec1ba9815ede986ea9c000bcd01c645e1bd3"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n2048_b16.manifest.jsonl",
+      "bytes": 14704011,
+      "sha256": "d07164ee02a0382469e4061f0ee59cacbd607fd57d10edb53c8981fae4164e38"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n2048_b256.manifest.jsonl",
+      "bytes": 26504344,
+      "sha256": "a20d08b0617e97d32a3fe7c3423ba7d841e3349d54022ff68a936835c73ccd27"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n2048_b4096.manifest.jsonl",
+      "bytes": 38341157,
+      "sha256": "166237cbd7867eb32941eb88c942926a00d5ba8b6e4c581411e7ab3a40b42f9e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n256_b1.manifest.jsonl",
+      "bytes": 382315,
+      "sha256": "4ad0485de3cb8f43b38ad378a5c87a360a6b4dc2e76ba43c211afba506966e91"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n256_b16.manifest.jsonl",
+      "bytes": 1908500,
+      "sha256": "ccecf1494c49521a2d4d409dd7db88606e66c714eefd178a9cd795ed6b028ae7"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n256_b256.manifest.jsonl",
+      "bytes": 3439481,
+      "sha256": "66bca1a966213da5510ff09c4f6af6f089fad161712dbc2c6c19f092b0a58919"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n256_b4096.manifest.jsonl",
+      "bytes": 4975263,
+      "sha256": "d99cc139f5a9e167da7cf2cb4ac337efd843ff68e0c422c035b4bbfc177861c4"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n4096_b1.manifest.jsonl",
+      "bytes": 5807271,
+      "sha256": "2f80639dc1bbe7249508aba9898a5f488bf43ab8140d0cab392251a04ac6aa1e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n4096_b16.manifest.jsonl",
+      "bytes": 29046639,
+      "sha256": "a1f34dfd3a8f532a0819a447486f4d9e8355168c879fccee0d8ebe397f74cc4c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n4096_b256.manifest.jsonl",
+      "bytes": 52357725,
+      "sha256": "0f7340f6c3c762d692a1fc5c7788271eeea33503f2edb60309e8effdb95bb86a"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n4096_b4096.manifest.jsonl",
+      "bytes": 75740531,
+      "sha256": "6db652f4eb40f6414959f19f30b87b43370f8db438eaa5c41583e0fac07f1c38"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n512_b1.manifest.jsonl",
+      "bytes": 754402,
+      "sha256": "ab6353728142ceb129c4609b3b16b3756a81d8425c675fd585fc6aeb634569a5"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n512_b16.manifest.jsonl",
+      "bytes": 3769853,
+      "sha256": "a74c4a7c4da0fd19d203a4e34ba8cf6f0f6b56c5f67c5b43095c72d55ff908ac"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n512_b256.manifest.jsonl",
+      "bytes": 6794744,
+      "sha256": "b5ce96cc3efdb96d076fb657b700b6805a8e3abb52ed1dac2f45e1c77e6a4922"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n512_b4096.manifest.jsonl",
+      "bytes": 9829073,
+      "sha256": "76548915214f05856881d09487c49fbba6589a8e0f5df1f3efd800da6e938b55"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n8192_b1.manifest.jsonl",
+      "bytes": 11468430,
+      "sha256": "4b3a9da09d6717f56a8660354313b8904cf463169a131653a7cd5d2f36ae1607"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n8192_b16.manifest.jsonl",
+      "bytes": 57366286,
+      "sha256": "68c4459e711c01b6a061164771a64e3af091361078db0b8dedf6e87116d36f56"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n8192_b256.manifest.jsonl",
+      "bytes": 103405140,
+      "sha256": "6fa1a634eff6822e9ba7211b910c291be252ec3dc4c0b8617da14197af58b002"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/defaults_manifests/n8192_b4096.manifest.jsonl",
+      "bytes": 149584995,
+      "sha256": "a4f1bcc4da34fe1430eafd8f726bba1132811be87823eaf36360b1d11ea1f22f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/execution.json",
+      "bytes": 1067,
+      "sha256": "472b983cb62ebae0d4ce81a5bcc29409ce73e1542039fad7d2d9bf05d747dbfb"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/stderr.log",
+      "bytes": 2056,
+      "sha256": "f449720698e47507b25e60a8a04513edd6f01c0fcc0b632060069e5583990982"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-breadth-003/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
