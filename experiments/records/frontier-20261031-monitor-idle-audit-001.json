@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-monitor-idle-audit-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T06:26:11.806192+00:00",
   "parent_code_commit": "ac88c97b7f59ab3635f0fe0c8a904c450b5b5fd0",
   "protocol": {
@@ -15,6 +15,31 @@
     "import json,pathlib,os,sys; sys.path.insert(0,'test/plan_selection_study/expanded_search'); import audit_guard; p=pathlib.Path('experiments/artifacts/frontier-20261031-monitor-idle-active-001'); result=audit_guard.audit(audit_guard.read(p/'rows.jsonl'),audit_guard.read(p/'guard.jsonl'),audit_guard.read(p/'incidents.jsonl'),'GPU-4c8e177a-5a3a-3e0f-61b7-fb666002e0ec'); pathlib.Path(os.environ['EXPERIMENT_ARTIFACT_DIR'],'audit.json').write_text(json.dumps(result,indent=2)); print(json.dumps(result)); sys.exit(result['status']!='pass')"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "a389134b1289410d09b88bd6966e6ebb2ba7e77e",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T06:26:11.834110+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T06:26:11.902527+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-audit-001/audit.json",
+      "bytes": 179,
+      "sha256": "2c54f57bd81e91370b80778149cbf1f72d757970a7fc5878ce460dedcb2fb986"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-audit-001/execution.json",
+      "bytes": 1310,
+      "sha256": "0f9d3969c462a37f350c1320bef98e4e051fdb30e820b93b89f1d0a6a894dc19"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-audit-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-audit-001/stdout.log",
+      "bytes": 162,
+      "sha256": "1a67d7ae018808b23e672d73b4ef0e8af4198e14890ed5ffdf530c797e885b9c"
+    }
+  ]
 }
