@@ -1,0 +1,28 @@
+{
+  "binary_hashes_rechecked": true,
+  "candidates": 7,
+  "evidence_sha256": {
+    "/root/vkfft_frontier_20261031/repo/experiments/artifacts/frontier-20261031-returned-admission-001/admission.jsonl": "2019c940fdaf4f928accca086f90b4c3bcd9f298d2cb1c36356a4bda17c966c4",
+    "/root/vkfft_frontier_20261031/repo/experiments/artifacts/frontier-20261031-returned-admission-001/budget.jsonl": "33ad7dac0aaa6b1ea33454dd5a0bdd5dcf9ff088b58de3ea4d4f5e6b6cec53eb",
+    "/root/vkfft_frontier_20261031/repo/experiments/artifacts/frontier-20261031-returned-admission-001/guard.jsonl": "7612b5e9755ee85074a857c50a19da0ccd5bb2e200fcafef66d00967e1cecf97",
+    "/root/vkfft_frontier_20261031/repo/experiments/artifacts/frontier-20261031-returned-admission-001/incidents.jsonl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/root/vkfft_frontier_20261031/repo/experiments/artifacts/frontier-20261031-returned-admission-001/n1024_b256.manifest.jsonl": "5514f0c5307bf888511701146dcee9356a294a62624c9983132778ebb626ba85",
+    "/root/vkfft_frontier_20261031/repo/experiments/artifacts/frontier-20261031-returned-admission-001/n128_b16.manifest.jsonl": "14cdf6f7a915b831025f922f37a92b2d14aa57c90f5c8e0bc1848b4aa9a9db6d",
+    "/root/vkfft_frontier_20261031/repo/experiments/artifacts/frontier-20261031-returned-admission-001/n256_b4096.manifest.jsonl": "b1d79312a0bff541c753a753509b69c71261d782dd1ab4349e9e69bbf718976c",
+    "/root/vkfft_frontier_20261031/repo/experiments/artifacts/frontier-20261031-returned-admission-001/n8192_b1.manifest.jsonl": "e2fb3a4e1797bf6bdd19d7be6934ac58c5b0536d82f263505b1260df44fed136"
+  },
+  "execution_commit": "74312eb116f108094cd95b171292126472050ab4",
+  "gpu": "GPU-4c8e177a-5a3a-3e0f-61b7-fb666002e0ec",
+  "guard_audit": {
+    "counts": {
+      "executions": 185
+    },
+    "errors": [],
+    "scope": "guard/event linkage only; periodic sampling cannot rule out between-sample interference",
+    "status": "pass"
+  },
+  "schema": "frontier-admission-gate/v1",
+  "scope": "one guarded session; all selected candidates validated and screened; no general device or performance guarantee",
+  "status": "pass",
+  "workloads": 4
+}
