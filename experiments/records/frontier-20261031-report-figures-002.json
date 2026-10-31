@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-report-figures-002",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T10:55:00.262102+00:00",
   "parent_code_commit": "4eec10c70b1717b19c58ae59722cf68d6a6def2b",
   "protocol": {
@@ -14,6 +14,36 @@
     "tools/frontier_report_figures.py"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "21270930a5ef0b96caf270efeaf43c3e907ca287",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T10:55:00.567642+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T10:55:02.107924+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-report-figures-002/execution.json",
+      "bytes": 834,
+      "sha256": "dd50ae9fa429d58990846cd7e73f7ed772d41af8a3c877c715e13fb77a9e60dd"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-report-figures-002/frontier_fallback_confirmation.png",
+      "bytes": 357307,
+      "sha256": "b7d8a0a1f625b8b7486840d6831a1d1cbc2a09bc67118996903d505c2fcc4a0e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-report-figures-002/frontier_fallback_confirmation.svg",
+      "bytes": 74853,
+      "sha256": "896a346f0669b867c083f2d4b56d1eaa47ec7534be2d3ae08e8882424f8ad0ab"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-report-figures-002/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-report-figures-002/stdout.log",
+      "bytes": 269,
+      "sha256": "830a3017d4b784e2ab2ccea6fa60a6e2b5f7ae80d3d3385187d3300fbc7a9730"
+    }
+  ]
 }
