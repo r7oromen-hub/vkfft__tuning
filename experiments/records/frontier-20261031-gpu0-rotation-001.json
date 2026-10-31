@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-gpu0-rotation-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T10:54:52.240165+00:00",
   "parent_code_commit": "7afa267f14332f0910c7f42268ab3157f8772254",
   "protocol": {
@@ -84,6 +84,46 @@
     "1800"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "5bd7d59d2ad51693add5fba040b4bfb7c4cd992c",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T10:54:52.257216+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T10:58:43.623350+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-001/budget.jsonl",
+      "bytes": 3219480,
+      "sha256": "89b7c93e0c5d2b62b1dea6d160c80ee6731f0de17108e4733bb8b14d00b69742"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-001/execution.json",
+      "bytes": 5490,
+      "sha256": "64e896045084aaa86e2a26a20ce1631ed8840488f2a6285d317896ecdfc4d311"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-001/guard.jsonl",
+      "bytes": 610227,
+      "sha256": "cbf619cc35367175a2ad8c4e36604757951aa8f54f4b0a3694a75aa82d425e11"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-001/incidents.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-001/rows.jsonl",
+      "bytes": 16703826,
+      "sha256": "0824acfa4f8b62575fa0cff3c6753f8cddea42153bca374a82a6877602af80f8"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
