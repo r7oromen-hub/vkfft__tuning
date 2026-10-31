@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-returned-audit-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T05:51:06.856569+00:00",
   "parent_code_commit": "37ccf234366a4b17e88f3e79eb2631b99887236b",
   "protocol": {
@@ -18,6 +18,51 @@
     "frontier-20261031-returned-admission-001"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "43b91acc9f29ce2d2b784be7acbbb96dd5c314b7",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T05:51:06.883176+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T05:51:09.608610+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-audit-001/admission_gate.json",
+      "bytes": 2164,
+      "sha256": "c6a64c5bdf32e6d6ac5eeb4463a9bfa960c1f5e97173f7c39a06b367e273165d"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-audit-001/execution.json",
+      "bytes": 950,
+      "sha256": "fae382278c634ca748a0ab25ac4aa0dc10672e5ea9a86276fe12ccb77f1653fa"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-audit-001/frontier_confirmation.json",
+      "bytes": 2864,
+      "sha256": "e0be3760de962c73d63d37a41a4d0078f7b9996ca25261d2e75c734783cb2878"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-audit-001/frontier_execution.json",
+      "bytes": 1297,
+      "sha256": "678e724cbebbff5298fd8b119e34ad79ba60a399c8505fdc39eaddbe5b6fe393"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-audit-001/frontier_knobs.json",
+      "bytes": 1987,
+      "sha256": "13333dd84c1a08060ade86a759c0f062068cf3f8315f92de57ef49f9e7d99849"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-audit-001/frontier_search.json",
+      "bytes": 1709,
+      "sha256": "3e6ee03d1fb590c72290bc0c503940e283151ec76861aec8f5f818d943db28d5"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-audit-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-returned-audit-001/stdout.log",
+      "bytes": 2074,
+      "sha256": "d1be582f8fc8e457355ef31e0b706a020a51d69352d0dabe57b56483487a714d"
+    }
+  ]
 }
