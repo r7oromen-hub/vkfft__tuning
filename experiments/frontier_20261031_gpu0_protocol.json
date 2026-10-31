@@ -1,0 +1,92 @@
+{
+  "schema": "frontier-campaign/v1",
+  "gpu_uuid": "GPU-0ea68ffa-f744-7d3d-d02b-972424534597",
+  "cuda_root": "/usr/local/cuda-12.6",
+  "total_reserved_wall_seconds": 4385,
+  "initial_admission_seconds": 1000,
+  "scope": "FP32 1D C2C forward out-of-place; single upload; boost 1; ordered radix 2/4/8/16/32; uniform R through 256",
+  "purpose": "GPU0 migration: fresh device admission and confirmation of preregistered portable candidates, then multi-address rotation and residual search",
+  "identity": "Observe original and experimental defaults on this GPU; do not import old-device timings",
+  "validation_patterns": [
+    "zero",
+    "impulse",
+    "constant",
+    "quarter-tone",
+    "random"
+  ],
+  "validation_seeds": [
+    42,
+    53,
+    71
+  ],
+  "screen_pairs": 3,
+  "independent_confirmation_required": true,
+  "admission_workloads": [
+    {
+      "n": 128,
+      "batch": 4096,
+      "requests": [
+        {
+          "radix": [
+            8,
+            8,
+            2
+          ],
+          "logical_registers": 8,
+          "grouped_batch": 16
+        }
+      ]
+    },
+    {
+      "n": 256,
+      "batch": 4096,
+      "requests": [
+        {
+          "radix": [
+            16,
+            16
+          ],
+          "logical_registers": 16,
+          "grouped_batch": 1
+        }
+      ]
+    },
+    {
+      "n": 1024,
+      "batch": 256,
+      "requests": [
+        {
+          "radix": [
+            8,
+            4,
+            4,
+            8
+          ],
+          "logical_registers": 16,
+          "grouped_batch": 1
+        }
+      ]
+    }
+  ],
+  "next_stages": [
+    "Audit fresh admission",
+    "Confirm same-device screen winners in two independent sessions",
+    "Measure eligible independently confirmed winners with greater-than-L2 rotation pools",
+    "Use residual budget for bounded N128 batch1 domain exploration; mark untested requests"
+  ],
+  "not_claimed": [
+    "global VkFFT optimum",
+    "cross-device reuse of old speedups",
+    "cold-cache performance",
+    "online tuning amortization"
+  ],
+  "migration_budget": {
+    "original_cap_seconds": 28800,
+    "calculated_at": "2026-10-31T10:45:11.841354+00:00",
+    "charged_elapsed_including_300s_transfer_margin": 24415,
+    "launch_not_after": "2026-10-31T10:50:11.841354+00:00",
+    "basis": "5400s prior charge + cloud interval232.919595312..18661.672739482 + all elapsed migration wall time until calculation +300s launch allowance; no budget reset",
+    "closed_cloud_end_utc_unix": 1793443226.589226,
+    "closed_cloud_interval_seconds": 18428.75314417
+  }
+}
