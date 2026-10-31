@@ -1,0 +1,27 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-nonuniform-wsl-build-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T12:13:22.539182+00:00",
+  "parent_code_commit": "431f3e3c946b2f1e93f5e87a8dca2bfe5e57e3db",
+  "protocol": {
+    "path": "experiments/research/nonuniform_register_admission_contract.json",
+    "bytes": 15212,
+    "sha256": "72a9cf2ea2a41323febcf4df57c8d16a2f6762d945c26b17e02f423f988d2243"
+  },
+  "command": [
+    "wsl.exe",
+    "-d",
+    "Ubuntu",
+    "--",
+    "python3",
+    "/mnt/f/vkfft_demo/test/plan_selection_study/nonuniform_search/compile_only.py",
+    "--output",
+    "/mnt/f/vkfft_demo/experiments/artifacts/frontier-20261031-nonuniform-wsl-build-001",
+    "--cuda-root",
+    "/usr/local/cuda"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
