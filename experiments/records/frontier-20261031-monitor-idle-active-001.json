@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-monitor-idle-active-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T06:24:08.273087+00:00",
   "parent_code_commit": "4449204f9c45ba12bd339111b1d857bef74a8274",
   "protocol": {
@@ -15,6 +15,46 @@
     "import os,json,pathlib,subprocess; root=pathlib.Path.cwd(); prior=root/'experiments/artifacts/frontier-20261031-returned-breadth-002'; cmd=json.loads((prior/'defaults/command.json').read_text()); out=pathlib.Path(os.environ['EXPERIMENT_ARTIFACT_DIR']); clean=[]; i=0\nwhile i<len(cmd):\n if cmd[i]=='--manifest':i+=2;continue\n if cmd[i] in ('--output','--log','--incidents','--budget-ledger'):\n  clean.extend([cmd[i],str(out/{'--output':'rows.jsonl','--log':'guard.jsonl','--incidents':'incidents.jsonl','--budget-ledger':'budget.jsonl'}[cmd[i]])]);i+=2;continue\n if cmd[i]=='--seconds':clean.extend([cmd[i],'660']);i+=2;continue\n clean.append(cmd[i]);i+=1\nclean.extend(['--manifest',str(prior/'defaults_manifests/n128_b1.manifest.jsonl')]);r=subprocess.run(clean);raise SystemExit(r.returncode)"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "edefe93931a92b1ebea3b8f6d60d781661a60e7d",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T06:24:08.300432+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T06:24:43.912939+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-active-001/budget.jsonl",
+      "bytes": 52816,
+      "sha256": "f7b1d0fdbd7bad9ab765ef94f51813f6d72e3a773a377e4cb9e75b6575d319b5"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-active-001/execution.json",
+      "bytes": 1574,
+      "sha256": "320f5fdf8ad10206803058a0ec40b8f0fff7a2d5737b745370573062ac56f5a3"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-active-001/guard.jsonl",
+      "bytes": 72221,
+      "sha256": "eea1768643556f731258800bca04c109235a58e295ecc2961ccb8f17535d8997"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-active-001/incidents.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-active-001/rows.jsonl",
+      "bytes": 256282,
+      "sha256": "52b93357f0e1aac51052c24597c0c22858fced69652949ba08b52a9401b804f5"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-active-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-active-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
