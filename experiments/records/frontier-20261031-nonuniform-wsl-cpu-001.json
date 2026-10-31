@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-nonuniform-wsl-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T12:16:34.895147+00:00",
   "parent_code_commit": "4e5894a2c7580051537a9f37902e179de2213afb",
   "protocol": {
@@ -20,6 +20,31 @@
     "/mnt/f/vkfft_demo/test/plan_selection_study/nonuniform_search/run_cpu_checks.py"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "1c9b316d95a2a8e1196378db9643cb867f1a2fb7",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T12:16:35.173868+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T12:17:00.376793+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-cpu-001/candidate_cpu",
+      "bytes": 40232,
+      "sha256": "2594351414aeaa27a0a708efcde5b8d1df7af975b2f3fb9dfa7140b1392e3aa9"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-cpu-001/execution.json",
+      "bytes": 1060,
+      "sha256": "23b99c195c9561c6940226c542404bd531076d406d902c7cb6e9b01736f644d2"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-cpu-001/stderr.log",
+      "bytes": 8967,
+      "sha256": "fd4034dcbc5952f9df4f5fb12503879c12ec8936f3d7733f8e0c3ceeb63dbe52"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-wsl-cpu-001/stdout.log",
+      "bytes": 484,
+      "sha256": "0087c7de08ea3c5e5bde9ac931fd2ab07ee5d6d253a51e83e042c32def646865"
+    }
+  ]
 }
