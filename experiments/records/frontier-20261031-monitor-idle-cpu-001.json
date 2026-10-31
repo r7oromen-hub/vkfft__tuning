@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-monitor-idle-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T06:23:05.166710+00:00",
   "parent_code_commit": "cc16064f0ab02432b3bb34df73246926d0c257cc",
   "protocol": {
@@ -15,6 +15,26 @@
     "import subprocess,sys; suites=['original_compare','frontier_execution','expanded_search','frontier_confirmation']; sys.exit(any(subprocess.call([sys.executable,'-m','unittest','discover','-s','test/plan_selection_study/'+p,'-p','test*.py','-v']) for p in suites))"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "e0d86272ee24d577ddf66f63d6ecc44811f52a09",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T06:23:05.453160+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T06:23:11.569930+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-cpu-001/execution.json",
+      "bytes": 1071,
+      "sha256": "dadfe1acb61890bcaad9f919300157e69e38a40583bbe76bb0658e3f8db804c3"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-cpu-001/stderr.log",
+      "bytes": 20503,
+      "sha256": "16f5f5383299300237f9e133dd18e9f2fda2e0084f4077156c78530438e893d7"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-monitor-idle-cpu-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
