@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-gpu0-rotation-audit-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T10:58:43.782028+00:00",
   "parent_code_commit": "efa4ef01474d961f34405016e6e14d941205328d",
   "protocol": {
@@ -84,6 +84,31 @@
     "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-rotation-audit-001/audit.json"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "202ef764d07265642e00502fe686c6111249150a",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T10:58:43.799386+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T10:58:44.271441+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-audit-001/audit.json",
+      "bytes": 10010,
+      "sha256": "fd931cfc11860c9b260e7466ce2e4a9f698c604e74782586100db986ec677564"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-audit-001/execution.json",
+      "bytes": 5587,
+      "sha256": "ba283d2c461d52c3e4359711e8cbd31116b92adc3dea53077f35de7993c836f1"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-audit-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-rotation-audit-001/stdout.log",
+      "bytes": 8934,
+      "sha256": "10c17e81402624502969d6fe017280a7ab1cefa8110fc204f792debe436276fa"
+    }
+  ]
 }
