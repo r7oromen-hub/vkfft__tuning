@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-nonuniform-manifest-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T12:10:12.712159+00:00",
   "parent_code_commit": "a74c36dc93227d7177f5630a0ea04c14009cf273",
   "protocol": {
@@ -14,6 +14,31 @@
     "test/plan_selection_study/nonuniform_search/prepare_admission_manifest.py"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "50f90794b1aa0ce4462e70886612f9118628f732",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T12:10:13.017491+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T12:10:13.367616+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-manifest-001/execution.json",
+      "bytes": 892,
+      "sha256": "4f603bbfe662eb715969b32f5c5b09a7f0d2ea96ac693e5f74d63294cb0a89f6"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-manifest-001/manifest.json",
+      "bytes": 7410,
+      "sha256": "aa5509ffc70e9ab0bde796a2dffb1a0a5a18cd7800212dba01a6123c844d4ee0"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-manifest-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-manifest-001/stdout.log",
+      "bytes": 117,
+      "sha256": "1f26ce82b21356ee8c7773e5465bfa47154e49a63b85ff55d3747445607d34c7"
+    }
+  ]
 }
