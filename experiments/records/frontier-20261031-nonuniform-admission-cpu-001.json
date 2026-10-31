@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-nonuniform-admission-cpu-001",
-  "status": "declared",
+  "status": "failed",
   "declared_at": "2026-10-31T11:52:53.329640+00:00",
   "parent_code_commit": "7c034dd6ceba20388fa25a6acce9449d8304a76b",
   "protocol": {
@@ -14,6 +14,26 @@
     "test/plan_selection_study/nonuniform_search/run_cpu_checks.py"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "2d3b68c6ab8c556d0cd2a1f9f8afe5b740602bcf",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T11:52:53.627416+00:00",
+  "returncode": 1,
+  "finished_at": "2026-10-31T11:52:54.334661+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-admission-cpu-001/execution.json",
+      "bytes": 885,
+      "sha256": "2ac2f733d7c00817832df4f873d6572ee1bf83e1c6be04002f471e8f37dae58b"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-admission-cpu-001/stderr.log",
+      "bytes": 2150,
+      "sha256": "6c0d104053448da227ba39b6c6b221f684c97d35d2be3db1fa5eb2c2e146ac9e"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-nonuniform-admission-cpu-001/stdout.log",
+      "bytes": 156,
+      "sha256": "e1b287f47555f68dc7269d4484260bd1509f7b748468a36b0972108e2018c4a1"
+    }
+  ]
 }
