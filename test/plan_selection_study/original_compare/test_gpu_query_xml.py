@@ -73,7 +73,7 @@ class XmlQueryTests(unittest.TestCase):
                 self.add_process(root, bad_type)
                 with self.assertRaises(ValueError):
                     self.parse(root)
-        for field, value in [('pid', '0'), ('pid', 'no'), ('process_name', ''), ('used_memory', 'N/A'), ('used_memory', '-1 MiB')]:
+        for field, value in [('pid', '0'), ('pid', 'no'), ('used_memory', 'N/A'), ('used_memory', '-1 MiB')]:
             with self.subTest(field=field, value=value):
                 root = copy.deepcopy(self.root)
                 process = self.add_process(root, 'C')
@@ -88,6 +88,16 @@ class XmlQueryTests(unittest.TestCase):
         root.find('gpu/processes').text = 'N/A'
         with self.assertRaises(ValueError):
             self.parse(root)
+
+    def test_unavailable_process_label_does_not_hide_compute_pid(self):
+        for name in ('', 'N/A'):
+            root=copy.deepcopy(self.root)
+            process=self.add_process(root,'C')
+            process.find('process_name').text=name
+            _,apps=self.parse(root)
+            self.assertEqual(len(apps),1)
+            self.assertEqual(apps[0]['pid'],process.find('pid').text)
+            self.assertEqual(apps[0]['process_name'],'N/A')
 
     def test_gpu_identity_fields_and_counts_fail_closed(self):
         for path, value in [('attached_gpus', 'N/A'), ('attached_gpus', '0'),

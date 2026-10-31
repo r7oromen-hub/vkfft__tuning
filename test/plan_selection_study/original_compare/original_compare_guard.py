@@ -137,7 +137,9 @@ def parse_nvidia_smi_xml(xml_text, expected_uuid):
         if not re.fullmatch(r"[0-9]+", pid) or int(pid) <= 0:
             raise ValueError("Invalid nvidia-smi compute process PID")
         apps.append({"gpu_uuid": uuid, "pid": pid,
-                     "process_name": _text(process, "process_name"),
+                     # Driver labels may be unavailable inside containers. Ownership
+                     # is established below from /proc and retained pidfds, not this label.
+                     "process_name": (_child(process, "process_name").text or "").strip() or "N/A",
                      "used_gpu_memory": _number(process, "used_memory", "MiB")})
     return device, apps
 
