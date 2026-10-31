@@ -29,9 +29,68 @@ import validation
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 FRONTIER = HERE.parent / 'frontier_execution' / 'runner.py'
-spec = importlib.util.spec_from_file_location('nonuniform_frontier_budget_guard', FRONTIER)
-v2 = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(v2)
+LEGACY_MODULES = ('run_suite', 'validation', 'search_controller', 'original_compare_controller',
+                  'original_compare_guard', 'audit_admission', 'budget', 'identity', 'manifest',
+                  'enumerate_candidates', 'selection')
+
+
+def load_frontier_components():
+    """Load legacy helpers without inheriting or leaking same-name modules.
+
+    The legacy runner and search controller modify sys.path and use bare imports.
+    Keep their own mutually consistent modules while restoring caller state even
+    if an import or source-location check fails.
+    """
+    saved_path = sys.path[:]
+    saved = {name: sys.modules[name] for name in LEGACY_MODULES if name in sys.modules}
+    try:
+        for name in LEGACY_MODULES:
+            sys.modules.pop(name, None)
+        spec = importlib.util.spec_from_file_location('nonuniform_frontier_budget_guard', FRONTIER)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        expanded = HERE.parent / 'expanded_search'
+        original = HERE.parent / 'original_compare'
+        expected = {
+            'run_suite': expanded / 'run_suite.py',
+            'validation': expanded / 'validation.py',
+            'search_controller': expanded / 'search_controller.py',
+            'original_compare_controller': original / 'original_compare_controller.py',
+            'original_compare_guard': original / 'original_compare_guard.py',
+            'audit_admission': expanded / 'audit_admission.py',
+            'budget': expanded / 'budget.py',
+            'identity': expanded / 'identity.py',
+            'manifest': expanded / 'manifest.py',
+            'enumerate_candidates': expanded / 'enumerate_candidates.py',
+            'selection': expanded / 'selection.py',
+        }
+        for name, path in expected.items():
+            loaded = sys.modules.get(name)
+            if loaded is None or Path(getattr(loaded, '__file__', '')).resolve() != path.resolve():
+                raise ImportError('unexpected legacy helper source: ' + name)
+        if (module.validation is not sys.modules['validation'] or
+                module.search_controller.validation is not sys.modules['validation'] or
+                module.search_controller.identity is not sys.modules['identity'] or
+                module.search_controller.budget is not sys.modules['budget'] or
+                module.search_controller.manifest is not sys.modules['manifest'] or
+                module.search_controller.suite is not sys.modules['run_suite'] or
+                module.search_controller.original_comparison is not sys.modules['original_compare_controller'] or
+                sys.modules['manifest'].enumerate_candidates is not sys.modules['enumerate_candidates'] or
+                sys.modules['manifest'].selection is not sys.modules['selection'] or
+                module.suite is not sys.modules['run_suite'] or
+                module.comparison is not sys.modules['original_compare_controller'] or
+                module.comparison.suite is not sys.modules['run_suite'] or
+                module.guard_common is not sys.modules['original_compare_guard']):
+            raise ImportError('legacy helper module bindings differ')
+        return module
+    finally:
+        sys.path[:] = saved_path
+        for name in LEGACY_MODULES:
+            sys.modules.pop(name, None)
+        sys.modules.update(saved)
+
+
+v2 = load_frontier_components()
 guard_common = v2.guard_common
 PATTERNS = validation.PATTERNS
 SEEDS = (42, 53, 71)
@@ -562,8 +621,12 @@ def main(argv=None):
                                'generated': str((args.generated_provenance.parent / 'include').resolve())},
                 'scope': 'single-session correctness checks; not independent audit or timing performance'}
     verify_frozen(contract)
-    sys.path.insert(0, str(HERE.parent / 'expanded_search'))
-    import device_lock
+    # Load the Linux-only flock helper without leaving its directory on sys.path
+    # or publishing a bare-name module in the caller's import cache.
+    lock_spec = importlib.util.spec_from_file_location('nonuniform_device_lock',
+                                                       HERE.parent / 'expanded_search/device_lock.py')
+    device_lock = importlib.util.module_from_spec(lock_spec)
+    lock_spec.loader.exec_module(device_lock)
     global run_one
     with device_lock.DeviceLock(args.lock) as lock:
         reserve_outputs(outputs)

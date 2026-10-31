@@ -4,7 +4,9 @@ import itertools
 import json
 import os
 from pathlib import Path
+import sys
 import tempfile
+import types
 import unittest
 from types import SimpleNamespace
 from unittest import mock
@@ -44,6 +46,35 @@ def write_json(path, value):
 
 
 class AdmissionInputsTests(unittest.TestCase):
+    def test_legacy_import_restores_search_path_and_shadowed_module_cache(self):
+        sentinels = {name: types.ModuleType('unrelated_' + name)
+                     for name in ('identity', 'validation', 'run_suite', 'search_controller', 'manifest')}
+        with mock.patch.dict(sys.modules, sentinels):
+            old_path = sys.path[:]
+            old_modules = {name: sys.modules.get(name) for name in admission.LEGACY_MODULES}
+            present = set(sys.modules) & set(admission.LEGACY_MODULES)
+            legacy = admission.load_frontier_components()
+            self.assertEqual(sys.path, old_path)
+            self.assertEqual(set(sys.modules) & set(admission.LEGACY_MODULES), present)
+            for name in present:
+                self.assertIs(sys.modules[name], old_modules[name])
+            expanded = Path(admission.__file__).resolve().parent.parent / 'expanded_search'
+            self.assertEqual(Path(legacy.validation.__file__).resolve(), (expanded / 'validation.py').resolve())
+            self.assertEqual(Path(legacy.search_controller.identity.__file__).resolve(), (expanded / 'identity.py').resolve())
+            self.assertIs(legacy.validation, legacy.search_controller.validation)
+            self.assertIsNot(legacy.validation, sentinels['validation'])
+            self.assertIsNot(legacy.search_controller.identity, sentinels['identity'])
+
+            # Failure during import must restore exactly the same caller state.
+            with tempfile.TemporaryDirectory(dir=Path(__file__).parent) as tmp:
+                with mock.patch.object(admission, 'FRONTIER', Path(tmp) / 'absent.py'):
+                    with self.assertRaises((ImportError, OSError)):
+                        admission.load_frontier_components()
+            self.assertEqual(sys.path, old_path)
+            self.assertEqual(set(sys.modules) & set(admission.LEGACY_MODULES), present)
+            for name in present:
+                self.assertIs(sys.modules[name], old_modules[name])
+
     def test_deadline_ledger_rejects_equal_boundary_and_delegates_earlier_work(self):
         backing = mock.Mock()
         backing.start.return_value = True
