@@ -1,0 +1,25 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-knobs-audit-cpu-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T10:36:07.386205+00:00",
+  "parent_code_commit": "e107a9fe87d1a6aa247ce84ef5a4b4c78ba6d6fa",
+  "protocol": {
+    "path": "experiments/frontier_knobs_audit_cpu.json",
+    "bytes": 197,
+    "sha256": "14e9acad90dc2d5d4c8232e53333a0c0a3e00216162873440a81282fd90295f9"
+  },
+  "command": [
+    "F:/anaconda/python.exe",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "test/plan_selection_study/frontier_knobs",
+    "-p",
+    "test_audit.py"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
