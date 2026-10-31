@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-gpu0-exhaust128-analysis-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T11:53:28.827286+00:00",
   "parent_code_commit": "f8dd278319a4f5d29a825af156a9edbadfab67a8",
   "protocol": {
@@ -20,6 +20,31 @@
     "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-analysis-001/analysis.json"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "492190c50df292ccfdbda457a34dce443f3efa32",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T11:53:28.844983+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T11:53:29.365781+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-analysis-001/analysis.json",
+      "bytes": 240711,
+      "sha256": "4ca09621665a8f49a94b5a9d1e2ed3255588966fa8575cf1597817bfbdbe2305"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-analysis-001/execution.json",
+      "bytes": 1325,
+      "sha256": "aeb7ee504c3fd8c40364ba9e404d1182219c5eb2b47b23116ad2c612cd926c28"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-analysis-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-analysis-001/stdout.log",
+      "bytes": 186,
+      "sha256": "6eef931dcbf39ea6554c983e4a5fd78dc28d7db2950561b675f471108b8f8efa"
+    }
+  ]
 }
