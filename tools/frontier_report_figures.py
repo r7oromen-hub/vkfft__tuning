@@ -91,7 +91,7 @@ def draw(workloads, confirmations, source_hashes, destination):
                          'svg.fonttype': 'none'})
     fig, (left, right) = plt.subplots(1, 2, figsize=(14, 11),
                                      gridspec_kw={'width_ratios': [1.05, 1.25]})
-    fig.subplots_adjust(left=.09, right=.97, top=.875, bottom=.15, wspace=.43)
+    fig.subplots_adjust(left=.09, right=.97, top=.855, bottom=.20, wspace=.43)
     fig.suptitle('Budget-limited FFT search: fallback and independent confirmations',
                  fontsize=17, fontweight='bold', x=.09, ha='left', y=.97)
     fig.text(.09, .935, 'N / batch  |  candidate vs original default  |  practical fallback: 8 / 28 workloads',
@@ -141,11 +141,11 @@ def draw(workloads, confirmations, source_hashes, destination):
     right.set_title('13 screen winners · session estimate and 95% CI', loc='left', fontweight='bold', pad=10)
     right.grid(axis='x', color='#e6ebef', linewidth=.7)
     right.set_axisbelow(True)
-    right.legend(handles=[Line2D([], [], color='#245a9a', marker='o', linestyle='none', label='Session 1'),
+    fig.legend(handles=[Line2D([], [], color='#245a9a', marker='o', linestyle='none', label='Session 1'),
                           Line2D([], [], color='#d2782c', marker='s', linestyle='none', label='Session 2'),
                           Line2D([], [], color='#273445', marker='D', linestyle='none', label='Two-session estimate'),
                           Patch(facecolor='#167d78', label='Confirmed practical fallback')],
-                 loc='lower right', fontsize=8, frameon=False)
+                 loc='upper right', bbox_to_anchor=(.97, .915), ncol=4, fontsize=8, frameon=False)
 
     fig.text(.09, .085,
              'Fallback uses the confirmed candidate only when both sessions show ≥2% mean reduction and CI upper ratio < 1; otherwise default.\n'
