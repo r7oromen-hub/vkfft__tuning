@@ -1,0 +1,421 @@
+{
+  "schema": "nonuniform-admission-manifest/v1",
+  "candidates": [
+    {
+      "candidate_id": "15feb625e241f5328fe7f6389c4fab5620b56b2164464c875e2bf856f764a65b",
+      "request": {
+        "schema": "nonuniform-register-request/v1",
+        "workload": {
+          "n": 128,
+          "batch": 16
+        },
+        "radix": [
+          8,
+          8,
+          2
+        ],
+        "register_table": [
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "profile": "nonuniform_active_only",
+        "grouped_batch": 1
+      }
+    },
+    {
+      "candidate_id": "748ee704067306387eb174086eb3cd330df75fe5e22f573128709dec470e4bb1",
+      "request": {
+        "schema": "nonuniform-register-request/v1",
+        "workload": {
+          "n": 128,
+          "batch": 16
+        },
+        "radix": [
+          8,
+          8,
+          2
+        ],
+        "register_table": [
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "profile": "nonuniform_active_only",
+        "grouped_batch": 2
+      }
+    },
+    {
+      "candidate_id": "328c03faee6acbf12241d4ab45c8bef427dda85b0d4e81018070915cc19895f9",
+      "request": {
+        "schema": "nonuniform-register-request/v1",
+        "workload": {
+          "n": 128,
+          "batch": 16
+        },
+        "radix": [
+          2,
+          8,
+          8
+        ],
+        "register_table": [
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "profile": "nonuniform_active_only",
+        "grouped_batch": 1
+      }
+    },
+    {
+      "candidate_id": "cb3c56bd2fb6ce3acef71b1ea95218aac5f1ce705894e80c0775f97ad63ed8a7",
+      "request": {
+        "schema": "nonuniform-register-request/v1",
+        "workload": {
+          "n": 128,
+          "batch": 16
+        },
+        "radix": [
+          2,
+          8,
+          8
+        ],
+        "register_table": [
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "profile": "nonuniform_active_only",
+        "grouped_batch": 2
+      }
+    },
+    {
+      "candidate_id": "ed4aa829299452ae9f9aef5922f092cc0245040dfaeffc991c7ec40d160d84f8",
+      "request": {
+        "schema": "nonuniform-register-request/v1",
+        "workload": {
+          "n": 128,
+          "batch": 16
+        },
+        "radix": [
+          8,
+          2,
+          8
+        ],
+        "register_table": [
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "profile": "nonuniform_active_only",
+        "grouped_batch": 1
+      }
+    },
+    {
+      "candidate_id": "bd2875b6095702bf187f7b6e6172ec3d0ffb30d6556ceae19aeebbe8900cade2",
+      "request": {
+        "schema": "nonuniform-register-request/v1",
+        "workload": {
+          "n": 128,
+          "batch": 16
+        },
+        "radix": [
+          8,
+          2,
+          8
+        ],
+        "register_table": [
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "profile": "nonuniform_active_only",
+        "grouped_batch": 2
+      }
+    },
+    {
+      "candidate_id": "d31577e313ac7f18260740bcfd31ebc0f55dc12859ff3757c3d2d2ea5749054b",
+      "request": {
+        "schema": "nonuniform-register-request/v1",
+        "workload": {
+          "n": 256,
+          "batch": 16
+        },
+        "radix": [
+          16,
+          8,
+          2
+        ],
+        "register_table": [
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          16,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "profile": "nonuniform_active_only",
+        "grouped_batch": 1
+      }
+    },
+    {
+      "candidate_id": "941f771d422866fac73c3975bc26d9a2723490caa8df077baf2188b1aa9ba64b",
+      "request": {
+        "schema": "nonuniform-register-request/v1",
+        "workload": {
+          "n": 256,
+          "batch": 16
+        },
+        "radix": [
+          16,
+          8,
+          2
+        ],
+        "register_table": [
+          0,
+          0,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          8,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          16,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "profile": "nonuniform_active_only",
+        "grouped_batch": 2
+      }
+    }
+  ]
+}
