@@ -1,0 +1,9 @@
+{
+  "schema": "monitor-policy-validation/v1",
+  "purpose": "Allow successful slow monitoring only in provably inactive gaps, without accepting it as a clean measurement sample",
+  "idle_delay_requirements": ["successful query", "idle or between boundary", "no active run", "no compute applications", "no foreign process or resource violation", "sample lock excludes run transitions"],
+  "measurement_policy": "before/during/after queries retain the 2 second limit; query errors always abort; launch requires a fresh successful before sample no older than 2 seconds",
+  "audit": "Verify idle delay intervals do not overlap any run and later launches follow fresh before samples using monotonic timestamps",
+  "budget": "Use the existing returned campaign deadline; do not reset the reservation clock",
+  "limitations": "Periodic monitoring cannot rule out interference between observations; historical standalone original_compare auditors conservatively reject idle delay exceptions"
+}

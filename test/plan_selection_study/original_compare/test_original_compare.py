@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import sys
 import tempfile
+import time
 import unittest
 from unittest.mock import patch
 import original_compare_controller as c
@@ -70,7 +71,7 @@ class Tests(unittest.TestCase):
 
     def test_guard_wraps_current_binary(self):
         class Args: gpu='GPU-test';log=Path('unused');incidents=Path('unused')
-        guard=g.Guard(Args(),query=lambda *a:None);guard.emit=lambda *a,**kw:None;guard.sample=lambda b:{'utc':'x'}
+        guard=g.Guard(Args(),query=lambda *a:None);guard.emit=lambda *a,**kw:None;guard.sample=lambda b:{'utc':'x','sample_completed_monotonic':time.monotonic()}
         class Target:exe=sys.executable
         result=guard.wrapped(lambda *a:{'status':'ok'})(Target(),{'n':256,'batch':1},('joint',{}),'timing',0,0)
         self.assertTrue(result['guard_clean']);self.assertIsNone(guard.active)

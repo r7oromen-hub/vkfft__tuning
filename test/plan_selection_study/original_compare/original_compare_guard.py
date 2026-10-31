@@ -238,6 +238,7 @@ class Guard:
         self.first_incident = None
         self.sample_count = 0
         self.children = {}
+        self.before_ready = None
 
     def exited_owned(self, pid):
         with self.lock:
@@ -297,6 +298,13 @@ class Guard:
                 own = bool(self.active and candidate == self.expected_exe)
                 if own:
                     self.check()
+                    before = self.before_ready
+                    launch_monotonic = time.monotonic()
+                    age = launch_monotonic - before['completed'] if before else None
+                    if (before is None or before['run_id'] != self.active.get('guard_run_id')
+                            or age < 0 or age > 2):
+                        self.trip(['missing_or_stale_before_sample'])
+                        raise GuardAbort('A fresh successful before sample is required to launch the harness')
                     if kwargs.get("shell") or (kwargs.get("executable") and str(Path(kwargs["executable"]).resolve()) != candidate):
                         raise GuardAbort("Harness launch must directly exec the registered executable")
                     retained_pidfd, registered = None, False
@@ -313,7 +321,9 @@ class Guard:
                         self.children[process.pid] = dict(identity=identity, process=process,pidfd=retained_pidfd,
                                                          guard_run_id=self.active.get('guard_run_id'))
                         registered = True
-                        self.emit("own_harness_registered", identity=identity, active_run=self.active,pidfd_retained=True)
+                        self.emit("own_harness_registered", identity=identity, active_run=self.active,
+                                  pidfd_retained=True, before_sample_age_seconds=age,
+                                  harness_launch_check_monotonic=launch_monotonic)
                         return process
                     except BaseException as error:
                         if retained_pidfd is not None and not registered:
@@ -403,21 +413,29 @@ class Guard:
             reasons = []
             try:
                 gpu, apps = self.query(expected, self.parent_pid)
+                completed = time.monotonic()
                 foreign = [app["pid"] for app in apps if not app["own_harness"]]
                 if foreign:
                     reasons.append("foreign_compute_process")
                 if gpu["memory_used_mib"] > MEMORY_LIMIT_MIB:
                     reasons.append("total_gpu_memory_above_2048MiB")
-                if time.monotonic() - begin > 2:
+                idle_delay = (completed - begin > 2 and not reasons and not apps
+                              and active is None and boundary in ('idle', 'between'))
+                if completed - begin > 2 and not idle_delay:
                     reasons.append("monitor_sample_took_over_2_seconds")
             except Exception as error:
+                completed = time.monotonic()
                 foreign = []
                 monitor_error = f"{type(error).__name__}: {error}"
                 reasons.append("monitor_query_failed")
+                idle_delay = False
             row = self.emit("sample", boundary=boundary, gpu=gpu, compute_apps=apps,
                             foreign_compute_pids=foreign, violation_reasons=reasons,
-                            monitor_error=monitor_error, ok=not reasons,
-                            active_run=active, query_wall_seconds=time.monotonic() - begin)
+                            monitor_error=monitor_error, ok=not reasons and not idle_delay,
+                            idle_monitor_delay=idle_delay,
+                            active_run=active, query_wall_seconds=completed - begin,
+                            sample_started_monotonic=begin,
+                            sample_completed_monotonic=completed)
             self.sample_count += 1
             if reasons:
                 self.trip(reasons, row)
@@ -463,16 +481,24 @@ class Guard:
     def wrapped(self, original):
         def run_one(args, workload, candidate, phase, round_no, order):
             self.check()
-            with self.lock:
-                self.expected_exe = str(Path(args.exe).resolve(strict=True))
-                self.active = dict(phase=phase, workload_id=f"n{workload['n']}_b{workload['batch']}",
-                                   candidate_id=candidate[0], round=round_no, order=order,
-                                   expected_exe=self.expected_exe,
-                                   guard_run_id=f"{self.guard_id}:{uuid.uuid4().hex}")
-                run_id = self.active["guard_run_id"]
-            self.emit("run_one_start", active_run=self.active)
+            # Serialize active transitions and their log events with complete
+            # samples, including idle delays. A child cannot launch while an
+            # idle sample is in flight because active cannot be set yet.
+            with self.sample_lock:
+                with self.lock:
+                    self.check()
+                    self.expected_exe = str(Path(args.exe).resolve(strict=True))
+                    self.active = dict(phase=phase, workload_id=f"n{workload['n']}_b{workload['batch']}",
+                                       candidate_id=candidate[0], round=round_no, order=order,
+                                       expected_exe=self.expected_exe,
+                                       guard_run_id=f"{self.guard_id}:{uuid.uuid4().hex}")
+                    run_id = self.active["guard_run_id"]
+                self.emit("run_one_start", active_run=self.active,
+                          run_transition_monotonic=time.monotonic())
             before = self.sample("before")
             self.check()
+            with self.lock:
+                self.before_ready = dict(run_id=run_id, completed=before['sample_completed_monotonic'])
             row = None
             try:
                 row = original(args, workload, candidate, phase, round_no, order)
@@ -491,12 +517,16 @@ class Guard:
                               first_incident=self.first_incident)
                 raise
             finally:
-                with self.lock:
-                    self.close_run_handles(run_id)
-                    self.active = None
-                    self.expected_exe = None
-            self.emit("run_one_end", clean=True, status=row.get("status"),
-                      guard_run_id=run_id, workload_id=row.get("workload_id"), candidate_id=row.get("candidate_id"))
+                with self.sample_lock:
+                    with self.lock:
+                        self.close_run_handles(run_id)
+                        self.active = None
+                        self.expected_exe = None
+                        self.before_ready = None
+                    if row is not None and not self.abort.is_set():
+                        self.emit("run_one_end", clean=True, status=row.get("status"),
+                                  guard_run_id=run_id, workload_id=row.get("workload_id"),
+                                  candidate_id=row.get("candidate_id"), run_transition_monotonic=time.monotonic())
             return row
         return run_one
 
