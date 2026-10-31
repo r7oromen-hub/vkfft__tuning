@@ -1,0 +1,84 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-gpu0-exhaust128-001",
+  "status": "completed",
+  "declared_at": "2026-10-31T10:58:44.407290+00:00",
+  "parent_code_commit": "f9df7fb259ec788453713fb8f5d0e3805f015007",
+  "protocol": {
+    "path": "experiments/frontier_20261031_gpu0_protocol.json",
+    "bytes": 2561,
+    "sha256": "efda60bde9f27c345834720eafc3c0afa112f2662c82f0fb20a13111999dda8f"
+  },
+  "command": [
+    "python3",
+    "tools/frontier_search_phase.py",
+    "--phase",
+    "exhaust128",
+    "--protocol",
+    "experiments/frontier_20261031_gpu0_protocol.json",
+    "--admission-run",
+    "frontier-20261031-gpu0-admission-001",
+    "--gate",
+    "experiments/evidence/frontier-20261031-gpu0-admission-gate.json",
+    "--reserve-seconds",
+    "0"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
+  "execution_commit": "5641ca7994c3752464ea25836b21df785c8d91a6",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T10:58:44.423918+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T11:53:18.879437+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/execution.json",
+      "bytes": 1087,
+      "sha256": "b8ec99955d44e5b0d7d8a61cc3fc180ce9d7e88a24258267fe1d90648fba111d"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/manifests/n128_b1.manifest.jsonl",
+      "bytes": 216806,
+      "sha256": "8cddf8104206ba4821c3444b7ca05bf091d7f066d892787e35af630818304292"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/phase_summary.json",
+      "bytes": 2012,
+      "sha256": "a6be674c92a3703c33d410a26dcd5957a24cd9d6c0cf93274cf25a747eb0bdca"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/budget.jsonl",
+      "bytes": 9114767,
+      "sha256": "24e4306b0ca4712f3adfdf3d18e3c41baa276141eebb2dbaa3f1e73ead13d4d8"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/command.json",
+      "bytes": 2049,
+      "sha256": "358dfdfbf08a06d2edbccd4f385ade93e27a1e45a6faa5f1920b6656f9b44ba6"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/guard.jsonl",
+      "bytes": 12554744,
+      "sha256": "b59d277fd04dfeccbcd8acb6408947293fe219a3cf1f16307e5de8a36676c69c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/incidents.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/rows.jsonl",
+      "bytes": 75022066,
+      "sha256": "b67c85d06e474f4d95b1dd072e0e1068b907d3bfd870ebc69f0d09c7bff58531"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/stdout.log",
+      "bytes": 669,
+      "sha256": "9f8e69f1e7342142586e3172e2094c56f84ed261dde8f400a1237c94cb1e8a49"
+    }
+  ]
+}

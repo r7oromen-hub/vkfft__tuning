@@ -1,0 +1,52 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-gpu0-exhaust128-costs-001",
+  "status": "completed",
+  "declared_at": "2026-10-31T11:53:29.590419+00:00",
+  "parent_code_commit": "2f9b8c1c50195db2a1aa80560b40d7eea6fe5d86",
+  "protocol": {
+    "path": "experiments/frontier_20261031_gpu0_protocol.json",
+    "bytes": 2561,
+    "sha256": "efda60bde9f27c345834720eafc3c0afa112f2662c82f0fb20a13111999dda8f"
+  },
+  "command": [
+    "/usr/bin/python3",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/test/plan_selection_study/frontier_analysis/search_costs.py",
+    "--coverage",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-coverage-001/coverage.json",
+    "--rows",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/rows.jsonl",
+    "--budget",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/budget.jsonl",
+    "--output",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-costs-001/costs.json"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
+  "execution_commit": "7da3a8d0009784543cb1691dc2822183b2d29613",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T11:53:29.606401+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T11:53:30.555533+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-costs-001/costs.json",
+      "bytes": 128437,
+      "sha256": "e10f0229a0484958725ad44e982c5aab3b8c1248473b4c23916b1758bb0be4df"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-costs-001/execution.json",
+      "bytes": 1468,
+      "sha256": "1560aceea5762eb1320687731f372460c69a6353d6a7ffe00c50a66d721dd018"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-costs-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-exhaust128-costs-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}
