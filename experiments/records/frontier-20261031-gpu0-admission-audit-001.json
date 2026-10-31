@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-gpu0-admission-audit-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T10:48:50.701069+00:00",
   "parent_code_commit": "0e59036e2e8f04a96ef95ee1d5eefbe26768a6e6",
   "protocol": {
@@ -18,6 +18,51 @@
     "frontier-20261031-gpu0-admission-001"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "176e0529745cefc717712cede3637bb848231d47",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T10:48:50.718928+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T10:48:52.488776+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-admission-audit-001/admission_gate.json",
+      "bytes": 2003,
+      "sha256": "c11ce84c1ca60483f940d2bb04c32f36f16f5e29759a5f1b13ff3c10790a7a3c"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-admission-audit-001/execution.json",
+      "bytes": 944,
+      "sha256": "562b2cf82f295a6c60cbb60d09c239e0ed51e237d58d975d966c735de1065897"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-admission-audit-001/frontier_confirmation.json",
+      "bytes": 2873,
+      "sha256": "501b3d03ce3d8fb9e8fae849b53044ed87e9b79a3b7dddaadc11541f7d3c924f"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-admission-audit-001/frontier_execution.json",
+      "bytes": 1306,
+      "sha256": "6f3df9e3ae95bce2fb18c33efa50152049ffc135748953f214ecb2ad4364054a"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-admission-audit-001/frontier_knobs.json",
+      "bytes": 2475,
+      "sha256": "88b5d8d43086f467070c38a9bb59af23ed15cf4662581b00cd9298e2750dbaf8"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-admission-audit-001/frontier_search.json",
+      "bytes": 2948,
+      "sha256": "9653e8d2d8e1e5e9652ea7b6983d0d7bc0a88fce93f719f81491e5e8b23b2450"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-admission-audit-001/stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-gpu0-admission-audit-001/stdout.log",
+      "bytes": 1917,
+      "sha256": "96811adc016d33ae351bd0862ac87b292077730b9f6d52042fc00cf5bec01deb"
+    }
+  ]
 }
