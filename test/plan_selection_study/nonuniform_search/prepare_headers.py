@@ -86,6 +86,19 @@ def transform_benchmark(text):
         if (expanded_candidate::direct_enabled()) throw std::runtime_error("conflicting legacy candidate environment");''')
     text = once(text, 'axis.axisBlock[0] != (pfUINT)(o.n/request.regs)',
                 'axis.axisBlock[0] != (pfUINT)(o.n/request.min_regs)')
+    text = once(text,
+                'int stat=0, dynlimit=0, devlimit=0, threadlimit=0;',
+                'int stat=0, dynlimit=0, devlimit=0, threadlimit=0, physical_regs=0, local_bytes=0;')
+    anchor = '            driver_check(cuFuncGetAttribute(&stat, CU_FUNC_ATTRIBUTE_SHARED_SIZE_BYTES, axis.VkFFTKernel), "expanded static shared query");'
+    text = once(text, anchor, '''            driver_check(cuFuncGetAttribute(&physical_regs, CU_FUNC_ATTRIBUTE_NUM_REGS, axis.VkFFTKernel), "nonuniform physical register query");
+            driver_check(cuFuncGetAttribute(&local_bytes, CU_FUNC_ATTRIBUTE_LOCAL_SIZE_BYTES, axis.VkFFTKernel), "nonuniform local memory query");
+''' + anchor)
+    text = once(text,
+                'if (dyn < 0 || stat < 0 || dyn > dynlimit || dyn + stat > devlimit || threads > threadlimit)',
+                'if (physical_regs < 0 || local_bytes < 0 || dyn < 0 || stat < 0 || dyn > dynlimit || dyn + stat > devlimit || threads > threadlimit)')
+    anchor = '            Object limits; limits.integer("dynamic_shared_bytes",dyn); limits.integer("static_shared_bytes",stat);'
+    text = once(text, anchor, '''            Object limits; limits.integer("cuda_registers_per_thread",physical_regs); limits.integer("cuda_local_bytes",local_bytes);
+            limits.integer("dynamic_shared_bytes",dyn); limits.integer("static_shared_bytes",stat);''')
     return text
 
 
