@@ -1,0 +1,26 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-postscreen-cpu-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T08:14:33.578084+00:00",
+  "parent_code_commit": "e8b643c780b152e58df4989f410655f04f447a7e",
+  "protocol": {
+    "path": "experiments/frontier_postscreen_cpu.json",
+    "bytes": 202,
+    "sha256": "fbbf3da3d8fa3b9ff1e9c52e48db30a6d02dc66ee8bcbc05e04593e1b388aeb1"
+  },
+  "command": [
+    "F:\\anaconda\\python.exe",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "test/plan_selection_study/frontier_search",
+    "-p",
+    "test_postscreen_phase.py",
+    "-v"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
