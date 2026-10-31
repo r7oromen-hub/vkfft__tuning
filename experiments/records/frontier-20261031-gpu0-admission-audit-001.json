@@ -1,0 +1,23 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-gpu0-admission-audit-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T10:48:50.701069+00:00",
+  "parent_code_commit": "0e59036e2e8f04a96ef95ee1d5eefbe26768a6e6",
+  "protocol": {
+    "path": "experiments/frontier_20261031_gpu0_protocol.json",
+    "bytes": 2561,
+    "sha256": "efda60bde9f27c345834720eafc3c0afa112f2662c82f0fb20a13111999dda8f"
+  },
+  "command": [
+    "python3",
+    "tools/frontier_verify_admission.py",
+    "--protocol",
+    "experiments/frontier_20261031_gpu0_protocol.json",
+    "--admission-run",
+    "frontier-20261031-gpu0-admission-001"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
