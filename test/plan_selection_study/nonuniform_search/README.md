@@ -65,8 +65,8 @@ then configure this directory with `-DNONUNIFORM_GENERATED_ROOT=<new-root>` and 
 toolkit. CMake provides separate generated-planner and untouched-original targets.
 Compilation and describe mode do not prove numerical correctness. The existing frontier
 controllers understand scalar R and cannot safely be reused unchanged for this request
-schema; a new guarded controller must validate the full request, observed descriptors,
-identity, numerical results and preserved evidence before any timed GPU experiment.
+schema. `admission.py` is a separate correctness-only controller; it does not select or
+time candidates for performance and its output requires independent evidence audit.
 
 `validation.check` and `check_describe` perform table-aware checks on individual guarded
 execution records, including exact request telemetry and pre-codegen, post-codegen and
@@ -80,3 +80,56 @@ compared with the instrumented binaries' actual options. These functions do not 
 guard ledger, bind a binary to a full campaign, or establish 15-case coverage: a separate
 guarded controller and independent audit must enforce those requirements. The synthetic
 tests are CPU logic checks and are not device evidence.
+
+## Proposed guarded correctness admission
+
+`admission.py` takes a committed explicit JSON protocol and manifest, built binaries and
+build evidence, and new output paths. It does not generate or randomly select candidates.
+The manifest is `{"schema":"nonuniform-admission-manifest/v1","candidates":[...]}`;
+each entry contains exactly `candidate_id` and the full versioned `request`. IDs are
+recomputed, duplicates rejected, and at most 32 candidates are allowed. Although the
+static request model supports N=2, this fixed admission matrix rejects N<4: the harness
+does not define quarter-tone for N=2. This is a protocol limitation, not a GPU rejection.
+
+The protocol schema is `nonuniform-admission-protocol/v1` and its exact fields are
+`schema`, `gpu_uuid`, `hostname`, `boot_id`, `machine_id`, `seconds`, `idle_seconds`,
+`timeout`, `graph_repeats`, `patterns`, and `seeds`. The last two must be the full
+`["zero","impulse","constant","quarter-tone","random"]` and `[42,53,71]` matrix.
+The caller must also supply `--campaign-deadline-monotonic` as an absolute monotonic
+deadline on the same boot recorded in that protocol. The effective deadline is the earlier
+of this external campaign deadline and the stage ledger deadline. The stage ledger begins
+after build, preflight and device-lock acquisition; those earlier costs therefore must be
+charged by the external campaign budget, not ignored or inferred from this stage. No prior
+campaign deadline is fabricated by the controller. It checks time before each launch and
+preserves a final no-launch denial if the reserve is exhausted. The numeric deadline is
+bound to the committed invocation and same-boot protocol, but this controller does not
+independently authenticate an external campaign ledger: a later audit must verify its origin
+and account for prior build and preflight occupancy.
+
+Before guard startup, the controller verifies clean committed sources, an experiment
+declaration whose protocol hash matches, host/boot/GPU identity, both binary hashes,
+generated provenance and the complete generated include-tree inventory against the
+committed upstream copy and declared generated transformations. The required
+`nonuniform-admission-build/v1` attestation records `code_commit`, `vkfft_commit`,
+`generated_provenance_sha256`, binary hashes under `binaries`, a nonempty list of
+`build_commands`, `tree_sha256` for `original`, `generated`, and tracked `instrumentation`,
+plus `compile_commands_sha256` and `original_dependencies_sha256`. The corresponding
+compile database must show the original include tree preceding generated includes, and
+the original target's object dependency file must show the untouched VkFFT header rather
+than the generated VkFFT headers. `tree_inventory` and `tracked_instrumentation` expose
+the canonical inventories for preparing such an attestation. The build association and
+recorded dependencies are not an independent reproduction of the binaries.
+
+The controller uses the shared UUID-named flock, passes its descriptor to child processes,
+and uses the existing pidfd guard with per-process before/after samples. Output, guard,
+incident and budget files are exclusively created; no automatic resume is supported.
+Each candidate receives describe, original/experimental default and representable
+identity checks, then 15 full-output validations. Exact command, sanitized override
+environment, stdout, result, identity, source/plan evidence and budget records are kept.
+Unknown errors, numeric failures and scheduler error 3002 stop the session: the current
+nonuniform generator lacks the evidence needed to classify those as safely recoverable
+local rejections. A candidate completing all checks is `checks_passed_pending_audit`, not
+an independently audited admission. Budget denial records partial and unstarted requests;
+it is not a successful complete matrix. Guard completion alone does not replace a later
+independent audit of guard/ledger linkage, stdout versus result, binary provenance and
+complete validation coverage. No live GPU evidence has been collected for this controller.
