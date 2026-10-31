@@ -177,3 +177,5 @@ frontier-20261031-nonuniform-wsl-build-001 在执行 commit eb5bca2222a66b7644a8
 此次只执行头文件生成、CMake 配置与宿主 C++ 构建，没有执行这些程序，没有调用 VkFFT 规划器，也没有运行 GPU 内核。VkFFT 在运行时生成 CUDA kernel 并交给 NVRTC，因此本次成功不证明任何非均匀候选的 CUDA kernel 已完成 JIT 编译或数值验证；仍遵守仅离线工作、不追加 GPU 预算的约束。
 
 随后在同一 WSL 环境单独执行纯 CPU 回归实验 frontier-20261031-nonuniform-wsl-cpu-001：57 项 Python 检查及重新编译的 C++ 请求测试均通过，执行 commit 1c9b316d95a2a8e1196378db9643cb867f1a2fb7，结果 commit 24ce9634880c99a156d21b613dd43796f0833bc0。该实验只运行 CPU 测试程序，不执行 FFT harness；它补充了 Linux 平台证据，不能替代真实 GPU 的调度、内存访问与数值准入。
+
+真实构建来源另经 frontier-20261031-nonuniform-wsl-build-audit-001 离线核验通过：104 个已记录构建产物大小和哈希匹配，完整原始/生成头文件树与插桩源码清单匹配，compile_commands.json 的两个目标 include 顺序正确，原始目标的对象依赖文件指向未修改 VkFFT 头文件而未使用生成版本。审计执行 commit d1e635d254544fe9a5234342863dd98b323d2a0d，结果 commit f12148f3197ee57ae922325c9629b25734d3ced0。该检查不加载或运行二进制，也不是对二进制的独立重构证明。
