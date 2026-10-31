@@ -1,0 +1,27 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-gpu0-exhaust128-costs-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T11:53:29.590419+00:00",
+  "parent_code_commit": "2f9b8c1c50195db2a1aa80560b40d7eea6fe5d86",
+  "protocol": {
+    "path": "experiments/frontier_20261031_gpu0_protocol.json",
+    "bytes": 2561,
+    "sha256": "efda60bde9f27c345834720eafc3c0afa112f2662c82f0fb20a13111999dda8f"
+  },
+  "command": [
+    "/usr/bin/python3",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/test/plan_selection_study/frontier_analysis/search_costs.py",
+    "--coverage",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-coverage-001/coverage.json",
+    "--rows",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/rows.jsonl",
+    "--budget",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-001/search/budget.jsonl",
+    "--output",
+    "/home/ygb/vkfft_frontier_20261031_gpu0/repo/experiments/artifacts/frontier-20261031-gpu0-exhaust128-costs-001/costs.json"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (066a17c)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
