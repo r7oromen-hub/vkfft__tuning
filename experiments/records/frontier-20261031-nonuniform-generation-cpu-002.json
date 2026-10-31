@@ -1,0 +1,19 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-nonuniform-generation-cpu-002",
+  "status": "declared",
+  "declared_at": "2026-10-31T11:35:41.621604+00:00",
+  "parent_code_commit": "9ce7c0a2662948cc92c4bfdb9272f722bb561dd7",
+  "protocol": {
+    "path": "experiments/research/nonuniform_register_admission_contract.json",
+    "bytes": 15212,
+    "sha256": "72a9cf2ea2a41323febcf4df57c8d16a2f6762d945c26b17e02f423f988d2243"
+  },
+  "command": [
+    "F:/anaconda/python.exe",
+    "test/plan_selection_study/nonuniform_search/run_cpu_checks.py"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
