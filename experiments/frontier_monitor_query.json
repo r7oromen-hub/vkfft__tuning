@@ -1,0 +1,6 @@
+{
+  "schema": "frontier-monitor-query-validation/v1",
+  "purpose": "Check single-process XML query parsing and latency with unchanged 2-second guard limit; no FFT timing claims",
+  "gpu_uuid": "GPU-4c8e177a-5a3a-3e0f-61b7-fb666002e0ec",
+  "idle_samples": 30
+}

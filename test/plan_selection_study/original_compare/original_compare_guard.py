@@ -6,15 +6,15 @@ verified direct child harness may receive SIGTERM. External PIDs are never sent
 signals. A contaminated run_one result is quarantined, never returned to runner.
 """
 import argparse
-import csv
 import datetime as dt
 import importlib
-import io
 import json
 import math
 import os
 from pathlib import Path
 import runpy
+import re
+import xml.etree.ElementTree as ET
 import select
 import signal
 import subprocess
@@ -26,9 +26,6 @@ import uuid
 
 MEMORY_LIMIT_MIB = 2048
 OWN_EXIT_PROOF_SECONDS = 1.0
-GPU_FIELDS = ("uuid", "pci.bus_id", "memory.used", "utilization.gpu",
-              "utilization.memory", "clocks.current.sm", "temperature.gpu")
-APP_FIELDS = ("gpu_uuid", "pid", "process_name", "used_gpu_memory")
 
 
 class GuardAbort(RuntimeError):
@@ -56,21 +53,93 @@ def numeric(value, field):
     return number
 
 
-def query_smi(gpu_uuid, fields, kind):
-    process = subprocess.run(
-        ["nvidia-smi", f"--id={gpu_uuid}", f"--query-{kind}=" + ",".join(fields),
-         "--format=csv,noheader,nounits"], capture_output=True, text=True,
-        timeout=2, check=False)
-    if process.returncode != 0:
-        raise RuntimeError(f"nvidia-smi {kind} failed ({process.returncode}): {process.stderr.strip()[:600]}")
-    rows = []
-    for row in csv.reader(io.StringIO(process.stdout)):
-        if not row or not any(value.strip() for value in row):
+def _child(parent, name):
+    matches = parent.findall(name)
+    if len(matches) != 1:
+        raise ValueError(f"Expected exactly one {name} in nvidia-smi XML")
+    return matches[0]
+
+
+def _text(parent, name):
+    node = _child(parent, name)
+    if len(node) or node.text is None or not node.text.strip():
+        raise ValueError(f"Unavailable nvidia-smi XML {name}")
+    return node.text.strip()
+
+
+def _number(parent, name, unit, maximum=None):
+    value = _text(parent, name)
+    match = re.fullmatch(r"([0-9]+(?:\.[0-9]+)?)\s+" + re.escape(unit), value)
+    if not match:
+        raise ValueError(f"Invalid nvidia-smi XML {name}: {value!r}")
+    number = float(match.group(1))
+    if not math.isfinite(number) or number < 0 or (maximum is not None and number > maximum):
+        raise ValueError(f"Invalid nvidia-smi XML {name}: {value!r}")
+    return match.group(1)
+
+
+def parse_nvidia_smi_xml(xml_text, expected_uuid):
+    """Return (device, compute_apps) in the legacy query_smi field format.
+
+    Graphics-only processes are excluded, as they are from --query-compute-apps.
+    Unknown process types and unavailable compute process details fail closed.
+    """
+    if not isinstance(xml_text, str) or not isinstance(expected_uuid, str) or not expected_uuid:
+        raise ValueError("Invalid XML input or requested UUID")
+    # The usual NVIDIA external DOCTYPE is accepted, but entities are never
+    # needed and could expand attacker-controlled input or conceal field text.
+    if re.search(r"<!\s*ENTITY\b", xml_text, re.IGNORECASE):
+        raise ValueError("XML entity declarations are not permitted")
+    try:
+        root = ET.fromstring(xml_text)
+    except ET.ParseError as error:
+        raise ValueError("Malformed nvidia-smi XML") from error
+    if root.tag != "nvidia_smi_log":
+        raise ValueError("Unexpected nvidia-smi XML root")
+    count = _text(root, "attached_gpus")
+    if not re.fullmatch(r"[0-9]+", count) or int(count) < 1:
+        raise ValueError("Unavailable nvidia-smi attached GPU count")
+    gpu = _child(root, "gpu")
+    uuid = _text(gpu, "uuid")
+    if uuid != expected_uuid:
+        raise ValueError("nvidia-smi XML GPU UUID does not match requested UUID")
+    pci = _text(_child(gpu, "pci"), "pci_bus_id")
+    if not re.fullmatch(r"(?:[0-9a-fA-F]{4}|[0-9a-fA-F]{8}):[0-9a-fA-F]{2}:[0-9a-fA-F]{2}\.[0-7]", pci):
+        raise ValueError("Invalid nvidia-smi PCI bus ID")
+    if gpu.get("id", "").lower() != pci.lower():
+        raise ValueError("nvidia-smi GPU id and PCI bus ID differ")
+    mem = _child(gpu, "fb_memory_usage")
+    util = _child(gpu, "utilization")
+    clocks = _child(gpu, "clocks")
+    temp = _child(gpu, "temperature")
+    device = {
+        "uuid": uuid,
+        "pci.bus_id": pci,
+        "memory.used": _number(mem, "used", "MiB"),
+        "utilization.gpu": _number(util, "gpu_util", "%", 100),
+        "utilization.memory": _number(util, "memory_util", "%", 100),
+        "clocks.current.sm": _number(clocks, "sm_clock", "MHz"),
+        "temperature.gpu": _number(temp, "gpu_temp", "C"),
+    }
+    processes = _child(gpu, "processes")
+    if processes.text and processes.text.strip():
+        raise ValueError("Unavailable nvidia-smi process list")
+    apps = []
+    for process in processes:
+        if process.tag != "process_info" or (process.tail and process.tail.strip()):
+            raise ValueError("Unexpected nvidia-smi process list content")
+        kind = _text(process, "type")
+        if kind not in ("C", "C+G", "G"):
+            raise ValueError(f"Unknown nvidia-smi process type: {kind!r}")
+        if kind == "G":
             continue
-        if len(row) != len(fields):
-            raise ValueError(f"Unexpected nvidia-smi {kind} row with {len(row)} columns")
-        rows.append(dict(zip(fields, (value.strip() for value in row))))
-    return rows
+        pid = _text(process, "pid")
+        if not re.fullmatch(r"[0-9]+", pid) or int(pid) <= 0:
+            raise ValueError("Invalid nvidia-smi compute process PID")
+        apps.append({"gpu_uuid": uuid, "pid": pid,
+                     "process_name": _text(process, "process_name"),
+                     "used_gpu_memory": _number(process, "used_memory", "MiB")})
+    return device, apps
 
 
 def process_identity(pid):
@@ -114,10 +183,12 @@ class GPUQuery:
         self.exited_owned = exited_owned
 
     def __call__(self, expected_exe, parent_pid):
-        devices = query_smi(self.gpu_uuid, GPU_FIELDS, "gpu")
-        if len(devices) != 1 or devices[0]["uuid"] != self.gpu_uuid:
-            raise RuntimeError("nvidia-smi did not identify exactly the requested GPU UUID")
-        device = devices[0]
+        process = subprocess.run(
+            ["nvidia-smi", "-i", self.gpu_uuid, "-q", "-x"],
+            capture_output=True, text=True, timeout=2, check=False)
+        if process.returncode != 0:
+            raise RuntimeError(f"nvidia-smi XML query failed ({process.returncode}): {process.stderr.strip()[:600]}")
+        device, compute_apps = parse_nvidia_smi_xml(process.stdout, self.gpu_uuid)
         gpu = dict(uuid=device["uuid"], pci_bus_id=device["pci.bus_id"],
                    memory_used_mib=numeric(device["memory.used"], "memory.used"),
                    utilization_gpu_pct=numeric(device["utilization.gpu"], "utilization.gpu"),
@@ -127,10 +198,9 @@ class GPUQuery:
         # NVIDIA's GPU utilization is kernel-active time, not SM occupancy.
         gpu["sm_activity_pct"] = gpu["utilization_gpu_pct"]
         gpu["sm_activity_metric"] = "nvidia-smi utilization.gpu; kernel-active time, not occupancy"
+        gpu["query_source"] = "nvidia-smi -i UUID -q -x"
         apps = []
-        for app in query_smi(self.gpu_uuid, APP_FIELDS, "compute-apps"):
-            if app["gpu_uuid"] != self.gpu_uuid:
-                continue
+        for app in compute_apps:
             pid = int(app["pid"])
             if pid <= 0:
                 raise ValueError("nvidia-smi returned a nonpositive compute PID")
