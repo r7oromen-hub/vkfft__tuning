@@ -1,0 +1,5 @@
+{
+  "schema": "frontier-knobs-audit-cpu-validation/v1",
+  "gpu_execution": false,
+  "purpose": "Validate offline joint-knob trace reconstruction, budget boundaries and evidence tamper detection"
+}
