@@ -27,10 +27,11 @@ class PrepareTests(unittest.TestCase):
         instrumentation = STUDY / 'instrumentation'
         with tempfile.TemporaryDirectory(dir=HERE) as temp:
             root = Path(temp)
-            generated, output = root / 'frontier', root / 'rotation'
+            generated, output, legacy_output = root / 'frontier', root / 'rotation', root / 'legacy'
             frontier.prepare(original, generated / 'include')
             before = {name: rotation.tree_inventory(path) for name, path in
                       (('frontier_generated', generated), ('original_vkfft', original), ('instrumentation', instrumentation))}
+            legacy_provenance = rotation.load_rotation_v2().prepare(generated, legacy_output)
             provenance = rotation.prepare(generated, output, original, instrumentation)
             info = provenance['frontier_rotation']
             self.assertEqual(info['schema'], 'frontier-rotation-generated/v1')
@@ -41,6 +42,16 @@ class PrepareTests(unittest.TestCase):
             self.assertEqual(json.loads((output / 'rotation_provenance.json').read_text(encoding='utf8')), provenance)
             self.assertEqual(before['frontier_generated'], rotation.tree_inventory(generated))
             text = (output / 'rotating_benchmark.cpp').read_text(encoding='utf8')
+            old = (legacy_output / 'rotating_benchmark.cpp').read_text(encoding='utf8')
+            runtime_query = ('cudaKernelNodeParams params{};\n'
+                             '                cuda_check(cudaGraphKernelNodeGetParams(nodes[i],&params), "rotation graph kernel parameters");')
+            driver_query = ('CUDA_KERNEL_NODE_PARAMS params{};\n'
+                            '                driver_check(cuGraphKernelNodeGetParams(reinterpret_cast<CUgraphNode>(nodes[i]),&params), "rotation graph kernel parameters");')
+            self.assertEqual(old.count(runtime_query), 1)
+            self.assertEqual(text, old.replace(runtime_query, driver_query, 1))
+            self.assertEqual(provenance['frontier_legacy_rotating_benchmark_sha256'], legacy_provenance['rotating_benchmark.cpp'])
+            self.assertEqual(provenance['rotating_benchmark.cpp'], hashlib.sha256((output/'rotating_benchmark.cpp').read_bytes()).hexdigest())
+            self.assertIn('if(!params.kernelParams || !params.kernelParams[0] || !params.kernelParams[1])', text)
             self.assertEqual(text.count('rotation_graph_dependencies(nodes[i]'), 2)
             self.assertNotIn('cudaGraphNodeGetDependencies(nodes[i]', text)
             for marker in ('rotation_device_l2_bytes', 'rotation_pool_total_bytes', 'rotation_pool_slots',

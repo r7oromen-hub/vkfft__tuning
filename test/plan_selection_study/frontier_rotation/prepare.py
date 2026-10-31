@@ -106,6 +106,18 @@ def prepare(generated, output, original, instrumentation):
               (('frontier_generated', generated), ('original_vkfft', original), ('instrumentation', instrumentation))}
     legacy = load_rotation_v2()
     provenance = legacy.prepare(generated, output)
+    # VkFFT's NVRTC kernels are launched through the CUDA driver API. A graph
+    # captured from those launches can contain CUfunctions that the runtime
+    # cannot translate to runtime function handles. Inspect the same graph node
+    # through the driver API; never fall back to unverified addresses.
+    source = output / 'rotating_benchmark.cpp'
+    text = source.read_text(encoding='utf8')
+    text = legacy.v1.once(text,
+        'cudaKernelNodeParams params{};\n                cuda_check(cudaGraphKernelNodeGetParams(nodes[i],&params), "rotation graph kernel parameters");',
+        'CUDA_KERNEL_NODE_PARAMS params{};\n                driver_check(cuGraphKernelNodeGetParams(reinterpret_cast<CUgraphNode>(nodes[i]),&params), "rotation graph kernel parameters");')
+    provenance['frontier_legacy_rotating_benchmark_sha256'] = provenance['rotating_benchmark.cpp']
+    source.write_text(text, encoding='utf8')
+    provenance['rotating_benchmark.cpp'] = sha(source)
     after = {name: tree_inventory(path) for name, path in
              (('frontier_generated', generated), ('original_vkfft', original), ('instrumentation', instrumentation))}
     if before != after:
