@@ -1,0 +1,20 @@
+{
+  "schema": "git-experiment/v1",
+  "id": "frontier-20261031-monitor-idle-cpu-001",
+  "status": "declared",
+  "declared_at": "2026-10-31T06:23:05.166710+00:00",
+  "parent_code_commit": "cc16064f0ab02432b3bb34df73246926d0c257cc",
+  "protocol": {
+    "path": "experiments/frontier_idle_monitor_policy.json",
+    "bytes": 985,
+    "sha256": "4a744690e3ffdf767f4d2b86fa5dc02120b9b32da59aad22852233bf47939e8e"
+  },
+  "command": [
+    "F:\\anaconda\\python.exe",
+    "-c",
+    "import subprocess,sys; suites=['original_compare','frontier_execution','expanded_search','frontier_confirmation']; sys.exit(any(subprocess.call([sys.executable,'-m','unittest','discover','-s','test/plan_selection_study/'+p,'-p','test*.py','-v']) for p in suites))"
+  ],
+  "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
+  "execution_commit": null,
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+}
