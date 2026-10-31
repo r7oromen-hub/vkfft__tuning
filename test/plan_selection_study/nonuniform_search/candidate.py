@@ -96,6 +96,18 @@ def candidate_record(request):
             'validity': 'static contract only; not scheduler, resource or numerical admission'}
 
 
+def request_environment(request):
+    """Serialize a validated request for an isolated generated harness process."""
+    validate_request(request)
+    return {'VKFFT_NONUNIFORM_VERSION': request['schema'],
+            'VKFFT_NONUNIFORM_N': str(request['workload']['n']),
+            'VKFFT_NONUNIFORM_WORKLOAD_BATCH': str(request['workload']['batch']),
+            'VKFFT_NONUNIFORM_RADIX': ','.join(str(x) for x in request['radix']),
+            'VKFFT_NONUNIFORM_TABLE': ','.join(str(x) for x in request['register_table']),
+            'VKFFT_NONUNIFORM_PROFILE': request['profile'],
+            'VKFFT_NONUNIFORM_GROUP': str(request['grouped_batch'])}
+
+
 def _decompositions(remaining, prefix=()):
     if remaining == 1:
         yield prefix

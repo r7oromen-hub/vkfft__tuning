@@ -58,6 +58,17 @@ class CandidateTests(unittest.TestCase):
             changed = copy.deepcopy(req); changed['radix'] = order
             self.assertEqual(candidate.validate_request(changed)['planned_fft_threads'], 32)
 
+    def test_environment_contains_full_versioned_workload_and_table(self):
+        req = request(); env = candidate.request_environment(req)
+        self.assertEqual(env['VKFFT_NONUNIFORM_VERSION'], candidate.SCHEMA)
+        self.assertEqual(env['VKFFT_NONUNIFORM_N'], '128')
+        self.assertEqual(env['VKFFT_NONUNIFORM_WORKLOAD_BATCH'], '16')
+        self.assertEqual(env['VKFFT_NONUNIFORM_RADIX'], '8,8,2')
+        self.assertEqual([int(x) for x in env['VKFFT_NONUNIFORM_TABLE'].split(',')], req['register_table'])
+        self.assertEqual(env['VKFFT_NONUNIFORM_PROFILE'], req['profile'])
+        self.assertEqual(env['VKFFT_NONUNIFORM_GROUP'], '1')
+        self.assertEqual(len(env), 7)
+
     def test_inactive_slots_and_uniform_compatibility(self):
         active = request(); active['register_table'][4] = 4
         with self.assertRaises(ValueError):
