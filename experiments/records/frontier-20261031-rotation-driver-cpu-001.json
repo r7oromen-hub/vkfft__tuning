@@ -1,7 +1,7 @@
 {
   "schema": "git-experiment/v1",
   "id": "frontier-20261031-rotation-driver-cpu-001",
-  "status": "declared",
+  "status": "completed",
   "declared_at": "2026-10-31T10:39:47.408866+00:00",
   "parent_code_commit": "5acff123e0905c3a2a985719d06e45812fef2fd9",
   "protocol": {
@@ -21,6 +21,26 @@
     "-v"
   ],
   "submodules": "066a17c17068c0f11c9298d848c2976c71fad1c1 VkFFT (v1.3.4)",
-  "execution_commit": null,
-  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately."
+  "execution_commit": "82a0c9adc61cf05569c52e24241ce2dad0cdf257",
+  "remote_source_verification": "If command dispatches remotely, verify and record remote checkout separately.",
+  "started_at": "2026-10-31T10:39:47.709732+00:00",
+  "returncode": 0,
+  "finished_at": "2026-10-31T10:39:51.068566+00:00",
+  "artifacts": [
+    {
+      "path": "experiments/artifacts/frontier-20261031-rotation-driver-cpu-001/execution.json",
+      "bytes": 930,
+      "sha256": "3bdb27e8075b722f5720042e7586a373eb5455ff89c59fb5f143d44e5dacb737"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-rotation-driver-cpu-001/stderr.log",
+      "bytes": 2831,
+      "sha256": "85cb4c4cac1086c718c93b309ea926146f5f7dd7f713443eaa93ef72e6e067b6"
+    },
+    {
+      "path": "experiments/artifacts/frontier-20261031-rotation-driver-cpu-001/stdout.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }
