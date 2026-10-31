@@ -20,6 +20,27 @@ The replay orders each workload's already completed candidates by a deterministi
 
 All values are descriptive three-pair screening results on the recorded GPU and workload. They are not independent confirmation, cross-device results, cold-cache measurements, or proof of a VkFFT-wide optimum. No graph, model or training is produced.
 
+## Fixed 28-workload aggregation
+
+`aggregate_confirmed.py` left-joins a passing screen coverage report and its raw rows onto the fixed 7 sizes (128 through 8192) × 4 batches (1, 16, 256, 4096). A screen-only report is available without confirmation arguments. To include confirmation, supply the complete two-session audit report **and** the frozen plan, original screen guard/incidents/budget logs, both sessions' raw evidence directories, and the two binaries:
+
+```sh
+python3 test/plan_selection_study/frontier_analysis/aggregate_confirmed.py \
+  --coverage /path/coverage.json --rows /path/screen/rows.jsonl \
+  --confirmation-audit /path/confirmation/two_session_audit.json \
+  --plan /path/confirmation/plan.json \
+  --screen-guard /path/screen/guard.jsonl --screen-incidents /path/screen/incidents.jsonl \
+  --screen-budget /path/screen/budget.jsonl \
+  --first-dir /path/confirmation/first --second-dir /path/confirmation/second \
+  --original /path/original --expanded /path/expanded --output /path/aggregate.json
+```
+
+Each session directory must contain `rows.jsonl`, `guard.jsonl`, `incidents.jsonl`, and `budget.jsonl`. The tool hashes and re-audits the raw confirmation logs, plan, screen source and binaries, checks them against the supplied confirmation audit, and checks the coverage-to-screen rows hash, GPU and execution commit. It records the input audit hashes; the caller must still obtain the passing coverage and confirmation reports from a trusted, formally registered experiment. Hashes detect mismatched content, but do not authenticate who produced a report. No GPU is used by this analysis.
+
+The original candidate-level fractions use completed selected candidates (including measured identity); separate nondefault-candidate fractions exclude requests identical to the observed default. Workload counts use 28 as denominator, and a workload is screened only after at least one nondefault candidate completes: an identity-only workload remains uncovered. Uncovered, unconfirmed and confirmation below the practical threshold remain separate states. The per-workload confirmation estimate is the geometric mean of the two session ratios, giving equal weight to their log ratios; it never selects the better session. Both session estimates and their intervals remain visible. These estimates do not correct selection or multiple-comparison bias.
+
+The screen mean is present only when all 28 workloads have both observed default evidence and at least one complete nondefault candidate; for each workload its best compares those nondefault candidates with the default ratio 1, excluding identity timing noise. The fallback policy uses a candidate only when both confirmation sessions meet the practical criterion, and otherwise uses an observed default. Its all-28 mean is absent if any workload lacks an observed default. Thus fallback is a deployment-policy estimate, not evidence that an untested workload has zero tuning potential. The arithmetic mean latency reduction is `mean(1-ratio)`; geometric mean speedup is `exp(-mean(log(ratio)))`. Both weight the 28 workloads equally. Neither is a global optimum or a cross-device claim.
+
 ```sh
 python3 -m unittest discover -s test/plan_selection_study/frontier_analysis -p 'test_*.py' -v
 ```
